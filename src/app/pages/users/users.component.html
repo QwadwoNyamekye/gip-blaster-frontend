@@ -1,0 +1,433 @@
+<ngx-spinner (click)="confirmCancel()" *ngIf="service.spinnerLoad"><p style="color: white">Please Wait or Click Anywhere to Cancel </p></ngx-spinner>
+<div class="panel-header panel-header-sm"></div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header"><h4 class="card-title">NEC</h4></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-1 "></div>
+            <div class="col-md-10 ">
+              <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                  
+ 
+
+                   <div class="row">
+                     <!-- <div class="col-md-3 input-group" [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destBank.errors, 'has-success': !(registerF.destBank.errors) }">
+                      <div class="input-group-prepend"> 
+                        <div class="input-group-text"> 
+                          <i class="now-ui-icons text_caps-small"></i>
+                        </div>
+                      </div>
+                      <input type="text" formControlName="destBank" class="form-control" placeholder="FI" name="destBank" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                      </div> -->
+                      <div class="col-md-3 form-group has-label" >
+                        <label> Select FI * </label>
+                         <angular2-multiselect formControlName="destBank" 
+                            [data]="dropdownList"
+                            [(ngModel)]="selectedItems"
+                            [settings]="dropdownSettings"
+                            (onSelect)="onItemSelect($event)"
+                            (onDeSelect)="OnItemDeSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
+                            (onDeSelectAll)="onDeSelectAll($event)"
+                          >
+                          </angular2-multiselect>
+                      </div>
+                     <div class="col-md-3 form-group has-label " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destAccount.errors, 'has-success': !(registerF.destAccount.errors) }">
+                      <!-- <div class="input-group-prepend"> 
+                        <div class="input-group-text"> 
+                          <i class="now-ui-icons text_caps-small"></i>
+                        </div>
+                      </div> -->
+                      <label> Enter Account/Wallet FI * </label>
+                      <input type="text" formControlName="destAccount" class="form-control"  name="destAccount" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                      </div>
+
+                      <div class="col-md-3 form-group has-label " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.count.errors, 'has-success': !(registerF.count.errors) }">
+                        
+                        <!-- <div class="input-group-prepend"> 
+                          <div class="input-group-text"> 
+                            <i class="now-ui-icons text_caps-small"></i>
+                          </div>
+                        </div> -->
+                        <label> Count * (1-5)</label>
+
+                        <input type="number" min="1" max="5" formControlName="count" class="form-control" placeholder="Count" name="count" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                        </div>
+                        <div class="col-md-3 align-down">
+                          
+                          <button (click)="onRegister()" [disabled]="registerForm.status !='VALID'"
+                            type="button"
+                            class="btn btn-success">
+                            Submit
+                          </button>
+                        </div>
+                  </div>
+
+                  
+             
+              
+              </form>
+            </div>
+          </div>  
+        </div>
+      </div>
+      <div class="card">
+       
+        <div class="card-body">
+   
+          <div class="dataTables_wrapper">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="dataTables_length" id="datatable_length">
+                  <label>
+                    Show
+                    <select
+                      name="datatable_length"
+                      aria-controls="datatable"
+                      class="form-control form-control-sm"
+                      (change)="entriesChange($event)"
+                    >
+                      <option value="10" [selected]="entries==10">10</option>
+                      <option value="25" [selected]="entries==25">25</option>
+                      <option value="50" [selected]="entries==50">50</option>
+                      <option value="-1" [selected]="entries==-1">All</option>
+                    </select>
+                    entries
+                    </label>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div id="datatable_filter" class="dataTables_filter">
+                  <label>
+                    <input
+                      type="search"
+                      class="form-control form-control-sm"
+                      placeholder="Search records"
+                      aria-controls="datatable"
+                      (keyup)="filterTable($event)"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <ngx-datatable
+              class="bootstrap selection-cell"
+             
+              [headerHeight]="50"
+              [footerHeight]="50"
+              [rowHeight]="50"
+              [columnMode]="'force'"
+              [scrollbarH]="true"
+              [limit]="entries != -1 ? entries:undefined"
+              [rows]="temp"
+              (activate)="onActivate($event)"
+            >
+
+            <ngx-datatable-column name="Reference" prop="sessionId" ></ngx-datatable-column>
+            <ngx-datatable-column name="Action Code"></ngx-datatable-column>
+            <ngx-datatable-column name="Amount"></ngx-datatable-column>
+            <ngx-datatable-column name="Sender FI" prop="srcInstitution">
+ 
+            </ngx-datatable-column>
+            <ngx-datatable-column  name="Receiver FI" prop="destInstitution">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Sender" prop="srcAccountNumber">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Receiver" prop="destAccountNumber">
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Date/Time" prop="requestTimestamp">
+   
+            </ngx-datatable-column>
+          <!-- <ngx-datatable-column name="Session ID" ></ngx-datatable-column>
+          <ngx-datatable-column name="Action Code"></ngx-datatable-column>
+          <ngx-datatable-column name="Amount"></ngx-datatable-column>
+          <ngx-datatable-column name="Source" prop="srcInstitution">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <div class="header-wrap">
+                Source Institution
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column  name="Destination" prop="destInstitution">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <div class="header-wrap">
+                Destination Institution
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Source Account" prop="srcAccountNumber">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <div class="header-wrap">
+                Source Account
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Destination Account" prop="destAccountNumber">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <div class="header-wrap">
+                Destination Account
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+          <ngx-datatable-column name="Request Date" prop="requestTimestamp">
+            <ng-template let-column="column" ngx-datatable-header-template>
+              <div class="header-wrap">
+                Request Date
+              </div>
+            </ng-template>
+          </ngx-datatable-column> -->
+          <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+            <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+              Actions
+            </ng-template>
+            <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+              <a (click)="openEdit(editclassic, 'lg', '',value)" class="btn btn-round btn-info btn-icon btn-sm like" ><i aria-label="View more" class="fas fa-solid fa-info"></i></a>
+            </ng-template>
+        </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+
+        </div>
+        <!-- end content-->
+      </div>
+      <!--  end card  -->
+    </div>
+    <!-- end col-md-12 -->
+  </div>
+  <!-- end row -->
+</div>
+
+    <!--odal start-->
+ <!-- <ng-template #classic let-c="close" let-d="dismiss" >
+          <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+              <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up">SUBMIT NEC</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-1 "></div>
+              <div class="col-md-10 ">
+                <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+                    <div class="category form-category">* Required fields</div>
+   
+  
+                     <div class="row">
+                       <!-- <div class="col-md-6 input-group" [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destBank.errors, 'has-success': !(registerF.destBank.errors) }">
+                        <div class="input-group-prepend"> 
+                          <div class="input-group-text"> 
+                            <i class="now-ui-icons text_caps-small"></i>
+                          </div>
+                        </div>
+                        <input type="text" formControlName="destBank" class="form-control" placeholder="Destination Bank (required)" name="destBank" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                        </div> 
+                        <div class="col-md-6 form-group has-label" >
+                          <label> Select FI * </label>
+                           <angular2-multiselect formControlName="destBank" 
+                              [data]="dropdownList"
+                              [(ngModel)]="selectedItems"
+                              [settings]="dropdownSettings"
+                              (onSelect)="onItemSelect($event)"
+                              (onDeSelect)="OnItemDeSelect($event)"
+                              (onSelectAll)="onSelectAll($event)"
+                              (onDeSelectAll)="onDeSelectAll($event)"
+                            >
+                            </angular2-multiselect>
+                        </div>
+                       <div class="col-md-6 input-group " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destAccount.errors, 'has-success': !(registerF.destAccount.errors) }">
+                        <div class="input-group-prepend"> 
+                          <div class="input-group-text"> 
+                            <i class="now-ui-icons text_caps-small"></i>
+                          </div>
+                        </div>
+                        <input type="text" formControlName="destAccount" class="form-control" placeholder="Destination Account (required)" name="destAccount" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                        </div>
+
+                        <div class="col-md-6 input-group " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.count.errors, 'has-success': !(registerF.count.errors) }">
+                          <div class="input-group-prepend"> 
+                            <div class="input-group-text"> 
+                              <i class="now-ui-icons text_caps-small"></i>
+                            </div>
+                          </div>
+                          <input type="text" formControlName="count" class="form-control" placeholder="Count (required)" name="count" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                          </div>
+                     
+                    </div>
+
+
+               
+                
+                </form>
+              </div>
+            </div>  
+              
+          </div>
+          <div class="modal-footer">          
+              
+                      <button style="visibility: hidden"
+                        type="submit"
+                        class="btn btn-primary">
+                        Register
+                      </button>
+                      <button (click)="onRegister()" [disabled]="registerForm.status !='VALID'"
+                        type="button"
+                        class="btn btn-success">
+                        Submit
+                      </button>
+                    
+          </div>
+        </ng-template> -->
+        <!--END OF modal
+        -->
+
+
+            <!--odal start-->
+ <ng-template #editclassic let-c="close" let-d="dismiss" >
+          <div class="modal-header justify-content-center">
+            <button type="button" class="close" (click)="d('Cross click')">
+              <i class="now-ui-icons ui-1_simple-remove"></i>
+            </button>
+            <h4 class="title title-up">MORE INFO</h4>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-1 "></div>
+              <div class="col-md-10 ">
+                <form  >   
+  
+                  <div class="row">
+                    <div class="col-md-5 input-group" >
+                     <div class="input-group-prepend"> 
+                       <h5>Tracking Number</h5>
+                     </div>
+                    
+                     <span>&nbsp;&nbsp;{{editRecord.trackingNum}}</span>
+
+                     </div>
+                    
+                    <div class="col-md-5 input-group ">
+                     <div class="input-group-prepend"> 
+                       <h5>Response Time</h5>
+                     </div>
+                     <span>{{editRecord.responseTimestamp}}</span>
+                   </div>
+                  
+                 </div>
+                     <div class="row">
+                       <div class="col-md-12 input-group" >
+                        <div class="input-group-prepend"> 
+                          <h5>Request Payload</h5>
+                        </div>
+                        <span>{{editRecord.requestPayload}}</span>
+
+                        </div>
+                       <div class="col-md-12 input-group ">
+                        <div class="input-group-prepend"> 
+                          <h5>Response Payload</h5>
+
+                        </div>
+                        <span>{{editRecord.responsePayload}}</span>
+                      </div>
+                     
+                    </div>
+
+
+                    <!--<div class="row">
+                      <div class="col-md-6 form-group has-label" >
+                        <label> Branch * </label>
+                         <angular2-multiselect formControlName="branchId" 
+                            [data]="dropdownList"
+                            [(ngModel)]="selectedItems"
+                            [settings]="dropdownSettings"
+                            (onSelect)="onItemSelect($event)"
+                            (onDeSelect)="OnItemDeSelect($event)"
+                            (onSelectAll)="onSelectAll($event)"
+                            (onDeSelectAll)="onDeSelectAll($event)"
+                          >
+                          </angular2-multiselect>
+                      </div>
+                      <div class="col-md-6 form-group has-label" >
+                        <label> Role * </label>
+                         <angular2-multiselect formControlName="roleId"
+                            [data]="dropdownList1"
+                            [(ngModel)]="selectedItems1"
+                            [settings]="dropdownSettings"
+                            (onSelect)="onItemSelect1($event)"
+                            (onDeSelect)="OnItemDeSelect1($event)"
+                          
+                          >
+
+
+                          </angular2-multiselect>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div style="padding-top: 16px" disabled="true" class="col-md-6 input-group " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.username.errors  && registerF.username==='', 'has-success': !(registerF.username.errors) || registerF.username!=''}">
+                        <div class="input-group-prepend"> 
+                          <div class="input-group-text"> 
+                            <i class="now-ui-icons text_caps-small"></i>
+                          </div>
+                        </div>
+                        <input type="text" formControlName="username" disabled="true" class="form-control" placeholder="Username (required)" name="username" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                        </div>
+                        <div class="col-md-6 form-check has-label"  >
+                         <p></p>
+
+                         <label class="form-check-label ">
+                          <input formControlName="status"
+                            class="form-check-input"
+                            type="checkbox"
+                            name="optionCheckboxes"
+                            
+                          />
+                          <span class="form-check-sign"></span> Status (Disabled if unchecked)
+                        </label>
+                      </div>
+                     
+                    </div> -->
+                    <!---->
+     <!--                <div class="row" *ngIf="branchSelected==='Recon' || branchSelected==='Finance'">
+                       <div class="col-md-12 form-group has-label" [ngClass]="{ 'has-danger': ((focusTouched || register) && registerF.products.errors) || (registerF.products.value != '' && registerF.products.errors), 'has-success': productSelectedItems != []  }" >
+                        <label> Sub Products * </label>
+                         <angular2-multiselect formControlName="products"
+                            [data]="productList"
+                            [(ngModel)]="productSelectedItems"
+                            [settings]="productSettings"
+                            (onSelect)="onItemSelectProd($event)"
+                            (onDeSelect)="OnItemDeSelectProd($event)"
+                            (onSelectAll)="onSelectAllProd($event)"
+                            (onDeSelectAll)="onDeSelectAllProd($event)"
+                          >
+                          </angular2-multiselect>
+                      </div>
+                    </div>
+                      -->
+                
+                </form>
+              </div>
+            </div>  
+              
+          </div>
+          <div class="modal-footer">          
+              
+                      <!-- <button style="visibility: hidden"
+                        type="submit"
+                        class="btn btn-primary">
+                        Register
+                      </button>
+                      <button (click)="editFunction(editRecord)" [disabled]="editForm.status !='VALID'"
+                        type="button"
+                        class="btn btn-success">
+                        Update
+                      </button> -->
+                    
+          </div>
+        </ng-template>
+        <!--END OF modal
+        -->

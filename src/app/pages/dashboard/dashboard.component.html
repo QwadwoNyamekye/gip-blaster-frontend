@@ -1,0 +1,370 @@
+<div class="panel-header  panel-header-sm ">
+             
+</div>
+<div class="main-content" >
+
+    <!-- <div class="row" *ngIf="user.role_id==='5'"> -->
+
+     <!-- <div class="card card-stats">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="col-md-3">                          
+                   
+           </div>   -->
+          <!-- <div class="row">
+            <a  class="col-md-3" [routerLink]="['/branches']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-info">
+                    <i class="now-ui-icons business_bank"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_branches}}</h3>
+                  <h6 class="stats-title">Branches</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/products']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-success">
+                    <i class="now-ui-icons business_briefcase-24"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_products}}</h3>
+                  <h6 class="stats-title">Products</h6>
+                </div>
+              </div>
+            </a>
+             <a class="col-md-3" [routerLink]="['/gl']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-danger">
+                    <i class="now-ui-icons files_box"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_gls}}</h3>
+                  <h6 class="stats-title">General Ledgers</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/users']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-warning">
+                    <i class="now-ui-icons users_single-02"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_users}}</h3>
+                  <h6 class="stats-title">Users</h6>
+                </div>
+              </div>
+            </a >
+  
+
+          </div> -->
+        <!-- </div>
+      </div>
+    </div> -->
+
+     <!-- <div class="card card-stats">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="col-md-3">                          
+               <h5 style="font-weight: bolder;">ALL</h5>                       
+           </div>
+
+           <div class="row">
+            <a class="col-md-3" [routerLink]="['/users']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-danger">
+                    <i class="now-ui-icons users_single-02"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_uploaders}}</h3>
+                  <h6 class="stats-title">Uploaders</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/users']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-success">
+                    <i class="now-ui-icons users_single-02"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_authorizers}}</h3>
+                  <h6 class="stats-title">Authorizers</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/users']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-warning">
+                    <i class="now-ui-icons users_single-02"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_viewers}}</h3>
+                  <h6 class="stats-title">Viewers</h6>
+                </div>
+              </div>
+            </a>
+             <a class="col-md-3" [routerLink]="['/users']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-info">
+                    <i class="now-ui-icons users_single-02"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.total_admins}}</h3>
+                  <h6 class="stats-title">Administrators</h6>
+                </div>
+              </div>
+            </a>
+
+          </div> 
+        </div>
+      </div>
+    </div> -->
+  <!-- </div> -->
+   
+  <!-- <div class="row" *ngIf="user.role_id!='1' && user.role_id!='5'"> -->
+
+     <!-- <div class="card card-stats">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="col-md-3">                          
+              <h5 style="font-weight: bolder;">DAILY</h5>                      
+           </div>  
+          <div class="row">
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','pending']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-info">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_total}}</h3>
+                  <h6 class="stats-title">Total</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','accepted']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-success">
+                    <i class="now-ui-icons ui-1_check"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_accepted}}</h3>
+                  <h6 class="stats-title">Accepted</h6>
+                </div>
+              </div>
+            </a>
+             <a class="col-md-3" [routerLink]="['/ghipss/gip/history','declined']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-danger">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_rejected}}</h3>
+                  <h6 class="stats-title">Declined</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','pending']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-warning">
+                    <i class="now-ui-icons loader_refresh"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_pending}}</h3>
+                  <h6 class="stats-title">Pending</h6>
+                </div>
+              </div>
+            </a >
+  
+
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+     <!-- <div class="card card-stats">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="col-md-3">                          
+              <h5 style="font-weight: bolder;">ALL</h5>                      
+           </div>  
+          <div class="row">
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','pending']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-info">
+                    <i class="now-ui-icons files_single-copy-04"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_total}}</h3>
+                  <h6 class="stats-title">Total</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','accepted']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-success">
+                    <i class="now-ui-icons ui-1_check"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_accepted}}</h3>
+                  <h6 class="stats-title">Accepted</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','declined']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-danger">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_rejected}}</h3>
+                  <h6 class="stats-title">Declined</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','pending']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-warning">
+                    <i class="now-ui-icons loader_refresh"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_pending}}</h3>
+                  <h6 class="stats-title">Pending</h6>
+                </div>
+              </div>
+            </a>
+  
+
+          </div>
+        </div>
+      </div>
+    </div> -->
+  <!-- </div> -->
+
+
+   <!--<div class="row" *ngIf="user.role_id==='1'">
+
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="col-md-3">                          
+             <h5 style="font-weight: bolder;">DAILY ({{rows.daily_total}})</h5>                 
+           </div>  
+
+          <div class="row">
+
+  
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','accepted']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-success">
+                    <i class="now-ui-icons ui-1_check"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_accepted}}</h3>
+                  <h6 class="stats-title">Accepted</h6>
+                </div>
+              </div>
+            </a>
+           <a class="col-md-3" [routerLink]="['/ghipss/gip/history','declined']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-danger">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_rejected}}</h3>
+                  <h6 class="stats-title">Declined</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','pending']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-info">
+                    <i class="now-ui-icons loader_refresh"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.daily_pending}}</h3>
+                  <h6 class="stats-title">Pending</h6>
+                </div>
+              </div>
+            </a>
+             <a class="col-md-3" [routerLink]="['/ghipss/gip/history','hold']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-warning">
+                    <i class="now-ui-icons media-1_button-pause"></i>
+                  </div>
+                <h3 class="info-title">{{rows.daily_hold}}</h3>
+                  <h6 class="stats-title">Hold</h6>
+                </div>
+              </div>
+            </a>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+      <div class="card card-stats">
+        <div class="card-body">
+          <div class="col-md-12">
+            <div class="col-md-3">                          
+             <h5 style="font-weight: bolder;">ALL ({{rows.all_total}})</h5>                 
+           </div>  
+
+          <div class="row">
+
+
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','accepted']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-success">
+                    <i class="now-ui-icons ui-1_check"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_accepted}}</h3>
+                  <h6 class="stats-title">Accepted</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','declined']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-danger">
+                    <i class="now-ui-icons ui-1_simple-remove"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_rejected}}</h3>
+                  <h6 class="stats-title">Declined</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','pending']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-info">
+                    <i class="now-ui-icons loader_refresh"></i>
+                  </div>
+                  <h3 class="info-title">{{rows.all_pending}}</h3>
+                  <h6 class="stats-title">Pending</h6>
+                </div>
+              </div>
+            </a>
+            <a class="col-md-3" [routerLink]="['/ghipss/gip/history','hold']">
+              <div class="statistics">
+                <div class="info">
+                  <div class="icon icon-warning">
+                    <i class="now-ui-icons media-1_button-pause"></i>
+                  </div>
+                <h3 class="info-title">{{rows.all_hold}}</h3>
+                  <h6 class="stats-title">Hold</h6>
+                </div>
+              </div>
+            </a>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>-->
+ 
+

@@ -1,0 +1,70 @@
+<ngx-spinner *ngIf="service.spinnerLoad"><p style="color: white">Please Wait. </p></ngx-spinner>
+<div class="main-content">
+  <div class="container">
+    <div class="col-md-4 ml-auto mr-auto">
+      <form [formGroup]="loginForm" class="form" (ngSubmit)="onLogin()" >
+        <div class="card card-login card-plain">
+          <div class="card-header ">
+            <div style="text-align: center;">
+               <img style="width: 80%" src=""/>
+              <h3 style="color:white">NEC</h3>
+            </div>
+          </div>
+          <div class="card-body ">
+            <div
+              class="input-group no-border form-control-lg"
+              [ngClass]="{ 'input-group-focus': focus === true }"
+            >
+              <span class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="now-ui-icons users_circle-08"></i>
+                </div>
+              </span>
+              <input 
+                formControlName="username"
+                type="text"
+                class="form-control"
+                placeholder="Username"
+                (focus)="focus = true"
+                (blur)="focus = false"
+              />
+            </div>
+            <div
+              class="input-group no-border form-control-lg"
+              [ngClass]="{ 'input-group-focus': focus2 === true }"
+            >
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <i class="now-ui-icons text_caps-small"></i>
+                </div>
+              </div>
+              <input
+                formControlName="password"
+                type="Password"
+                placeholder="Password"
+                class="form-control"
+                (focus)="focus2 = true"
+                (blur)="focus2 = false"
+              />
+            </div>
+          </div>
+          <div class="card-footer ">
+            <button
+             type="submit"
+              class="btn btn-boa btn-round btn-lg btn-block mb-3"
+              >Login</button
+            >
+       <!--      <div class="pull-left">
+              <h6>
+                <a href="#pablo" class="link footer-link">Create Account</a>
+              </h6>
+            </div>
+            <div class="pull-right">
+              <h6><a href="#pablo" class="link footer-link">Need Help?</a></h6>
+            </div> -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
