@@ -69,6 +69,7 @@ sendNec(userData:any){
   timeout(this.requestTimeout),
   map((response: any) => response),
   catchError((error) => {
+    console.log(error)
     if (error.name === 'TimeoutError') {
       console.error('Request timed out:', error);
       this.spinnerLoad=false
