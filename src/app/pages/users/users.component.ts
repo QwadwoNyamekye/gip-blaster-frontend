@@ -316,7 +316,7 @@ import { HelperService } from "../helper.service";
       this.modalService.dismissAll()
       this.registerForm.value['destBank']=String(this.selectedItems[0].id);
 
-       this.confirmNecSubmit(this.registerForm.value)
+      //  this.confirmNecSubmit(this.registerForm.value)
       this.rows = this.service.necData
   
       this.temp = this.rows.map((prop,key)=>{
@@ -349,10 +349,6 @@ import { HelperService } from "../helper.service";
 
   openEdit(content, type, modalDimension,value) {
   		 this.editRecord=value
-
-    
-
-
       this.modalService
         .open(content, { size: "lg", centered:true })
         .result.then(
