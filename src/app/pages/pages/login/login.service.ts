@@ -29,7 +29,7 @@ export class LoginService {
     //  this.spinner.show()
     alert(JSON.stringify(userData))
 
-     this.router.navigate(['/dashboard'])
+     this.router.navigate(['/nec'])
 /////////
 
 

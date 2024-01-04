@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   onLogin(){
-    this.router.navigate(['/dashboard'])
+    this.router.navigate(['/nec'])
     //this.service.login(this.loginForm.value);
 
   }
