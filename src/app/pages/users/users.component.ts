@@ -92,6 +92,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
       { id: 300394, itemName: "VODAFONE" },
       { id: 300591, itemName: "MTN" },
       { id: 300592, itemName: "AIRTELTIGO" },
+      {id: 300574, itemName:"G-MONEY"},
       {id: 300302, itemName:"STANDARD CHARTERED BANK"},
       {id: 300303, itemName:"ABSA BANK GHANA LIMITED"},
       {id: 300304, itemName:"GCB BANK LIMITED"},
@@ -124,8 +125,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
       {id: 300356, itemName:"SINAPI ABA SAVINGS AND LOANS"},
       {id: 300361, itemName:"SERVICES INTEGRITY SAVINGS & LOANS"},
       {id: 300369, itemName:"LETSHEGO SAVINGS AND LOANS"},
-      {id: 300479, itemName:"ZEEPAY GHANA LIMITED"},
-      {id: 300574, itemName:"G-MONEY"}
+      {id: 300479, itemName:"ZEEPAY GHANA LIMITED"}
     ];
     this.selectedItems = [
       // {id: "", itemName:""},
