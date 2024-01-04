@@ -114,80 +114,15 @@ sendNec(userData:any){
 );
 }
 
-//  subscribe({
-//   next: data => {
-    
-//     this.data=data;
 
-//     if(this.data.length>0){
-//       //alert(this.data.errorMessage)
 
-//       //this.spinnerMsg="File Upload Succesful"
-      
-//       setTimeout(()=>this.spinner.hide(),5000)
-//       this.spinnerLoad=false 
-//        swal({
-//          // title: "Good job!",
-//           text: "Results Found",
-//           buttonsStyling: false,
-//           confirmButtonClass: "btn btn-success",
-//           timer: 2000,
-//           type: "success"
-//         }).catch(swal.noop);
+getNecs(){
+  let url=this.root_url+'/blaster/api/v1/nec_list';
 
-//         this.necData= data
-//         return this.data
-           
-//      // this.router.navigate(['/ghipss/etm/recon'])
-//    //this.reloadCurrentRoute()
-
-//     }else{
-// let msg;
-//       //if(this.data.errorCode==1){
-//         msg='<span class="now-ui-icons ui-1_bell-53"></span> No Data Found'; 
-//       // }else{
-//       //   msg='<span class="now-ui-icons ui-1_bell-53"></span> User creation error' 
-//       // }
-//        this.spinnerLoad=false
-//       setTimeout(()=>this.spinner.hide(),500 )  
-//     // console.error('error!', this.data.errorMessage);
-//       this.toastr.error(msg,  
-//       "",
-//       {
-//         timeOut: 5000,
-//         enableHtml: true,
-//         closeButton: true,
-//         toastClass: "alert alert-danger alert-with-icon",
-        
-//       }); 
-//     }
-
- 
-
-//   },
-//   error: error => {
-//     this.spinnerLoad=false
-//     setTimeout(()=>this.spinner.hide(),500 )  
-//     console.error('There was an error!', error);
-//     this.necData=[];
-//     this.toastr.error(
-//       '<span class="now-ui-icons ui-1_bell-53"></span> Error Occured' ,
-//       "",
-//       {
-//         timeOut: 5000,
-//         enableHtml: true,
-//         closeButton: true,
-//         toastClass: "alert alert-danger alert-with-icon",
-        
-//       }
-//     );
-// }
-// }).add(() => {
-// //console.log('reload')
-//    // this.reloadCurrentRoute()
-//    this.necData=[];
-//    return this.necData;
-// });
-
+   return  this.http.get(url).pipe(
+    timeout(this.requestTimeout),
+    map((response: Response)=> response)
+    )
+}
 
 }
