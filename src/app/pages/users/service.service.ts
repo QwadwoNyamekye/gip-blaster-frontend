@@ -57,6 +57,14 @@ confirmNecSubmit(data:any){
 }
 
 
+getBanks(){
+  let url=this.root_url+'/blaster/api/v1/banks'
+  let bankList = this.http.get(url).pipe(
+    map((response: any)=>response)
+  )
+  return bankList
+}
+
 sendNec(userData:any){
   let url=this.root_url+'/blaster/api/v1/nec';
     this.spinnerLoad=true

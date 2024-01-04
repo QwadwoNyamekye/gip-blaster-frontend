@@ -86,47 +86,61 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.service.spinnerLoad = false;
 
     //localStorage.setItem('userData','[]')
+    this.service.getBanks().subscribe(
+              data=>{
+                this.dropdownList=data
+                 this.dropdownList.forEach(
+                    function(element,i){
+                     element.itemName=element.bankName
+                     element.id = element.bankCode
+                    }
+                  )
+               console.log(this.dropdownList)
+              },
+              error=>{console.log(error)},
+              ()=>{console.log('terminated')}
+            );
 
-    this.dropdownList = [
-      // {id: null, itemName:null},
-      { id: 300394, itemName: "VODAFONE" },
-      { id: 300591, itemName: "MTN" },
-      { id: 300592, itemName: "AIRTELTIGO" },
-      {id: 300574, itemName:"G-MONEY"},
-      {id: 300302, itemName:"STANDARD CHARTERED BANK"},
-      {id: 300303, itemName:"ABSA BANK GHANA LIMITED"},
-      {id: 300304, itemName:"GCB BANK LIMITED"},
-      {id: 300305, itemName:"NATIONAL INVESTMENT BANK"},
-      {id: 300306, itemName:"ARB APEX BANK LIMITED"},
-      {id: 300307, itemName:"AGRICULTURAL DEVELOPMENT BANK"},
-      {id: 300308, itemName:"SOCIETE GENERALE GHANA"},
-      {id: 300309, itemName:"UNIVERSAL MERCHANT BANK"},
-      {id: 300310, itemName:"REPUBLIC BANK LIMITED"},
-      {id: 300311, itemName:"ZENITH BANK GHANA LTD"},
-      {id: 300312, itemName:"ECOBANK GHANA LTD"},
-      {id: 300313, itemName:"CAL BANK LIMITED"},
-      {id: 300316, itemName:"FIRST ATLANTIC BANK"},
-      {id: 300317, itemName:"PRUDENTIAL BANK LTD"},
-      {id: 300318, itemName:"STANBIC BANK"},
-      {id: 300319, itemName:"FIRST BANK OF NIGERIA"},
-      {id: 300320, itemName:"BANK OF AFRICA"},
-      {id: 300322, itemName:"GUARANTY TRUST BANK"},
-      {id: 300323, itemName:"FIDELITY BANK LIMITED"},
-      {id: 300324, itemName:"OMNIBSIC"},
-      {id: 300325, itemName:"UNITED BANK OF AFRICA"},
-      {id: 300328, itemName:"BANK OF GHANA"},
-      {id: 300329, itemName:"ACCESS BANK LTD"},
-      {id: 300331, itemName:"CONSOLIDATED BANK GHANA"},
-      {id: 300334, itemName:"FIRST NATIONAL BANK"},
-      {id: 300335, itemName:"BESTPOINT SAVINGS AND LOANS"},
-      {id: 300341, itemName:"AFINITY GHANA SAVINGS AND LOANS"},
-      {id: 300345, itemName:"ADEHYEMAN SAVINGS AND LOANS"},
-      {id: 300349, itemName:"OPPORTUNITY INTERNALTIONAL SAVINGS AND LOANS"},
-      {id: 300356, itemName:"SINAPI ABA SAVINGS AND LOANS"},
-      {id: 300361, itemName:"SERVICES INTEGRITY SAVINGS & LOANS"},
-      {id: 300369, itemName:"LETSHEGO SAVINGS AND LOANS"},
-      {id: 300479, itemName:"ZEEPAY GHANA LIMITED"}
-    ];
+    // this.dropdownList = [
+    //   // {id: null, itemName:null},
+    //   { id: 300394, itemName: "VODAFONE" },
+    //   { id: 300591, itemName: "MTN" },
+    //   { id: 300592, itemName: "AIRTELTIGO" },
+    //   {id: 300574, itemName:"G-MONEY"},
+    //   {id: 300302, itemName:"STANDARD CHARTERED BANK"},
+    //   {id: 300303, itemName:"ABSA BANK GHANA LIMITED"},
+    //   {id: 300304, itemName:"GCB BANK LIMITED"},
+    //   {id: 300305, itemName:"NATIONAL INVESTMENT BANK"},
+    //   {id: 300306, itemName:"ARB APEX BANK LIMITED"},
+    //   {id: 300307, itemName:"AGRICULTURAL DEVELOPMENT BANK"},
+    //   {id: 300308, itemName:"SOCIETE GENERALE GHANA"},
+    //   {id: 300309, itemName:"UNIVERSAL MERCHANT BANK"},
+    //   {id: 300310, itemName:"REPUBLIC BANK LIMITED"},
+    //   {id: 300311, itemName:"ZENITH BANK GHANA LTD"},
+    //   {id: 300312, itemName:"ECOBANK GHANA LTD"},
+    //   {id: 300313, itemName:"CAL BANK LIMITED"},
+    //   {id: 300316, itemName:"FIRST ATLANTIC BANK"},
+    //   {id: 300317, itemName:"PRUDENTIAL BANK LTD"},
+    //   {id: 300318, itemName:"STANBIC BANK"},
+    //   {id: 300319, itemName:"FIRST BANK OF NIGERIA"},
+    //   {id: 300320, itemName:"BANK OF AFRICA"},
+    //   {id: 300322, itemName:"GUARANTY TRUST BANK"},
+    //   {id: 300323, itemName:"FIDELITY BANK LIMITED"},
+    //   {id: 300324, itemName:"OMNIBSIC"},
+    //   {id: 300325, itemName:"UNITED BANK OF AFRICA"},
+    //   {id: 300328, itemName:"BANK OF GHANA"},
+    //   {id: 300329, itemName:"ACCESS BANK LTD"},
+    //   {id: 300331, itemName:"CONSOLIDATED BANK GHANA"},
+    //   {id: 300334, itemName:"FIRST NATIONAL BANK"},
+    //   {id: 300335, itemName:"BESTPOINT SAVINGS AND LOANS"},
+    //   {id: 300341, itemName:"AFINITY GHANA SAVINGS AND LOANS"},
+    //   {id: 300345, itemName:"ADEHYEMAN SAVINGS AND LOANS"},
+    //   {id: 300349, itemName:"OPPORTUNITY INTERNALTIONAL SAVINGS AND LOANS"},
+    //   {id: 300356, itemName:"SINAPI ABA SAVINGS AND LOANS"},
+    //   {id: 300361, itemName:"SERVICES INTEGRITY SAVINGS & LOANS"},
+    //   {id: 300369, itemName:"LETSHEGO SAVINGS AND LOANS"},
+    //   {id: 300479, itemName:"ZEEPAY GHANA LIMITED"}
+    // ];
     this.selectedItems = [
       // {id: "", itemName:""},
       //{id: 300394, itemName:"Vodafone"}
