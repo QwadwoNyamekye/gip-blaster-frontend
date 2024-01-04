@@ -170,25 +170,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
     };
 
     this.registerForm = this.formBuilder.group({
-      // emailAddress: ['', [Validators.required, Validators.email]],
       destBank: [, [Validators.required]],
       destAccount: ["", [Validators.required]],
       count: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-      // status: [''],
-      // fullName: ['', [Validators.required]],
-      //password: ['', [Validators.required, Validators.minLength(6)]],
-      //confirmPassword: ['', Validators.required]
+  
     });
 
     this.editForm = this.formBuilder.group({
-      // emailAddress: ['', [Validators.required, Validators.email]],
-      // branchId: ['', [Validators.required]],
-      // roleId: ['', [Validators.required]],
-      // username: ['', [Validators.required]],
-      // status: [''],
-      // fullName: ['', [Validators.required]],
-      //password: ['', []],
-      //confirmPassword: ['', []]
+    
     });
 
     //this.loadTable()
@@ -248,12 +237,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   onRegister() {
-    //this.service.spinnerLoad=true
-    //this.service.spinner.show()
-    //this.loadTable()
-    //   this.register = true;
-
-    // stop here if form is invalid
+ 
     if (this.registerForm.invalid) {
       return;
     }
@@ -328,23 +312,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
   }
 
-  // filterTable($event) {
-  //   let val = $event.target.value.toLowerCase();
-  //   this.row = this.data.consultations.filter(function(d) {
 
-  //     for(var key in d){
-
-  //         if((d[key]===null)){
-  //           d[key]=''
-  //         }
-  //         if(d[key].toString().toLowerCase().indexOf(val) !== -1){
-  //           return true;
-  //         }
-
-  //     }
-  //     return false;
-  //   });
-  // }
 
   onSelect($event) {
     console.log("Select Event", $event);
@@ -354,76 +322,88 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   loadTable() {
-    this.rows = [
-      {
-        sessionId: "962046803705",
-        trackingNum: "579035",
-        amount: "000000000000",
-        srcInstitution: "300300",
-        destInstitution: "300315",
-        srcAccountNumber: "3003000000",
-        destAccountNumber: "3453535345345",
-        requestTimestamp: "2023-12-19 10:36:52",
-        responseTimestamp: "2023-12-19 10:36:53",
-        actionCode: "114",
-      },
-      {
-        sessionId: "889008149893",
-        trackingNum: null,
-        amount: null,
-        srcInstitution: null,
-        destInstitution: null,
-        srcAccountNumber: null,
-        destAccountNumber: "3453535345345",
-        requestTimestamp: "2023-12-19 10:36:52",
-        responseTimestamp: "2023-12-19 10:37:13",
-        actionCode: "912",
-      },
-      {
-        sessionId: "102579791292",
-        trackingNum: "664514",
-        amount: "000000000000",
-        srcInstitution: "300300",
-        destInstitution: "300315",
-        srcAccountNumber: "3003000000",
-        destAccountNumber: "3453535345345",
-        requestTimestamp: "2023-12-19 10:36:52",
-        responseTimestamp: "2023-12-19 10:37:13",
-        actionCode: "114",
-      },
-      {
-        sessionId: "840695261193",
-        trackingNum: "788392",
-        amount: "000000000000",
-        srcInstitution: "300300",
-        destInstitution: "300315",
-        srcAccountNumber: "3003000000",
-        destAccountNumber: "3453535345345",
-        requestTimestamp: "2023-12-19 10:36:52",
-        responseTimestamp: "2023-12-19 10:37:13",
-        actionCode: "114",
-      },
-      {
-        sessionId: "571346031426",
-        trackingNum: "516441",
-        amount: "000000000000",
-        srcInstitution: "300300",
-        destInstitution: "300315",
-        srcAccountNumber: "3003000000",
-        destAccountNumber: "3453535345345",
-        requestTimestamp: "2023-12-19 10:36:52",
-        responseTimestamp: "2023-12-19 10:37:13",
-        actionCode: "114",
-      },
-    ];
+    // this.rows = [
+    //   {
+    //     sessionId: "962046803705",
+    //     trackingNum: "579035",
+    //     amount: "000000000000",
+    //     srcInstitution: "300300",
+    //     destInstitution: "300315",
+    //     srcAccountNumber: "3003000000",
+    //     destAccountNumber: "3453535345345",
+    //     requestTimestamp: "2023-12-19 10:36:52",
+    //     responseTimestamp: "2023-12-19 10:36:53",
+    //     actionCode: "114",
+    //   },
+    //   {
+    //     sessionId: "889008149893",
+    //     trackingNum: null,
+    //     amount: null,
+    //     srcInstitution: null,
+    //     destInstitution: null,
+    //     srcAccountNumber: null,
+    //     destAccountNumber: "3453535345345",
+    //     requestTimestamp: "2023-12-19 10:36:52",
+    //     responseTimestamp: "2023-12-19 10:37:13",
+    //     actionCode: "912",
+    //   },
+    //   {
+    //     sessionId: "102579791292",
+    //     trackingNum: "664514",
+    //     amount: "000000000000",
+    //     srcInstitution: "300300",
+    //     destInstitution: "300315",
+    //     srcAccountNumber: "3003000000",
+    //     destAccountNumber: "3453535345345",
+    //     requestTimestamp: "2023-12-19 10:36:52",
+    //     responseTimestamp: "2023-12-19 10:37:13",
+    //     actionCode: "114",
+    //   },
+    //   {
+    //     sessionId: "840695261193",
+    //     trackingNum: "788392",
+    //     amount: "000000000000",
+    //     srcInstitution: "300300",
+    //     destInstitution: "300315",
+    //     srcAccountNumber: "3003000000",
+    //     destAccountNumber: "3453535345345",
+    //     requestTimestamp: "2023-12-19 10:36:52",
+    //     responseTimestamp: "2023-12-19 10:37:13",
+    //     actionCode: "114",
+    //   },
+    //   {
+    //     sessionId: "571346031426",
+    //     trackingNum: "516441",
+    //     amount: "000000000000",
+    //     srcInstitution: "300300",
+    //     destInstitution: "300315",
+    //     srcAccountNumber: "3003000000",
+    //     destAccountNumber: "3453535345345",
+    //     requestTimestamp: "2023-12-19 10:36:52",
+    //     responseTimestamp: "2023-12-19 10:37:13",
+    //     actionCode: "114",
+    //   },
+    // ];
 
-    //this.rows.reverse()
-    this.temp = this.rows.map((prop, key) => {
-      return {
-        ...prop,
-        id: key,
-      };
-    });
+    this.service.getNecs().subscribe(
+              data=>{
+                this.rows=data
+                //this.rows.forEach(this.changeString)
+                if(this.rows.length>0){
+                  this.rows.reverse()
+                  this.temp = this.rows.map((prop, key) => {
+                    return {
+                      ...prop,
+                      id: key,
+                    };
+                  });
+                }
+               console.log(this.rows)
+              },
+              error=>{console.log(error)},
+              ()=>{console.log('al necs loaded')}
+            );
+            
     this.modalService.dismissAll();
     this.service.spinnerLoad = false;
   }
