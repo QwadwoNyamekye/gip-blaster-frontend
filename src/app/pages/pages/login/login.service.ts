@@ -24,76 +24,73 @@ export class LoginService {
 
 /////USER CREATION//////////
   login(userData:any){
-   // let url=this.root_url+'/admin/api/v1/authenticate_user';
-    //   this.spinnerLoad=true
-    //  this.spinner.show()
-    alert(JSON.stringify(userData))
-
-     this.router.navigate(['/nec'])
+   let url=this.root_url+'/blaster/api/v1/login';
+      this.spinnerLoad=true
+     this.spinner.show()
+    // alert(JSON.stringify(userData))
 /////////
 
 
-//   this.http.post(url, userData).subscribe({
-//     next: data => {
+  this.http.post(url, userData).subscribe({
+    next: data => {
       
-//       this.data=data;
-//       console.log(data)
+      this.data=data;
  
-//       if(this.data.errorCode==0){
+      if(this.data.errorCode==0){
      	
 
-//      	this.auth=true
-//           this.router.navigate(['/dashboard'])
-//           localStorage.setItem('currentUser',JSON.stringify(this.data.userDetail))
+     	this.auth=true
+          sessionStorage.setItem('currentUser',userData.username)
+          this.router.navigate(['/nec'])
 
-//           setTimeout(()=>this.spinner.hide(),2000)
-//           this.spinnerLoad=false 
+          setTimeout(()=>this.spinner.hide(),2000)
+          this.spinnerLoad=false 
 
-        
-//       }else {
-//         let msg;
-//         if(this.data.errorCode==1){
-//           msg='<span class="now-ui-icons ui-1_bell-53"></span> Error: '+this.data.errorMessage 
-//         }else{
-//           msg='<span class="now-ui-icons ui-1_bell-53"></span> Login Error' 
-//         }
-//          this.spinnerLoad=false
-//         setTimeout(()=>this.spinner.hide(),500 )  
-//        console.error('error!', this.data.errMsg);
-//         this.toastr.error(msg
-//         ,
-//         "",
-//         {
-//           timeOut: 5000,
-//           enableHtml: true,
-//           closeButton: true,
-//           toastClass: "alert alert-danger alert-with-icon",
+
+      }else {
+        let msg;
+        if(this.data.errorCode==1){
+          msg='<span class="now-ui-icons ui-1_bell-53"></span> Error: '+this.data.errorMessage 
+        }else{
+          msg='<span class="now-ui-icons ui-1_bell-53"></span> Login Error' 
+        }
+         this.spinnerLoad=false
+        setTimeout(()=>this.spinner.hide(),500 )  
+       console.error('error!', this.data.errMsg);
+        this.toastr.error(msg
+        ,
+        "",
+        {
+          timeOut: 5000,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: "alert alert-danger alert-with-icon",
           
-//         }); 
-//       }
+        }); 
+      }
  
         
 
-//     },
-//     error: error => {
-//       this.spinnerLoad=false
-//       setTimeout(()=>this.spinner.hide(),500 )  
-//       console.error('There was an error!', error);
-//       this.toastr.error(
-//         '<span class="now-ui-icons ui-1_bell-53"></span> Login error' ,
-//         "",
-//         {
-//           timeOut: 5000,
-//           enableHtml: true,
-//           closeButton: true,
-//           toastClass: "alert alert-danger alert-with-icon",
+    },
+    error: error => {
+      this.spinnerLoad=false
+      setTimeout(()=>this.spinner.hide(),500 )  
+      console.error('There was an error!', error);
+      this.toastr.error(
+        '<span class="now-ui-icons ui-1_bell-53"></span> Login error' ,
+        "",
+        {
+          timeOut: 5000,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: "alert alert-danger alert-with-icon",
           
-//         }
-//       );
-//   }
-// }).add(() => {
+        }
+      );
+  }
+}).add(() => {
   
-//   });
+  });
 
   }
 

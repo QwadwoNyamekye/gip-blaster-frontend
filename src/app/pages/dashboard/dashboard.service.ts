@@ -16,7 +16,7 @@ export class Service {
 user
 public dash:any
    constructor(private spinner:NgxSpinnerService,private http: HttpClient,private toastr: ToastrService,private router: Router) {
-             //this.user=JSON.parse(localStorage.getItem('currentUser'))
+             //this.user=JSON.parse(sessionStorage.getItem('currentUser'))
     }
 
   admin_url=environment.adminUrl
@@ -36,7 +36,7 @@ public dash:any
  
   getData(id:string){
     let url
-    //this.user=JSON.parse(localStorage.getItem('currentUser'))
+    //this.user=JSON.parse(sessionStorage.getItem('currentUser'))
     if(id==='1'){
         url=this.admin_url+'/admin/api/v1/uploader_dashboard/'+this.user.branch_id
     }else if( id==='2' || id==='3' || id==='4'){

@@ -18,16 +18,8 @@ export class NavbarComponent implements OnInit {
   user:any
   constructor(location: Location,  private element: ElementRef, private router: Router) {
     this.location = location;
-        this.sidebarVisible = false;
-        //localStorage.setItem('userData','[{"email":"reconatm@gmail.com","branch":"Recon","type":"Admin","products":["ATM"],"status":"Enabled","name":"Ard","password":"123456","confirmPassword":"123456"}]')
-    //  let userData=JSON.parse(localStorage.getItem('userData'))
-    
-    // localStorage.setItem('currentUser',JSON.stringify(userData[0]))
-
-    //recon auth=11 //recon ini=12//finance ini=10//finauth=13///branch auth =6//branch ini=5
-    //Admin =14//View only =15
-
-    //this.user=JSON.parse(localStorage.getItem('currentUser'))
+    this.sidebarVisible = false;
+    this.user=sessionStorage.getItem('currentUser')
   }
 
   ngOnInit() {
@@ -157,7 +149,7 @@ export class NavbarComponent implements OnInit {
 
 
   logout(){
-        localStorage.setItem('currentUser','')
+        sessionStorage.setItem('currentUser','')
         this.router.navigate(['pages/login'])
   }
 }

@@ -44,6 +44,7 @@
             id="dropdownBasic1"
             ngbDropdownToggle
           >
+          <span>{{user}}</span> 
             <i class="now-ui-icons users_single-02"></i>
             <p><span class="d-lg-none d-md-block">Some Actions</span></p>
           </a>
@@ -52,8 +53,8 @@
             ngbDropdownMenu
             aria-labelledby="dropdownBasic1"
           >
-            <!-- <span  class="dropdown-item curs">Name : {{user.fullname}}</span>
-           <span  class="dropdown-item curs">Role : {{user.role_name}}</span> -->
+            <!-- <span  class="dropdown-item curs">Name : {{user.fullname}}</span>-->
+           <!-- <span  class="dropdown-item curs">{{user}}</span>  -->
             <span class="dropdown-item curs" (click)="logout()">Logout</span>
           </div>
         </li>
@@ -67,17 +68,3 @@
     </div>
   </div>
 </nav>
-
-<!-- branchGlDetailList: []
-branchProductDetailList: []
-branch_id: "1"
-branch_name: "Achimota"
-created_at: "2021-02-25 15:27:58"
-created_by: "admin"
-email_address: "ard@ard44"
-fullname: "ard000"
-id: "6"
-role_id: "3"
-role_name: ""
-status: "Enabled"
-username: "ard" -->

@@ -18,7 +18,10 @@ export class Service {
   public spinnerMsg="Please Wait."
   data:any
   public necData: any;
-   constructor(private spinner:NgxSpinnerService,private http: HttpClient,private toastr: ToastrService,private router: Router) { }
+  user:any;
+   constructor(private spinner:NgxSpinnerService,private http: HttpClient,private toastr: ToastrService,private router: Router) { 
+    this.user=sessionStorage.getItem('currentUser')
+  }
   root_url=environment.adminUrl
    requestTimeout=60000
   //requestTimeout=5000
@@ -65,10 +68,13 @@ getBanks(){
   return bankList
 }
 
-clearTable(){
+clearTable(status){
   this.spinnerLoad=true
    this.spinner.show()
   let url = this.root_url+'/blaster/api/v1/clear'
+  if (!status){
+    url = url+'/'+this.user
+  }
   return this.http.post(url, {}).pipe(
     timeout(this.requestTimeout),
     map((response: any) => response),

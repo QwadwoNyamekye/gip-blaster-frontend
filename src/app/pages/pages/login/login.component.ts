@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   private login = false;
   
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,private service:LoginService,private router: Router) {
-    localStorage.setItem('currentUser','')
+    sessionStorage.setItem('currentUser','')
   }
 
   ngOnInit() {
@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         this.loginForm = this.formBuilder.group({
             username: ['', [Validators.required]],
-            password: ['', [Validators.required, Validators.minLength(6)]],
+            password: ['', [Validators.required]],
         });
 
   }
@@ -49,8 +49,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
 
   onLogin(){
-    this.router.navigate(['/nec'])
-    //this.service.login(this.loginForm.value);
+    //this.router.navigate(['/nec'])
+    this.service.login(this.loginForm.value);
 
   }
 }

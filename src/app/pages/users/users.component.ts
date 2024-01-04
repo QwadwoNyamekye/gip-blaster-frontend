@@ -57,35 +57,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
     private formBuilder: FormBuilder,
     private service: Service
   ) {
-    //this.user=JSON.parse(localStorage.getItem('currentUser'))
-    // if(this.user.role_id==='5'){
-    //   //this.router.navigate(['/ghipss/scb/recon'])
-    // }else{
-    //   this.router.navigate(['/pages/login'])
-    // }
-    // this.rows=JSON.parse(localStorage.getItem('userData'))
-    //        this.service.getBranches().subscribe(
-    //         data=>{
-    //           this.dropdownList=data
-    //           //this.rows.forEach(this.changeString)
-    //            this.dropdownList.forEach(
-    //               function(element,i){
-    //                element.itemName=element.name
-    //                delete element.name
-    //               }
-    //             )
-    //          console.log(this.dropdownList)
-    //         },
-    //         error=>{console.log(error)},
-    //         ()=>{console.log('terminated')}
-    //       );
+    this.user=sessionStorage.getItem('currentUser')
     
   }
 
   ngOnInit() {
     this.service.spinnerLoad = false;
 
-    //localStorage.setItem('userData','[]')
+    //sessionStorage.setItem('userData','[]')
     this.service.getBanks().subscribe(
               data=>{
                 this.dropdownList=data
@@ -187,7 +166,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
       destBank: [, [Validators.required]],
       destAccount: ["", [Validators.required]],
       count: [1, [Validators.required, Validators.min(1), Validators.max(5)]],
-  
+      createdBy: this.user
     });
 
     this.editForm = this.formBuilder.group({
@@ -289,6 +268,19 @@ export class UsersComponent implements OnInit, AfterViewInit {
   openEdit(content, type, modalDimension, value) {
     this.editRecord = value;
     this.modalService.open(content, { size: "lg", centered: true }).result.then(
+      (result) => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      (reason) => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+
+
+  openClearModal(content, type, modalDimension, value) {
+    this.editRecord = value;
+    this.modalService.open(content, { size: "md", centered: true }).result.then(
       (result) => {
         this.closeResult = `Closed with: ${result}`;
       },
@@ -404,7 +396,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
                 this.rows=data
                 //this.rows.forEach(this.changeString)
                 if(this.rows.length>0){
-                  this.rows.reverse()
+                  // this.rows.reverse()
                   this.temp = this.rows.map((prop, key) => {
                     return {
                       ...prop,
@@ -429,10 +421,14 @@ export class UsersComponent implements OnInit, AfterViewInit {
     });
   }
 
-  confirmClearTable(data: any) {
+  confirmClearTable(status: boolean) {
+    let warningMessage = `Are you sure you want to remove all current NEC Requests?`
+    if (!status){
+      warningMessage = `Are you sure you want to remove your current NEC Requests?`
+    }
     swal({
       //title: "Are you sure?",
-      text: `Are you sure you want to remove all current NEC Requests?`,
+      text: warningMessage,
       type: "warning",
       showCancelButton: true,
       confirmButtonText: "Confirm",
@@ -442,12 +438,15 @@ export class UsersComponent implements OnInit, AfterViewInit {
       buttonsStyling: false,
     }).then((result) => {
       if (result.value) {
-       
-        this.service.clearTable().subscribe(() => {
-          //console.log("data", data);
-          this.modalService.dismissAll();
-          this.service.spinnerLoad = false;
+      
+        this.service.clearTable(status).subscribe(() => {
+          // console.log("data", data);
+          
         });
+        
+        this.modalService.dismissAll();
+        this.service.spinnerLoad = false;
+
         this.temp=[]
         this.rows=[]
       } else {
@@ -461,7 +460,19 @@ export class UsersComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  closeModal(){
+    this.modalService.dismissAll();
+    swal({
+      title: "Cancelled",
+      type: "error",
+      confirmButtonClass: "btn btn-info",
+      buttonsStyling: false,
+    }).catch(swal.noop);
+  }
+
   submitNec(data: any) {
+    console.log('nec req',data)
     this.service.sendNec(data).subscribe((data) => {
       console.log("data", data);
       this.rows = data;

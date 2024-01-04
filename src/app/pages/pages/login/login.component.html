@@ -50,7 +50,7 @@
           </div>
           <div class="card-footer ">
             <button
-             type="submit"
+             type="submit"  [disabled]="loginForm.status !='VALID'"
               class="btn btn-boa btn-round btn-lg btn-block mb-3"
               >Login</button
             >

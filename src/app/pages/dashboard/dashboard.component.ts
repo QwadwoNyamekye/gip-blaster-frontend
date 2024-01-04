@@ -36,7 +36,7 @@ export class DashboardComponent implements OnInit {
   }
   constructor(private service:Service) {
 
-              // //this.user=JSON.parse(localStorage.getItem('currentUser'))
+              // //this.user=JSON.parse(sessionStorage.getItem('currentUser'))
 
               //   this.service.getData(this.user.role_id).subscribe(
               //     data=>{

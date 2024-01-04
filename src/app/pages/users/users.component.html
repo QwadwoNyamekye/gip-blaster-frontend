@@ -64,7 +64,10 @@
                             class="btn btn-success">
                             Submit
                           </button>
-                          <button (click)="confirmClearTable()"
+                           <!-- (click)="confirmClearTable()" -->
+                          <button 
+                         
+                          (click)="openClearModal(clearclassic, 'sm', '','')"
                           type="button"
                           class="btn btn-danger">
                           Clear List
@@ -213,232 +216,137 @@
   <!-- end row -->
 </div>
 
-    <!--odal start-->
- <!-- <ng-template #classic let-c="close" let-d="dismiss" >
+
+
+            <!--Clear Moodal start-->
+ <ng-template #clearclassic let-c="close" let-d="dismiss" >
           <div class="modal-header justify-content-center">
             <button type="button" class="close" (click)="d('Cross click')">
               <i class="now-ui-icons ui-1_simple-remove"></i>
             </button>
-            <h4 class="title title-up">SUBMIT NEC</h4>
+            <h4 class="title title-up">CLEAR NECS</h4>
           </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-1 "></div>
-              <div class="col-md-10 ">
-                <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-                    <div class="category form-category">* Required fields</div>
-   
-  
-                     <div class="row">
-                       <!-- <div class="col-md-6 input-group" [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destBank.errors, 'has-success': !(registerF.destBank.errors) }">
-                        <div class="input-group-prepend"> 
-                          <div class="input-group-text"> 
-                            <i class="now-ui-icons text_caps-small"></i>
-                          </div>
-                        </div>
-                        <input type="text" formControlName="destBank" class="form-control" placeholder="Destination Bank (required)" name="destBank" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                        </div> 
-                        <div class="col-md-6 form-group has-label" >
-                          <label> Select FI * </label>
-                           <angular2-multiselect formControlName="destBank" 
-                              [data]="dropdownList"
-                              [(ngModel)]="selectedItems"
-                              [settings]="dropdownSettings"
-                              (onSelect)="onItemSelect($event)"
-                              (onDeSelect)="OnItemDeSelect($event)"
-                              (onSelectAll)="onSelectAll($event)"
-                              (onDeSelectAll)="onDeSelectAll($event)"
-                            >
-                            </angular2-multiselect>
-                        </div>
-                       <div class="col-md-6 input-group " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destAccount.errors, 'has-success': !(registerF.destAccount.errors) }">
-                        <div class="input-group-prepend"> 
-                          <div class="input-group-text"> 
-                            <i class="now-ui-icons text_caps-small"></i>
-                          </div>
-                        </div>
-                        <input type="text" formControlName="destAccount" class="form-control" placeholder="Destination Account (required)" name="destAccount" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                        </div>
-
-                        <div class="col-md-6 input-group " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.count.errors, 'has-success': !(registerF.count.errors) }">
-                          <div class="input-group-prepend"> 
-                            <div class="input-group-text"> 
-                              <i class="now-ui-icons text_caps-small"></i>
-                            </div>
-                          </div>
-                          <input type="text" formControlName="count" class="form-control" placeholder="Count (required)" name="count" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                          </div>
-                     
-                    </div>
-
-
-               
-                
-                </form>
-              </div>
-            </div>  
-              
-          </div>
-          <div class="modal-footer">          
-              
-                      <button style="visibility: hidden"
-                        type="submit"
-                        class="btn btn-primary">
-                        Register
-                      </button>
-                      <button (click)="onRegister()" [disabled]="registerForm.status !='VALID'"
-                        type="button"
-                        class="btn btn-success">
-                        Submit
-                      </button>
-                    
-          </div>
-        </ng-template> -->
-        <!--END OF modal
-        -->
-
-
-            <!--odal start-->
- <ng-template #editclassic let-c="close" let-d="dismiss" >
-          <div class="modal-header justify-content-center">
-            <button type="button" class="close" (click)="d('Cross click')">
-              <i class="now-ui-icons ui-1_simple-remove"></i>
-            </button>
-            <h4 class="title title-up">MORE INFO</h4>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-1 "></div>
-              <div class="col-md-10 ">
-                <form  >   
-  
-                  <div class="row">
-                    <div class="col-md-5 input-group" >
-                     <div class="input-group-prepend"> 
-                       <h5>Tracking Number</h5>
-                     </div>
-                    
-                     <span>&nbsp;&nbsp;{{editRecord.trackingNum}}</span>
-
-                     </div>
-                    
-                    <div class="col-md-5 input-group ">
-                     <div class="input-group-prepend"> 
-                       <h5>Response Time</h5>
-                     </div>
-                     <span>{{editRecord.responseTimestamp}}</span>
-                   </div>
+          <div class="modal-body ">
+            <div class="row ">
+              <div class="col-md-10">
+                 
+                <!-- <div class="col-md-2"></div> -->
+                  <!-- <div class="col-md-12  offset-md-1 text-center ">
+                    <span style="padding-left: 20px;"></span>
+                  </div> -->
+                  <div class="row col-md-11 offset-md-3">
+                          <button 
+                          (click)="confirmClearTable(false)"
+                          type="button"
+                          class="btn btn-success">
+                          Clear User's
+                        </button>
+                        <button 
+                         
+                          (click)="confirmClearTable(true)"
+                          type="button"
+                          class="btn btn-success">
+                          Clear All
+                        </button>
+                        <!-- <button 
+                         
+                          (click)="closeModal()"
+                          type="button"
+                          class="btn btn-danger">
+                          Cancel
+                        </button> -->
+                  </div>
                   
-                 </div>
-                     <div class="row">
-                       <div class="col-md-12 input-group" >
-                        <div class="input-group-prepend"> 
-                          <h5>Request Payload</h5>
-                        </div>
-                        <span>{{editRecord.requestPayload}}</span>
-
-                        </div>
-                       <div class="col-md-12 input-group ">
-                        <div class="input-group-prepend"> 
-                          <h5>Response Payload</h5>
-
-                        </div>
-                        <span>{{editRecord.responsePayload}}</span>
-                      </div>
-                     
-                    </div>
-
-
-                    <!--<div class="row">
-                      <div class="col-md-6 form-group has-label" >
-                        <label> Branch * </label>
-                         <angular2-multiselect formControlName="branchId" 
-                            [data]="dropdownList"
-                            [(ngModel)]="selectedItems"
-                            [settings]="dropdownSettings"
-                            (onSelect)="onItemSelect($event)"
-                            (onDeSelect)="OnItemDeSelect($event)"
-                            (onSelectAll)="onSelectAll($event)"
-                            (onDeSelectAll)="onDeSelectAll($event)"
-                          >
-                          </angular2-multiselect>
-                      </div>
-                      <div class="col-md-6 form-group has-label" >
-                        <label> Role * </label>
-                         <angular2-multiselect formControlName="roleId"
-                            [data]="dropdownList1"
-                            [(ngModel)]="selectedItems1"
-                            [settings]="dropdownSettings"
-                            (onSelect)="onItemSelect1($event)"
-                            (onDeSelect)="OnItemDeSelect1($event)"
-                          
-                          >
-
-
-                          </angular2-multiselect>
-                      </div>
-                    </div>
-                    <div class="row">
-                        <div style="padding-top: 16px" disabled="true" class="col-md-6 input-group " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.username.errors  && registerF.username==='', 'has-success': !(registerF.username.errors) || registerF.username!=''}">
-                        <div class="input-group-prepend"> 
-                          <div class="input-group-text"> 
-                            <i class="now-ui-icons text_caps-small"></i>
-                          </div>
-                        </div>
-                        <input type="text" formControlName="username" disabled="true" class="form-control" placeholder="Username (required)" name="username" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                        </div>
-                        <div class="col-md-6 form-check has-label"  >
-                         <p></p>
-
-                         <label class="form-check-label ">
-                          <input formControlName="status"
-                            class="form-check-input"
-                            type="checkbox"
-                            name="optionCheckboxes"
-                            
-                          />
-                          <span class="form-check-sign"></span> Status (Disabled if unchecked)
-                        </label>
-                      </div>
-                     
-                    </div> -->
-                    <!---->
-     <!--                <div class="row" *ngIf="branchSelected==='Recon' || branchSelected==='Finance'">
-                       <div class="col-md-12 form-group has-label" [ngClass]="{ 'has-danger': ((focusTouched || register) && registerF.products.errors) || (registerF.products.value != '' && registerF.products.errors), 'has-success': productSelectedItems != []  }" >
-                        <label> Sub Products * </label>
-                         <angular2-multiselect formControlName="products"
-                            [data]="productList"
-                            [(ngModel)]="productSelectedItems"
-                            [settings]="productSettings"
-                            (onSelect)="onItemSelectProd($event)"
-                            (onDeSelect)="OnItemDeSelectProd($event)"
-                            (onSelectAll)="onSelectAllProd($event)"
-                            (onDeSelectAll)="onDeSelectAllProd($event)"
-                          >
-                          </angular2-multiselect>
-                      </div>
-                    </div>
-                      -->
-                
-                </form>
-              </div>
+                  <div class="row col-md-11 offset-md-5">
+                    <button 
+                         
+                    (click)="closeModal()"
+                    type="button"
+                    class="btn btn-danger">
+                    Cancel
+                  </button>
+            </div>
+                </div>
             </div>  
               
           </div>
           <div class="modal-footer">          
               
-                      <!-- <button style="visibility: hidden"
-                        type="submit"
-                        class="btn btn-primary">
-                        Register
-                      </button>
-                      <button (click)="editFunction(editRecord)" [disabled]="editForm.status !='VALID'"
-                        type="button"
-                        class="btn btn-success">
-                        Update
-                      </button> -->
+
                     
-          </div>
-        </ng-template>
-        <!--END OF modal
-        -->
+          </div> </ng-template>
+        <!--CLEAR END OF modal -->
+
+                 <!--Edit Moodal start-->
+ <ng-template #editclassic let-c="close" let-d="dismiss" >
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="d('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">MORE INFO</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-1 "></div>
+      <div class="col-md-10 ">
+        <form  >   
+
+          <div class="row">
+            <div class="col-md-5 input-group" >
+             <div class="input-group-prepend"> 
+               <h5>Tracking Number</h5>
+             </div>
+            
+             <span>&nbsp;&nbsp;{{editRecord.trackingNum}}</span>
+
+             </div>
+            
+            <div class="col-md-5 input-group ">
+             <div class="input-group-prepend"> 
+               <h5>Response Time</h5>
+             </div>
+             <span>{{editRecord.responseTimestamp}}</span>
+           </div>
+          
+         </div>
+         <div class="row">
+          <div class="col-md-5 input-group" >
+           <div class="input-group-prepend"> 
+             <h5>Created By</h5>
+           </div>
+          
+           <span>&nbsp;&nbsp;{{editRecord.createdBy}}</span>
+
+           </div>
+        
+       </div>
+             <div class="row">
+               <div class="col-md-12 input-group" >
+                <div class="input-group-prepend"> 
+                  <h5>Request Payload</h5>
+                </div>
+                <span>{{editRecord.requestPayload}}</span>
+
+                </div>
+               <div class="col-md-12 input-group ">
+                <div class="input-group-prepend"> 
+                  <h5>Response Payload</h5>
+
+                </div>
+                <span>{{editRecord.responsePayload}}</span>
+              </div>
+             
+            </div>
+        
+        </form>
+      </div>
+    </div>  
+      
+  </div>
+  <div class="modal-footer">          
+      
+
+            
+  </div>
+</ng-template>
+<!--EditEND OF modal -->
