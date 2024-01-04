@@ -194,7 +194,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     
     });
 
-    //this.loadTable()
+    this.loadTable()
   }
 
   ngAfterViewInit() {}
@@ -422,10 +422,17 @@ export class UsersComponent implements OnInit, AfterViewInit {
     this.service.spinnerLoad = false;
   }
 
-  confirmNecSubmit(data: any) {
+  reloadCurrentRoute() {
+    let currentUrl = this.router.url;
+    this.router.navigateByUrl('/app/home', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+    });
+  }
+
+  confirmClearTable(data: any) {
     swal({
       //title: "Are you sure?",
-      text: `Are you sure you want to submit ${data.count} requests for Account ${data.destAccount} to Bank ${data.destBank}`, //"+userData.fullName,
+      text: `Are you sure you want to remove all current NEC Requests?`,
       type: "warning",
       showCancelButton: true,
       confirmButtonText: "Confirm",
@@ -435,25 +442,17 @@ export class UsersComponent implements OnInit, AfterViewInit {
       buttonsStyling: false,
     }).then((result) => {
       if (result.value) {
-        this.service.sendNec(data).subscribe((data) => {
-          console.log("data", data);
-          this.rows = data;
-          console.log("data", this.rows);
-          this.temp = this.rows.map((prop, key) => {
-            return {
-              ...prop,
-              id: key,
-            };
-          });
+       
+        this.service.clearTable().subscribe(() => {
+          //console.log("data", data);
           this.modalService.dismissAll();
           this.service.spinnerLoad = false;
         });
-
-        //return response;
+        this.temp=[]
+        this.rows=[]
       } else {
         swal({
           title: "Cancelled",
-          //text: "Your imaginary file is safe :)",
           type: "error",
           confirmButtonClass: "btn btn-info",
           buttonsStyling: false,

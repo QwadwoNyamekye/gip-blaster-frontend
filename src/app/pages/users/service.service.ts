@@ -65,6 +65,51 @@ getBanks(){
   return bankList
 }
 
+clearTable(){
+  this.spinnerLoad=true
+   this.spinner.show()
+  let url = this.root_url+'/blaster/api/v1/clear'
+  return this.http.post(url, {}).pipe(
+    timeout(this.requestTimeout),
+    map((response: any) => response),
+    catchError((error) => {
+      console.log(error)
+      if (error.name === 'TimeoutError') {
+        console.error('Request timed out:', error);
+        this.spinnerLoad=false
+        this.spinner.hide()
+        this.toastr.error("Request Timed Out. Kindly try again"
+          ,
+          "",
+          {
+            timeOut: 5000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: "alert alert-danger alert-with-icon",
+            
+          }); 
+        // Handle timeout error, for example, you can return a custom error message
+        return [];
+        
+      }
+      this.spinnerLoad=false
+      this.spinner.hide()
+      this.toastr.error("Error Occured. Kindly try again"
+          ,
+          "",
+          {
+            timeOut: 5000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: "alert alert-danger alert-with-icon",
+            
+          }); 
+      // Handle other errors
+      return [];
+    })
+  );
+}
+
 sendNec(userData:any){
   let url=this.root_url+'/blaster/api/v1/nec';
     this.spinnerLoad=true
