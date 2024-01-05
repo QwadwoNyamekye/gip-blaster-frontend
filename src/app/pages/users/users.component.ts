@@ -444,6 +444,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
       
         this.service.clearTable(status).subscribe(() => {
           this.loadTable()
+          this.service.successToast('Nec list cleared successfully.')
         });
         
         this.modalService.dismissAll();

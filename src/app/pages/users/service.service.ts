@@ -70,7 +70,7 @@ getBanks(){
 
 clearTable(status){
   this.spinnerLoad=true
-   this.spinner.show()
+  this.spinner.show()
   let url = this.root_url+'/blaster/api/v1/clear'
   if (!status){
     url = url+'/'+this.user
@@ -147,6 +147,8 @@ sendNec(userData:any){
       return [];
       
     }
+    setTimeout(()=>this.spinner.hide(),500)
+
     this.spinnerLoad=false
     this.spinner.hide()
     this.toastr.error("Error Occured. Kindly try again"
@@ -174,6 +176,19 @@ getNecs(){
     timeout(this.requestTimeout),
     map((response: Response)=> response)
     )
+}
+
+successToast(msg){
+  this.toastr.success(msg
+          ,
+          "",
+          {
+            timeOut: 5000,
+            enableHtml: true,
+            closeButton: true,
+            toastClass: "alert alert-success alert-with-icon",
+            
+          }); 
 }
 
 }
