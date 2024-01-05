@@ -328,6 +328,8 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
 
   loadTable() {
+    this.rows=[]
+    this.temp=[]
     // this.rows = [
     //   {
     //     sessionId: "962046803705",
@@ -404,6 +406,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
                     };
                   });
                 }
+                console.log("load table activeted")
                console.log(this.rows)
               },
               error=>{console.log(error)},
@@ -440,15 +443,12 @@ export class UsersComponent implements OnInit, AfterViewInit {
       if (result.value) {
       
         this.service.clearTable(status).subscribe(() => {
-          // console.log("data", data);
-          
+          this.loadTable()
         });
         
         this.modalService.dismissAll();
         this.service.spinnerLoad = false;
-
-        this.temp=[]
-        this.rows=[]
+        
       } else {
         swal({
           title: "Cancelled",
