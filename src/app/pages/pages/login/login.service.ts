@@ -27,8 +27,7 @@ export class LoginService {
    let url=this.root_url+'/blaster/api/v1/login';
       this.spinnerLoad=true
      this.spinner.show()
-    // alert(JSON.stringify(userData))
-/////////
+    //alert(JSON.stringify(userData.username))
 
 
   this.http.post(url, userData).subscribe({

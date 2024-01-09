@@ -24,7 +24,7 @@ import { AuthGuard } from './guards/auth-guard.service';
     ComponentsModule,
 
   ],
-  //providers: [AuthGuard],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

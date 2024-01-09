@@ -310,6 +310,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
     let val = $event.target.value.toLowerCase();
     this.temp = this.rows.filter(function (d) {
       for (var key in d) {
+        d[key] = d[key] ? d[key] : ''
         if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
           return true;
         }
@@ -321,7 +322,7 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
 
   onSelect($event) {
-    console.log("Select Event", $event);
+    //console.log("Select Event", $event);
   }
   onActivate(event) {
     this.activeRow = event.row;
