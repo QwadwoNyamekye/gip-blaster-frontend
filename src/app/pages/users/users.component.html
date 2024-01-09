@@ -15,15 +15,11 @@
  
 
                    <div class="row">
-                     <!-- <div class="col-md-3 input-group" [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destBank.errors, 'has-success': !(registerF.destBank.errors) }">
-                      <div class="input-group-prepend"> 
-                        <div class="input-group-text"> 
-                          <i class="now-ui-icons text_caps-small"></i>
-                        </div>
-                      </div>
-                      <input type="text" formControlName="destBank" class="form-control" placeholder="FI" name="destBank" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                      </div> -->
-                      <div class="col-md-3 form-group has-label" >
+                    <div class="col-md-3 form-group has-label " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.count.errors, 'has-success': !(registerF.count.errors) }">
+                      <label> Count * (1-5)</label>
+                      <input type="number" min="1" max="5" formControlName="count" class="form-control" placeholder="Count" name="count" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
+                    </div>
+                    <div class="col-md-3 form-group has-label" >
                         <label> Select FI * </label>
                          <angular2-multiselect formControlName="destBank" 
                             [data]="dropdownList"
@@ -35,29 +31,12 @@
                             (onDeSelectAll)="onDeSelectAll($event)"
                           >
                           </angular2-multiselect>
-                      </div>
+                     </div>
                      <div class="col-md-3 form-group has-label " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.destAccount.errors, 'has-success': !(registerF.destAccount.errors) }">
-                      <!-- <div class="input-group-prepend"> 
-                        <div class="input-group-text"> 
-                          <i class="now-ui-icons text_caps-small"></i>
-                        </div>
-                      </div> -->
                       <label> Enter Account/Wallet FI * </label>
                       <input type="text" formControlName="destAccount" class="form-control"  name="destAccount" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                      </div>
-
-                      <div class="col-md-3 form-group has-label " [ngClass]="{ 'input-group-focus': focus === true, 'has-danger': (focusTouched || isValid) && registerF.count.errors, 'has-success': !(registerF.count.errors) }">
-                        
-                        <!-- <div class="input-group-prepend"> 
-                          <div class="input-group-text"> 
-                            <i class="now-ui-icons text_caps-small"></i>
-                          </div>
-                        </div> -->
-                        <label> Count * (1-5)</label>
-
-                        <input type="number" min="1" max="5" formControlName="count" class="form-control" placeholder="Count" name="count" (focus)="focus = true; focusTouched = true" (blur)="focus = false"/>
-                        </div>
-                        <div class="col-md-3 align-down">
+                     </div>
+                     <div class="col-md-3 align-down">
                           
                           <button (click)="onRegister()" [disabled]="registerForm.status !='VALID'"
                             type="button"
@@ -72,7 +51,7 @@
                           class="btn btn-danger">
                           Clear List
                         </button>
-                        </div>
+                      </div>
                   </div>
 
                   
@@ -137,64 +116,27 @@
             >
 
             <ngx-datatable-column name="Date/Time" prop="requestTimestamp"></ngx-datatable-column>
-            <ngx-datatable-column name="Sender FI" prop="srcInstitution"></ngx-datatable-column>
+            <!-- <ngx-datatable-column name="Sender FI" prop="srcInstitution"></ngx-datatable-column> -->
             <ngx-datatable-column  name="Receiver FI" prop="destInstitution"></ngx-datatable-column>
             <ngx-datatable-column name="Action Code"></ngx-datatable-column>
             <ngx-datatable-column name="Reference" prop="sessionId" ></ngx-datatable-column>
             <ngx-datatable-column name="Amount"></ngx-datatable-column>
-            <ngx-datatable-column name="Sender Account" prop="srcAccountNumber">
+            <!-- <ngx-datatable-column name="Sender Account" prop="srcAccountNumber">
               <ng-template let-column="column" ngx-datatable-header-template>
                 <div class="header-wrap">
                   Source Account
                 </div>
               </ng-template>
-            </ngx-datatable-column>
+            </ngx-datatable-column> -->
             <ngx-datatable-column name="Receiver Account" prop="destAccountNumber">
               <ng-template let-column="column" ngx-datatable-header-template>
                 <div class="header-wrap">
-                  Destination Account
+                  Receiver(Destination) Account/Wallet #
                 </div>
               </ng-template>
             </ngx-datatable-column>
             
-          <!-- <ngx-datatable-column name="Session ID" ></ngx-datatable-column>
-          <ngx-datatable-column name="Action Code"></ngx-datatable-column>
-          <ngx-datatable-column name="Amount"></ngx-datatable-column>
-          <ngx-datatable-column name="Source" prop="srcInstitution">
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <div class="header-wrap">
-                Source Institution
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column  name="Destination" prop="destInstitution">
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <div class="header-wrap">
-                Destination Institution
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Source Account" prop="srcAccountNumber">
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <div class="header-wrap">
-                Source Account
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Destination Account" prop="destAccountNumber">
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <div class="header-wrap">
-                Destination Account
-              </div>
-            </ng-template>
-          </ngx-datatable-column>
-          <ngx-datatable-column name="Request Date" prop="requestTimestamp">
-            <ng-template let-column="column" ngx-datatable-header-template>
-              <div class="header-wrap">
-                Request Date
-              </div>
-            </ng-template>
-          </ngx-datatable-column> -->
+
           <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
             <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
               Actions
@@ -292,15 +234,23 @@
         <form  >   
 
           <div class="row">
-            <div class="col-md-6 input-group" >
+            <!-- <div class="col-md-6 input-group" >
              <div class="input-group-prepend col-md-12"> 
                <h5>Tracking Number</h5>
              </div>
             
              <span class="col-md-12">{{editRecord.trackingNum}}</span>
 
-             </div>
-            
+             </div> -->
+             <div class="col-md-6 input-group" >
+              <div class="input-group-prepend col-md-12"> 
+                <h5>Created By</h5>
+              </div>
+              <br/>
+             
+              <div class="col-md-12">{{editRecord.createdBy}}</div>
+   
+              </div>
             <div class="col-md-6 input-group ">
              <div class="input-group-prepend col-md-12"> 
                <h5>Response Time</h5>
@@ -309,7 +259,7 @@
            </div>
           
          </div>
-         <div class="row">
+         <!-- <div class="row">
           <div class="col-md-6 input-group" >
            <div class="input-group-prepend col-md-12"> 
              <h5>Created By</h5>
@@ -319,8 +269,7 @@
            <div class="col-md-12">{{editRecord.createdBy}}</div>
 
            </div>
-        
-       </div>
+          </div> -->
              <div class="row">
                <div class="col-md-12 input-group" >
                 <div class="input-group-prepend"> 
