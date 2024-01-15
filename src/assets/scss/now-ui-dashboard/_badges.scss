@@ -33,7 +33,7 @@
   @include badge-color($info-color);
 }
 .badge-success {
-  @include badge-color($success-color);
+  @include badge-color($success2-color);
 }
 .badge-warning {
   @include badge-color($warning-color);
@@ -68,7 +68,7 @@
 
 .badge-success[href]:focus,
 .badge-success[href]:hover {
-  @include badge-hover-href($white-color, darken($success-color, 3%));
+  @include badge-hover-href($white-color, darken($success2-color, 3%));
 }
 
 .badge-default[href]:focus,

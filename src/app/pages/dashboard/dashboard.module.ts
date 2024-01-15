@@ -8,6 +8,9 @@ import { AuthGuard } from '../../guards/auth-guard.service';
 import { DashboardRoutes } from "./dashboard.routing";
 import { AngularMultiSelectModule } from "angular2-multiselect-dropdown";
 import { DashboardComponent } from "./dashboard.component";
+import { NgxDatatableModule } from "@swimlane/ngx-datatable";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
@@ -16,7 +19,16 @@ import { DashboardComponent } from "./dashboard.component";
     RouterModule.forChild(DashboardRoutes),
     ComponentsModule,
     ChartsModule,
-    AngularMultiSelectModule
+    AngularMultiSelectModule,
+    CommonModule,
+    NgbModule,
+    ComponentsModule,
+    ChartsModule,
+    NgxDatatableModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    AngularMultiSelectModule,
+    NgxSpinnerModule
   ],
   declarations: [DashboardComponent],
   exports: [DashboardComponent],

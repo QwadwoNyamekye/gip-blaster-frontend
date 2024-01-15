@@ -29,12 +29,12 @@ export interface ChildrenItems {
 //Menu Items
 
 export const AdminROUTES:RouteInfo[]=[
-  //  {
-  //   path: "/dashboard",
-  //   title: "Dashboard",
-  //   type: "link",
-  //   icontype: "design_app"
-  // },
+   {
+    path: "/dashboard",
+    title: "Dashboard",
+    type: "link",
+    icontype: "design_app"
+  },
   {
     path: "/nec",
     title: "NEC",

@@ -56,6 +56,11 @@ $success-states-color: lighten($success-color, 6%) !default;
 $success-color-opacity: rgba(24, 206, 15, 0.3) !default;
 $success-color-alert: rgba(24, 206, 15, 0.8) !default;
 
+$success2-color: #18ce0f !default;
+$success2-states-color: lighten($success2-color, 6%) !default;
+$success2-color-opacity: rgba(24, 206, 15, 0.3) !default;
+$success2-color-alert: rgba(24, 206, 15, 0.8) !default;
+
 $info-color: #2ca8ff !default;
 $info-states-color: lighten($info-color, 6%) !default;
 $info-color-opacity: rgba(44, 168, 255, 0.3) !default;
@@ -77,6 +82,7 @@ $orange-color: #f96332 !default;
 $brand-primary: $primary-color !default;
 $brand-info: $info-color !default;
 $brand-success: $success-color !default;
+$brand-success2: $success2-color !default;
 $brand-warning: $warning-color !default;
 $brand-danger: $danger-color !default;
 $brand-inverse: $black-color !default;
@@ -300,3 +306,6 @@ $social-behance-state-color: lighten(#1769ff, 6%) !default;
 //////////////////////////////////////////
 $boa-color: #264770 !default;
 $brand-boa: $boa-color !default;
+
+$success2-color: #18ce0f !default;
+$brand-success2: $success2-color !default;

@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from "sweetalert2";
 import { environment } from 'src/environments/environment.prod';
+import { catchError, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -30,36 +31,15 @@ public dash:any
   public temp2:any=[];
   public spinnerLoad=false
   public spinnerMsg="Please Wait."
-  
+  root_url=environment.adminUrl
 
   /////GET UPLOADS//////////
- 
-  getData(id:string){
-    let url
-    //this.user=JSON.parse(sessionStorage.getItem('currentUser'))
-    if(id==='1'){
-        url=this.admin_url+'/admin/api/v1/uploader_dashboard/'+this.user.branch_id
-    }else if( id==='2' || id==='3' || id==='4'){
-        url=this.admin_url+'/admin/api/v1/authorizer_dashboard/'+this.user.branch_id+'/'+id;
 
-    }else if(id==='5'){
-        url=this.admin_url+'/admin/api/v1/admin_dashboard/'+id;
-    }
-   console.log(url)
-      
-    this.dash=this.http.get(url)//.pipe(map((response: Response)=> response))
-    console.log(this.dash)
-    return this.dash
+  getFIStatus(){
+    let url=this.root_url+'/blaster/api/v1/status'
+    let statusList = this.http.get(url).pipe(
+      map((response: any)=>response)
+    )
+    return statusList
   }
-
-  getAllRecon(){
-    let url=this.admin_url+'/admin/api/v1/get_all_recons';
-    let dash=this.http.get(url)//.pipe(map((response: Response)=> response))
-    return dash;
-
-  }
-
-
-
-
 }

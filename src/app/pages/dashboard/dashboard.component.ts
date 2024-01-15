@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
+import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import * as Chartist from "chartist";
 import { Service } from "./dashboard.service"
 @Component({
@@ -12,153 +13,71 @@ export class DashboardComponent implements OnInit {
   rows2:any
   dashInterval
   dropdownList :any;
+  temp = [];
   public selectedItems :any[] = [];
   dropdownSettings = {};
-  rows:any={
-      "all_accepted" : 0,
-      "all_hold": 0,
-      "all_pending": 0,
-      "all_rejected": 0,
-      "all_total": 0,
-      "daily_accepted": 0,
-      "daily_hold": 0,
-      "daily_pending" : 0,
-      "daily_rejected": 0,
-      "daily_total": 0,
-      "total_uploaders": 0,
-      "total_branches": 0,
-      "total_admins": 0,
-      "total_viewers": 0,
-      "total_users": 0,
-      "total_products": 0,
-      "total_authorizers": 0,
-      "total_gls": 0
-  }
-  constructor(private service:Service) {
-
-              // //this.user=JSON.parse(sessionStorage.getItem('currentUser'))
-
-              //   this.service.getData(this.user.role_id).subscribe(
-              //     data=>{
-              //       this.rows=[]
-              //       this.rows=data      
-              //       console.log(data)
-              //     },
-              //     error=>{console.log(error)},
-              //     ()=>{console.log('terminated')
-              //   }
-              //   );
-
-          // this.service.getAllRecon().subscribe(
-          //         data=>{
-          //           this.rows2=[]
-          //           this.rows2=data  
-          //           let id=this.user.role_id;
-
-          //           let today1 = new Date();
-          //           let dd = String(today1.getDate()).padStart(2, '0');
-          //           let mm = String(today1.getMonth() + 1).padStart(2, '0');
-          //           let yyyy = today1.getFullYear();
-          //           let today = yyyy +'-'+ mm + '-' + dd ;
-          //           let recons;
-          //           let today_recons;
-
-          //           if(id==='1'){
-          //                 recons=this.rows2.filter(el=>(el.branch_id===this.user.branch_id ))
-          //                  today_recons=this.rows2.filter(el=>(el.recon_date===today && el.branch_id===this.user.branch_id))
-          //           }
-          //           else if( id==='2'){
-          //                 recons=this.rows2.filter(el=>el.auth_status==='1' ||el.auth_status==='2' || el.auth_status==='3')
-          //                 recons=recons.filter(el=>el.branch_id===this.user.branch_id )
-          //                 today_recons=this.rows2.filter(el=>el.auth_status==='1' ||el.auth_status==='2' || el.auth_status==='3')
-          //                 today_recons=today_recons.filter(el=>(el.recon_date===today && el.branch_id===this.user.branch_id))
-          //           }
-          //           else if( id==='3' || id==='4'){
-          //                  recons=this.rows2.filter(el=>el.auth_status==='1' ||el.auth_status==='2' || el.auth_status==='3')
-          //                  today_recons=this.rows2.filter(el=>(el.recon_date===today))
-
-          //           }else if(id==='5'){
-          //              this.service.getData(this.user.role_id).subscribe(
-          //                 data=>{
-          //                   this.rows=[]
-          //                   this.rows=data      
-          //                   console.log(data)
-          //                 },
-          //                 error=>{console.log(error)},
-          //                 ()=>{console.log('terminated')
-          //               }
-          //               );
-          //               return;
-          //           }    
-
-          //             //TOTAL
-          //             let hold=recons.filter(el=>(el.auth_status==='0')).length
-          //             let pending=recons.filter(el=>(el.auth_status==='1')).length
-          //             let approve=recons.filter(el=>(el.auth_status==='2')).length
-          //             let rejected=recons.filter(el=>(el.auth_status==='3')).length
-          //             console.log(recons.length)
-
-          //             //TODAY                  
-          //             console.log(today_recons.length)
-          //             let today_hold=today_recons.filter(el=>(el.auth_status==='0')).length
-          //             let today_pending=today_recons.filter(el=>(el.auth_status==='1')).length
-          //             let today_approve=today_recons.filter(el=>(el.auth_status==='2')).length
-          //             let today_rejected=today_recons.filter(el=>(el.auth_status==='3')).length
-
-
-          //             this.rows={                  
-          //               "all_accepted" : approve,
-          //               "all_hold": hold,
-          //               "all_pending": pending,
-          //               "all_rejected": rejected,
-          //               "all_total": recons.length,
-          //               "daily_accepted": today_approve,
-          //               "daily_hold": today_hold,
-          //               "daily_pending" : today_pending,
-          //               "daily_rejected": today_rejected,
-          //               "daily_total": today_recons.length
-          //             }
-          //         },
-          //         error=>{console.log(error)},
-          //         ()=>{console.log('terminated')
-          //       }
-          //       );
+  rows =[];
+  constructor(
+    private modalService: NgbModal,
+    private service: Service
+  ) {
+    this.user=sessionStorage.getItem('currentUser')
+    
   }
 
   ngOnInit() {
       console.log('test here')
+      this.getFIStatus()
    
   }
 
   ngOnDestroy(){
             console.log('destroyed');
   }
-  changeData(value){
-    if(value==='All'){
 
-          this.service.getData(this.user.role_id).subscribe(
-              data=>{
-                this.rows=[]
-                this.rows=data
-                 console.log(data)
-              },
-              error=>{console.log(error)},
-              ()=>{console.log('terminated')
-            }
-            );
-    }else if(value==='Daily'){
-
-              this.service.getData(this.user.role_id).subscribe(
-              data=>{
-                this.rows=[]
-                this.rows=data
-                console.log(data)
- 
-              },
-              error=>{console.log(error)},
-              ()=>{console.log('terminated')
-            }
-            );
-    }
+  
+  getFIStatus() {
+        this.temp = [
+      { id: 300394, itemName: "VODAFONE" , status: "Online", lastTimeOnline: "09:04:23"},
+      { id: 300591, itemName: "MTN" , status: "Warning", lastTimeOnline: "09:04:23"},
+      { id: 300592, itemName: "AIRTELTIGO", status: "Online", lastTimeOnline: "09:04:23" },
+      {id: 300574, itemName:"G-MONEY", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300302, itemName:"STANDARD CHARTERED BANK", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300303, itemName:"ABSA BANK GHANA LIMITED", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300304, itemName:"GCB BANK LIMITED", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300305, itemName:"NATIONAL INVESTMENT BANK", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300306, itemName:"ARB APEX BANK LIMITED", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300307, itemName:"AGRICULTURAL DEVELOPMENT BANK", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300308, itemName:"SOCIETE GENERALE GHANA", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300309, itemName:"UNIVERSAL MERCHANT BANK", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300310, itemName:"REPUBLIC BANK LIMITED", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300311, itemName:"ZENITH BANK GHANA LTD", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300312, itemName:"ECOBANK GHANA LTD", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300313, itemName:"CAL BANK LIMITED", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300316, itemName:"FIRST ATLANTIC BANK", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300317, itemName:"PRUDENTIAL BANK LTD", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300318, itemName:"STANBIC BANK", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300319, itemName:"FIRST BANK OF NIGERIA", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300320, itemName:"BANK OF AFRICA", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300322, itemName:"GUARANTY TRUST BANK", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300323, itemName:"FIDELITY BANK LIMITED", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300324, itemName:"OMNIBSIC", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300325, itemName:"UNITED BANK OF AFRICA", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300328, itemName:"BANK OF GHANA", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300329, itemName:"ACCESS BANK LTD", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300331, itemName:"CONSOLIDATED BANK GHANA", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300334, itemName:"FIRST NATIONAL BANK", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300335, itemName:"BESTPOINT SAVINGS AND LOANS", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300341, itemName:"AFINITY GHANA SAVINGS AND LOANS", status: "Warning", lastTimeOnline: "09:04:23"},
+      {id: 300345, itemName:"ADEHYEMAN SAVINGS AND LOANS", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300349, itemName:"OPPORTUNITY INTERNALTIONAL SAVINGS AND LOANS", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300356, itemName:"SINAPI ABA SAVINGS AND LOANS", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300361, itemName:"SERVICES INTEGRITY SAVINGS & LOANS", status: "Offline", lastTimeOnline: "09:04:23"},
+      {id: 300369, itemName:"LETSHEGO SAVINGS AND LOANS", status: "Online", lastTimeOnline: "09:04:23"},
+      {id: 300479, itemName:"ZEEPAY GHANA LIMITED", status: "Offline", lastTimeOnline: "09:04:23"}
+    ];
+            
+    this.modalService.dismissAll();
+    this.service.spinnerLoad = false;
   }
 }
