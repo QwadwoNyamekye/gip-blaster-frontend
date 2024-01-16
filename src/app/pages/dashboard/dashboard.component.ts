@@ -171,6 +171,10 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       id: 300479,
       itemName: "ZEEPAY GHANA LIMITED",
     },
+    {
+      id: 300595,
+      itemName: "GHANA PAY",
+    },
   ];
   constructor(private modalService: NgbModal, private service: Service) {
     this.user = sessionStorage.getItem("currentUser");
