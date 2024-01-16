@@ -6989,6 +6989,10 @@ var DashboardComponent = /** @class */ (function () {
                 id: 300479,
                 itemName: "ZEEPAY GHANA LIMITED",
             },
+            {
+                id: 300595,
+                itemName: "GHANA PAY",
+            },
         ];
         this.user = sessionStorage.getItem("currentUser");
     }
