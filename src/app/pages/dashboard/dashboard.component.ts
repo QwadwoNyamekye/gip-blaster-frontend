@@ -204,15 +204,15 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.stompClient.connect({}, function (frame) {
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
-        txn.forEach((element) => {
-          element.bankName = that.banks.find(
-            (bank) => bank.id == element.destInstitution
-          );
-          element.bankName = element.bankName
-            ? element.bankName.itemName
-            : null;
-          //console.log(element);
-        });
+        // txn.forEach((element) => {
+        //   element.bankName = that.banks.find(
+        //     (bank) => bank.id == element.destInstitution
+        //   );
+        //   element.bankName = element.bankName
+        //     ? element.bankName.itemName
+        //     : null;
+        //   //console.log(element);
+        // });
         txn = txn.sort((a) => {
           if (a.status == "OFFLINE") {
             return -1;
