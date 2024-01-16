@@ -1,3 +1,9 @@
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<ngx-spinner *ngIf="service.spinnerLoad"
+  ><p style="color: white">
+    Please Wait or Click Anywhere to Cancel
+  </p></ngx-spinner
+>
 <div class="panel-header panel-header-sm"></div>
 <div class="main-content">
   <div class="row">
@@ -48,10 +54,10 @@
             [limit]="entries != -1 ? entries : undefined"
             [rows]="temp"
           >
-            <ngx-datatable-column name="ID" prop="id"></ngx-datatable-column>
+            <ngx-datatable-column name="ID" prop="destInstitution"></ngx-datatable-column>
             <ngx-datatable-column
               name="Financial Institution"
-              prop="itemName"
+              prop="bankName"
             ></ngx-datatable-column>
             <ngx-datatable-column
               name="Status"
@@ -64,14 +70,14 @@
               let-isSelected="isSelected"
               let-onCheckboxChangeFn="onCheckboxChangeFn"
             >
-              <span class="badge badge-warning" *ngIf="value.status=='Warning'">Warning</span>
-              <span class="badge badge-success" *ngIf="value.status=='Online'">Online</span>
-              <span class="badge badge-danger" *ngIf="value.status=='Offline'">Offline</span>
+              <span class="badge badge-warning" *ngIf="value.status=='WARNING'">Warning</span>
+              <span class="badge badge-success" *ngIf="value.status=='ONLINE'">Online</span>
+              <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
             </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column
-              name="Last Time Online"
-              prop="lastTimeOnline"
+              name="Last Time Checked"
+              prop="checkedAt"
             ></ngx-datatable-column>
           </ngx-datatable>
         </div>
