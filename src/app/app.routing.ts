@@ -8,7 +8,7 @@ import { AuthGuard } from './guards/auth-guard.service';
 export const AppRoutes: Routes = [
   {
     path: "",
-    redirectTo: "pages/login",
+    redirectTo: "dashboard",
     pathMatch: "full"
   },
   {
@@ -18,7 +18,7 @@ export const AppRoutes: Routes = [
       {
         path: "",
         loadChildren: "./pages/dashboard/dashboard.module#DashboardModule",
-        canActivate : [AuthGuard]
+        //canActivate : [AuthGuard]
 
       },
       {
@@ -33,7 +33,7 @@ export const AppRoutes: Routes = [
     component: AuthLayoutComponent,
     children: [
       {
-        path: "pages",
+        path: "",
         loadChildren: "./pages/pages/pages.module#PagesModule",
        
       }

@@ -79,7 +79,7 @@ export class LoginService {
           if (this.data.errorCode == 0) {
             this.auth = true;
             sessionStorage.setItem("currentUser", userData.username);
-            this.router.navigate(["/dashboard"]);
+            this.router.navigate(["dashboard"]);
 
             // setTimeout(() => this.spinner.hide(), 2000);
             // this.spinnerLoad = false;
