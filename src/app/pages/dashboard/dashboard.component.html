@@ -1,13 +1,14 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<ngx-spinner *ngIf="service.spinnerLoad"
-  ><p style="color: white">
-    Please Wait or Click Anywhere to Cancel
-  </p></ngx-spinner
->
+<ngx-spinner *ngIf="service.spinnerLoad">
+<p style="color: white">
+  Please Wait or Click Anywhere to Cancel
+</p>
+</ngx-spinner>
 <div class="panel-header panel-header-sm"></div>
 <div class="main-content">
   <div class="row">
-    <div class="card">
+
+    <div class="card col-md-10 offset-md-1">
       <div class="card-body">
         <div class="dataTables_wrapper">
           <div class="row">
@@ -15,12 +16,8 @@
               <div class="dataTables_length" id="datatable_length">
                 <label>
                   Show
-                  <select
-                    name="datatable_length"
-                    aria-controls="datatable"
-                    class="form-control form-control-sm"
-                    (change)="entriesChange($event)"
-                  >
+                  <select name="datatable_length" aria-controls="datatable" class="form-control form-control-sm"
+                    (change)="entriesChange($event)">
                     <option value="10" [selected]="entries == 10">10</option>
                     <option value="25" [selected]="entries == 25">25</option>
                     <option value="50" [selected]="entries == 50">50</option>
@@ -33,52 +30,38 @@
             <div class="col-md-12">
               <div id="datatable_filter" class="dataTables_filter">
                 <label>
-                  <input
-                    type="search"
-                    class="form-control form-control-sm"
-                    placeholder="Search records"
-                    aria-controls="datatable"
-                    (keyup)="filterTable($event)"
-                  />
+                  <input type="search" class="form-control form-control-sm" placeholder="Search records"
+                    aria-controls="datatable" (keyup)="filterTable($event)" />
                 </label>
               </div>
             </div>
           </div>
-          <ngx-datatable
-            class="bootstrap selection-cell"
-            [headerHeight]="50"
-            [footerHeight]="50"
-            [rowHeight]="50"
-            [columnMode]="'force'"
-            [scrollbarH]="true"
-            [limit]="entries != -1 ? entries : undefined"
-            [rows]="temp"
-          >
+          <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
+            [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
             <ngx-datatable-column name="ID" prop="destInstitution"></ngx-datatable-column>
-            <ngx-datatable-column
-              name="Financial Institution"
-              prop="destInstitutionName"
-            ></ngx-datatable-column>
-            <ngx-datatable-column
-              name="Status"
-              prop="status"
-            >
-         
-              <ng-template
-              ngx-datatable-cell-template
-              let-value="row"
-              let-isSelected="isSelected"
-              let-onCheckboxChangeFn="onCheckboxChangeFn"
-            >
-              <span class="badge badge-warning" *ngIf="value.status=='WARNING'">Warning</span>
-              <span class="badge badge-success" *ngIf="value.status=='ONLINE'">Online</span>
-              <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
-            </ng-template>
+            <ngx-datatable-column name="Financial Institution" prop="destInstitutionName"></ngx-datatable-column>
+            <ngx-datatable-column name="Status" prop="status">
+
+              <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
+                let-onCheckboxChangeFn="onCheckboxChangeFn">
+                <span class="badge badge-warning" *ngIf="value.status=='WARNING'">Warning</span>
+                <span class="badge badge-success" *ngIf="value.status=='ONLINE'">Online</span>
+                <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
+              </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column
-              name="Last Time Checked"
-              prop="checkedAt"
-            ></ngx-datatable-column>
+            <ngx-datatable-column name="Last Time Checked" prop="checkedAt"></ngx-datatable-column>
+            <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+              <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
+                let-selectFn="selectFn">
+                Logs
+              </ng-template>
+              <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
+                let-onCheckboxChangeFn="onCheckboxChangeFn">
+                <a (click)="openEdit(editclassic, 'lg', '', value)"
+                  class="btn btn-round btn-info btn-icon btn-sm like"><i aria-label="View more"
+                    class="fas fa-solid fa-info"></i></a>
+              </ng-template>
+            </ngx-datatable-column>
           </ngx-datatable>
         </div>
       </div>
@@ -86,3 +69,37 @@
     </div>
   </div>
 </div>
+<!--Edit Moodal start-->
+<ng-template #editclassic let-c="close" let-d="dismiss">
+  <div class="modal-header justify-content-center">
+    <button type="button" class="close" (click)="d('Cross click')">
+      <i class="now-ui-icons ui-1_simple-remove"></i>
+    </button>
+    <h4 class="title title-up">LOGS</h4>
+  </div>
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <form>
+          <div class="row">
+            <div class="col-md-12 input-group">
+              <div class="input-group-prepend">
+                <h5>Request Payload</h5>
+              </div>
+              <span>{{ editRecord.requestPayload }}</span>
+            </div>
+            <div class="col-md-12 input-group">
+              <div class="input-group-prepend">
+                <h5>Response Payload</h5>
+              </div>
+              <span>{{ editRecord.responsePayload }}</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer"></div>
+</ng-template>
+<!--EditEND OF modal -->
