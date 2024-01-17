@@ -18,7 +18,7 @@ export class Service {
   user;
   public dash: any;
   constructor(
-    private spinner: NgxSpinnerService,
+    public spinner: NgxSpinnerService,
     private http: HttpClient,
     private toastr: ToastrService,
     private router: Router

@@ -150,6 +150,7 @@ export class NavbarComponent implements OnInit {
 
   logout(){
         sessionStorage.setItem('currentUser','')
+        localStorage.setItem('tempFiStatus',null)
         this.router.navigate(['pages/login'])
   }
 }

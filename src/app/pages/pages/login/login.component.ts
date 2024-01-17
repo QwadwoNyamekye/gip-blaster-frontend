@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,private service:LoginService,private router: Router) {
     sessionStorage.setItem('currentUser','')
+    localStorage.setItem('tempFiStatus',null)
   }
 
   ngOnInit() {

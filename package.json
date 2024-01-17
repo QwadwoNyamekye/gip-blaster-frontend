@@ -5,6 +5,8 @@
     "ng": "ng",
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && ng serve -o --port=4202",
     "build": "export NODE_OPTIONS=--openssl-legacy-provider && ng build",
+    "start-windows": "$env:NODE_OPTIONS=\"--openssl-legacy-provider\"",
+    "build-windows": "$env:NODE_OPTIONS=\"--openssl-legacy-provider\" && ng build",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

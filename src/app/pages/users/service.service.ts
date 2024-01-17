@@ -23,7 +23,7 @@ export class Service {
     this.user=sessionStorage.getItem('currentUser')
   }
   root_url=environment.adminUrl
-   requestTimeout=60000
+   requestTimeout=45000
   //requestTimeout=5000
 
 

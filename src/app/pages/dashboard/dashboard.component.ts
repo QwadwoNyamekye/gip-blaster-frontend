@@ -11,7 +11,7 @@ import { environment } from "src/environments/environment.prod";
   templateUrl: "./dashboard.component.html",
   styleUrls: ["./dashboard.component.css"],
 })
-export class DashboardComponent implements OnInit, AfterViewInit {
+export class DashboardComponent implements OnInit {
   user: any;
   rows2: any;
   dashInterval;
@@ -24,17 +24,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public msg = [];
   editRecord: any;
   closeResult: string;
+  tempFiStatus: any;
 
   constructor(private modalService: NgbModal, private service: Service) {
     this.user = sessionStorage.getItem("currentUser");
-  }
-  ngAfterViewInit(): void {
-    // throw new Error("Method not implemented.");
+    this.tempFiStatus= JSON.parse(localStorage.getItem('tempFiStatus'))
   }
 
   ngOnInit() {
     console.log("test here");
-    this.service.spinnerLoad = true;
+    if(!this.tempFiStatus){
+      this.service.spinnerLoad = true;
+      this.service.spinner.show()
+    }
+    else{
+      this.temp = this.tempFiStatus
+    }
     //  this.getFIStatus();
     this.initializeWebSocketConnection();
   }
@@ -49,6 +54,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.stompClient = Stomp.over(ws);
     const that = this;
     // tslint:disable-next-line:only-arrow-functions
+    
     this.stompClient.connect({}, function (frame) {
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
@@ -68,6 +74,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         });
         //console.log(txn);
         that.temp = txn;
+        that.tempFiStatus= that.temp
+        localStorage.setItem('tempFiStatus',JSON.stringify(that.temp))
         if (message.body) {
           that.service.spinnerLoad = false;
         }

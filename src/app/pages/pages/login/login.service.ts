@@ -8,6 +8,7 @@ import { map } from "rxjs/operators";
 import { NgxSpinnerService } from "ngx-spinner";
 import swal from "sweetalert2";
 import { environment } from "src/environments/environment.prod";
+import { catchError, timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root",
@@ -33,7 +34,44 @@ export class LoginService {
     //alert(JSON.stringify(userData.username))
 
     this.http
-      .post(url, userData)
+      .post(url, userData).pipe(
+        timeout(45000),
+        catchError((error) => {
+          console.log(error)
+          if (error.name === 'TimeoutError') {
+            console.error('Request timed out:', error);
+            this.spinnerLoad=false
+            this.spinner.hide()
+            this.toastr.error("Request Timed Out. Kindly try again"
+              ,
+              "",
+              {
+                timeOut: 5000,
+                enableHtml: true,
+                closeButton: true,
+                toastClass: "alert alert-danger alert-with-icon",
+                
+              }); 
+            // Handle timeout error, for example, you can return a custom error message
+            return [];
+            
+          }
+          this.spinnerLoad=false
+          this.spinner.hide()
+          this.toastr.error("Error Occured. Kindly try again in error"
+              ,
+              "",
+              {
+                timeOut: 5000,
+                enableHtml: true,
+                closeButton: true,
+                toastClass: "alert alert-danger alert-with-icon",
+                
+              }); 
+          // Handle other errors
+          return [];
+        })
+      )
       .subscribe({
         next: (data) => {
           this.data = data;
