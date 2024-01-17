@@ -185,7 +185,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     console.log("test here");
-    this.service.spinnerLoad=true
+    this.service.spinnerLoad = true;
     //this.
     // this.getFIStatus();
     this.initializeWebSocketConnection();
@@ -216,8 +216,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         txn = txn.sort((a) => {
           if (a.status == "OFFLINE") {
             return -1;
-          }
-          if (a.status == "WARNING") {
+          } else if (a.status == "WARNING") {
             return 0;
           } else if (a.status == "ONLINE") {
             return 1;

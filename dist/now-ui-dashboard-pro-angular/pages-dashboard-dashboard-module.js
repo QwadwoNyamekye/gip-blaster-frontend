@@ -7031,7 +7031,7 @@ var DashboardComponent = /** @class */ (function () {
                     if (a.status == "OFFLINE") {
                         return -1;
                     }
-                    if (a.status == "WARNING") {
+                    else if (a.status == "WARNING") {
                         return 0;
                     }
                     else if (a.status == "ONLINE") {
