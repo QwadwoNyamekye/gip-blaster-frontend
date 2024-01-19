@@ -1,17 +1,21 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 <ngx-spinner *ngIf="service.spinnerLoad">
-<p style="color: white">
-   FI Status Loading ...
-</p>
+  <p style="color: white">
+    FI Status Loading ...
+  </p>
 </ngx-spinner>
 <div class="panel-header panel-header-sm"></div>
 <div class="main-content">
   <div class="row">
-
     <div class="card col-md-10 offset-md-1">
       <div class="card-body">
         <div class="dataTables_wrapper">
           <h4 style="text-align: center;">FI SERVER STATUS</h4>
+          <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
+            <mat-card style="flex: 1 1 auto;" class="badge badge-success"><h4>ONLINE: {{onlineCount}}</h4></mat-card>
+            <mat-card style="flex: 1 1 auto;" class="badge badge-warning"><h4>WARNING: {{warningCount}}</h4></mat-card>
+            <mat-card style="flex: 1 1 auto;" class="badge badge-danger"><h4>OFFLINE: {{offlineCount}}</h4></mat-card>
+          </div>
           <!-- <div class="row">
             <div class="col-md-12">
               <div class="dataTables_length" id="datatable_length">

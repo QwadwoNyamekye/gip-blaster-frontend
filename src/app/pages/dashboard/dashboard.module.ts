@@ -11,6 +11,7 @@ import { DashboardComponent } from "./dashboard.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from "ngx-spinner";
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
     FormsModule, 
     ReactiveFormsModule,
     AngularMultiSelectModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
+    MatCardModule
   ],
   declarations: [DashboardComponent],
   exports: [DashboardComponent],

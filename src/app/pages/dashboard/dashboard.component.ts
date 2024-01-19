@@ -25,6 +25,9 @@ export class DashboardComponent implements OnInit {
   editRecord: any;
   closeResult: string;
   tempFiStatus: any;
+  onlineCount: number;
+  offlineCount: number;
+  warningCount: number;
 
   constructor(private modalService: NgbModal, private service: Service) {
     this.user = sessionStorage.getItem("currentUser");
@@ -39,6 +42,9 @@ export class DashboardComponent implements OnInit {
     }
     else{
       this.temp = this.tempFiStatus
+      this.onlineCount = this.tempFiStatus.filter((row) => row.status == 'ONLINE').length
+      this.offlineCount = this.tempFiStatus.filter((row) => row.status == 'OFFLINE').length
+      this.warningCount = this.tempFiStatus.filter((row) => row.status == 'WARNING').length
     }
     //  this.getFIStatus();
     this.initializeWebSocketConnection();
@@ -72,9 +78,11 @@ export class DashboardComponent implements OnInit {
             return 1;
           }
         });
-        //console.log(txn);
         that.temp = txn;
         that.tempFiStatus= that.temp
+        that.onlineCount = that.tempFiStatus.filter((row) => row.status == 'ONLINE').length
+        that.offlineCount = that.tempFiStatus.filter((row) => row.status == 'OFFLINE').length
+        that.warningCount = that.tempFiStatus.filter((row) => row.status == 'WARNING').length
         localStorage.setItem('tempFiStatus',JSON.stringify(that.temp))
         if (message.body) {
           that.service.spinnerLoad = false;
