@@ -16,10 +16,10 @@
             <mat-card style="flex: 1 1 auto;" class="badge badge-warning"><h4>WARNING: {{warningCount}}</h4></mat-card>
             <mat-card style="flex: 1 1 auto;" class="badge badge-danger"><h4>OFFLINE: {{offlineCount}}</h4></mat-card>
           </div>
-          <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
+          <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50" 
             [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
-            <ngx-datatable-column name="ID" prop="destInstitution"></ngx-datatable-column>
-            <ngx-datatable-column name="Financial Institution" prop="destInstitutionName"></ngx-datatable-column>
+            <ngx-datatable-column  [width]="70" name="ID" prop="destInstitution"></ngx-datatable-column>
+            <ngx-datatable-column [width]="250" name="Financial Institution" prop="destInstitutionName"></ngx-datatable-column>
             <ngx-datatable-column name="Status" prop="status">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
                 let-onCheckboxChangeFn="onCheckboxChangeFn">
@@ -28,9 +28,25 @@
                 <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Last Action Code" prop="actionCode"></ngx-datatable-column>
-            <ngx-datatable-column name="Last Time Checked" prop="checkedAt"></ngx-datatable-column>
-            <ngx-datatable-column [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
+             <ngx-datatable-column  name="Last Action Code" prop="actionCode">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <div class="header-wrap">
+                  Last Action Code
+                </div>
+              </ng-template>
+              <ng-template ngx-datatable-cell-template let-value="row" >
+                <span style="text-align: center;" class="cell-wrap">{{value.actionCode}}</span>
+            </ng-template>
+            </ngx-datatable-column>
+            <!-- <ngx-datatable-column [width]="80" name="Last Action Code" prop="actionCode"></ngx-datatable-column> -->
+            <ngx-datatable-column name="Last Time Checked" prop="checkedAt">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <div class="header-wrap">
+                  Last Time Checked
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [width]="80" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false">
               <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
                 let-selectFn="selectFn">
                 Logs
