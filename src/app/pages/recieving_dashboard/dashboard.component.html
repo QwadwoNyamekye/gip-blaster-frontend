@@ -10,7 +10,9 @@
     <div class="card col-md-10 offset-md-1">
       <div class="card-body">
         <div class="dataTables_wrapper">
-          <h4 style="text-align: center;">FI SERVER STATUS</h4>
+          <button class="btn btn-round btn-secondary btn-lg">NEC</button>
+          <button class="btn btn-round btn-secondary btn-lg">FTC</button>
+          <h4 style="text-align: center;">{{cardTitle}}</h4>
           <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
             <mat-card style="flex: 1 1 auto;" class="badge badge-success">
               <h4>ONLINE: {{onlineCount}}</h4>
@@ -22,23 +24,84 @@
               <h4>OFFLINE: {{offlineCount}}</h4>
             </mat-card>
           </div>
+          <!-- <div class="row">
+            <div class="card col-md-6">
+              <h5 class="card-header"style="text-align: center;" >NEC STATUS</h5>
+              <div class="row">
+                <span class="col col-md-4">
+                  <mat-card class="badge badge-success">
+                    <h4>ONLINE: {{onlineCount}}</h4>
+                  </mat-card>
+                </span>
+                <span class="col col-md-4">
+                  <mat-card class="badge badge-warning">
+                    <h4>WARNING: {{warningCount}}</h4>
+                  </mat-card>
+                </span>
+                <span class="col col-md-4">
+                  <mat-card class="badge badge-danger">
+                    <h4>OFFLINE: {{offlineCount}}</h4>
+                  </mat-card>
+                </span>
+              </div>
+            </div>
+
+            <div class="card col-md-6">
+              <h5 class="card-header" style="text-align: center;">FTC STATUS</h5>
+              <div class="row">
+                <span class="col col-md-4">
+                  <mat-card class="badge badge-success">
+                    <h4>ONLINE: {{onlineCount}}</h4>
+                  </mat-card>
+                </span>
+                <span class="col col-md-4">
+                  <mat-card class="badge badge-warning">
+                    <h4>WARNING: {{warningCount}}</h4>
+                  </mat-card>
+                </span>
+                <span class="col col-md-4">
+                  <mat-card class="badge badge-danger">
+                    <h4>OFFLINE: {{offlineCount}}</h4>
+                  </mat-card>
+                </span>
+              </div>
+            </div>
+          </div> -->
           <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
             [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
             <ngx-datatable-column [width]="70" name="ID" prop="destInstitution"></ngx-datatable-column>
             <ngx-datatable-column [width]="250" name="Financial Institution"
               prop="destInstitutionName"></ngx-datatable-column>
-            <ngx-datatable-column name="Status" prop="status">
+            <ngx-datatable-column name="NEC Status" prop="status">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
                 let-onCheckboxChangeFn="onCheckboxChangeFn">
-                <span class="badge badge-warning" *ngIf="value.status=='WARNING'">Warning</span>
-                <span class="badge badge-success" *ngIf="value.status=='ONLINE'">Online</span>
-                <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
+                <span class="badge badge-warning" *ngIf="value.necStatus=='WARNING'">Warning</span>
+                <span class="badge badge-success" *ngIf="value.necStatus=='ONLINE'">Online</span>
+                <span class="badge badge-danger" *ngIf="value.necStatus=='OFFLINE'">Offline</span>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Last Action Code" prop="actionCode">
+            <ngx-datatable-column name="Last NEC Action Code" prop="actionCode">
               <ng-template let-column="column" ngx-datatable-header-template>
                 <div class="header-wrap">
-                  Last Action Code
+                  Last NEC Action Code
+                </div>
+              </ng-template>
+              <ng-template ngx-datatable-cell-template let-value="row">
+                <span style="text-align: center;" class="cell-wrap">{{value.actionCode}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="FTC Status" prop="status">
+              <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
+                let-onCheckboxChangeFn="onCheckboxChangeFn">
+                <span class="badge badge-warning" *ngIf="value.ftcStatus=='WARNING'">Warning</span>
+                <span class="badge badge-success" *ngIf="value.ftcStatus=='ONLINE'">Online</span>
+                <span class="badge badge-danger" *ngIf="value.ftcStatus=='OFFLINE'">Offline</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Last FTC Action Code" prop="actionCode">
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <div class="header-wrap">
+                  Last FTC Action Code
                 </div>
               </ng-template>
               <ng-template ngx-datatable-cell-template let-value="row">

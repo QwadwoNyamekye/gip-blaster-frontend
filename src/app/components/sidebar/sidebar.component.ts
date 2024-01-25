@@ -29,6 +29,12 @@ export interface ChildrenItems {
 //Menu Items
 
 export const AdminROUTES:RouteInfo[]=[
+  {
+   path: "/recieving_dashboard",
+   title: "RecievingDashboard",
+   type: "link",
+   icontype: "design_app"
+ },
    {
     path: "/dashboard",
     title: "Dashboard",

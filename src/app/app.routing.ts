@@ -23,6 +23,12 @@ export const AppRoutes: Routes = [
       },
       {
         path: "",
+        loadChildren: "./pages/recieving_dashboard/dashboard.module#RecievingDashboardModule",
+        //canActivate : [AuthGuard]
+
+      },
+      {
+        path: "",
         loadChildren: "./pages/users/users.module#UsersModule",
         canActivate : [AuthGuard]
       }
