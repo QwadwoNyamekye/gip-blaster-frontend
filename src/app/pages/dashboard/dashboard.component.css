@@ -3,13 +3,6 @@ a {
     text-decoration: none;
 }
 
-.ngx-datatable * {
-    text-align: center;
-}
-
-.cell-wrap {
-    text-align: center;
-}
 
 .header-wrap {
     white-space: normal !important;

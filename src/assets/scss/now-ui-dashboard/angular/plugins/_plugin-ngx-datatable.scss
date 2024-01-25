@@ -3,6 +3,7 @@ ngx-datatable{
   &.ngx-datatable.bootstrap .datatable-body .datatable-body-row .datatable-body-cell{
     margin: auto;
     padding: 7px 5px;
+    text-align: center;
   }
   &.ngx-datatable.bootstrap .datatable-footer{
     background: $white-color;
@@ -63,7 +64,7 @@ ngx-datatable{
   &.ngx-datatable .datatable-header .datatable-header-cell{
     font-size: 1.45em;
     font-weight: 300;
-
+    text-align: center;
     .sort-btn:after{
       opacity: 0.4;
       content: "\f0dc";
