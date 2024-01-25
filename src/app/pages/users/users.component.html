@@ -99,7 +99,7 @@
               <ngx-datatable-column name="Date/Time" prop="requestTimestamp"></ngx-datatable-column>
               <!-- <ngx-datatable-column name="Sender FI" prop="srcInstitution"></ngx-datatable-column> -->
               <ngx-datatable-column name="Receiver FI" prop="destInstitution"></ngx-datatable-column>
-              <ngx-datatable-column name="Receiver Account" prop="destAccountNumber">
+              <ngx-datatable-column [width]="180" name="Receiver Account" prop="destAccountNumber">
                 <ng-template let-column="column" ngx-datatable-header-template>
                   <div class="header-wrap">
                     Receiver(Destination) Account/Wallet #
