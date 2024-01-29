@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  AfterViewInit,
+  ElementRef,
+} from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import * as Chartist from "chartist";
 import { Service } from "./dashboard.service";
@@ -28,26 +34,36 @@ export class DashboardComponent implements OnInit {
   onlineCount: number;
   offlineCount: number;
   warningCount: number;
+  allCount: number;
+  status: string;
 
   constructor(private modalService: NgbModal, private service: Service) {
     this.user = sessionStorage.getItem("currentUser");
-    this.tempFiStatus= JSON.parse(localStorage.getItem('tempFiStatus'))
+    this.tempFiStatus = JSON.parse(localStorage.getItem("tempFiStatus"));
   }
 
   ngOnInit() {
     console.log("test here");
-    if(!this.tempFiStatus){
+    document.getElementById("offline").focus();
+    if (!this.tempFiStatus) {
       this.service.spinnerLoad = true;
-      this.service.spinner.show()
-    }
-    else{
-      this.temp = this.tempFiStatus
-      this.onlineCount = this.tempFiStatus.filter((row) => row.status == 'ONLINE').length
-      this.offlineCount = this.tempFiStatus.filter((row) => row.status == 'OFFLINE').length
-      this.warningCount = this.tempFiStatus.filter((row) => row.status == 'WARNING').length
+      this.service.spinner.show();
+    } else {
+      this.temp = this.tempFiStatus;
+      this.onlineCount = this.tempFiStatus.filter(
+        (row) => row.status == "ONLINE"
+      ).length;
+      this.offlineCount = this.tempFiStatus.filter(
+        (row) => row.status == "OFFLINE"
+      ).length;
+      this.warningCount = this.tempFiStatus.filter(
+        (row) => row.status == "WARNING"
+      ).length;
+      this.allCount = this.tempFiStatus.length;
     }
     //  this.getFIStatus();
     this.initializeWebSocketConnection();
+    this.filterTable("offline");
   }
 
   ngOnDestroy() {
@@ -60,7 +76,7 @@ export class DashboardComponent implements OnInit {
     this.stompClient = Stomp.over(ws);
     const that = this;
     // tslint:disable-next-line:only-arrow-functions
-    
+
     this.stompClient.connect({}, function (frame) {
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
@@ -79,14 +95,23 @@ export class DashboardComponent implements OnInit {
           }
         });
         that.temp = txn;
-        that.tempFiStatus= that.temp
-        that.onlineCount = that.tempFiStatus.filter((row) => row.status == 'ONLINE').length
-        that.offlineCount = that.tempFiStatus.filter((row) => row.status == 'OFFLINE').length
-        that.warningCount = that.tempFiStatus.filter((row) => row.status == 'WARNING').length
-        localStorage.setItem('tempFiStatus',JSON.stringify(that.temp))
+        that.tempFiStatus = that.temp;
+        that.onlineCount = that.tempFiStatus.filter(
+          (row) => row.status == "ONLINE"
+        ).length;
+        that.offlineCount = that.tempFiStatus.filter(
+          (row) => row.status == "OFFLINE"
+        ).length;
+        that.warningCount = that.tempFiStatus.filter(
+          (row) => row.status == "WARNING"
+        ).length;
+        that.allCount = that.tempFiStatus.length;
+        localStorage.setItem("tempFiStatus", JSON.stringify(that.temp));
         if (message.body) {
           that.service.spinnerLoad = false;
         }
+        console.log("Filtering status");
+        that.filterTable(that.status);
       });
     });
   }
@@ -113,22 +138,35 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  // getFIStatus(){
-  //   let custom_order = {
-  //     'OFFLINE':-1,
-  //     'WARNING':0,
-  //     'ONLINE':1
-  //   }
-  //   this.temp = this.temp.sort((a,b) => {
+  filterTable(status) {
+    let val = status.toLowerCase();
+    this.status = status;
+    if (val == "all") {
+      this.temp = this.tempFiStatus;
+      return true;
+    }
+    this.temp = this.tempFiStatus.filter(function (d) {
+      for (var key in d) {
+        d[key] = d[key] ? d[key] : "";
+        if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
+          return true;
+        }
+      }
+      return false;
+    });
+  }
 
-  //     if (custom_order[a.status] < custom_order[b.status] ) {
-  //       return -1;
-  //     } else if (custom_order[a.status] > custom_order[b.status]) {
-  //       return 0;
-  //     } else if (custom_order[a.status] == custom_order[b.status]) {
-  //       return 1;
-  //     }
-  //   });
-  //   //JSON.parse(payload)
-  // }
+  onButtonGroupClick($event, type: boolean) {
+    let clickedElement = $event.target || $event.srcElement;
+    console.log($event.target);
+    if (clickedElement.nodeName === "BUTTON") {
+      let isCertainButtonAlreadyActive =
+        clickedElement.parentElement.querySelector(".active");
+      // if a Button already has Class: .active
+      if (isCertainButtonAlreadyActive) {
+        isCertainButtonAlreadyActive.classList.remove("active");
+      }
+      clickedElement.className += " active";
+    }
+  }
 }

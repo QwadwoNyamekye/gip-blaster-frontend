@@ -14,4 +14,13 @@ a {
 .header-wrap {
     white-space: normal !important;
     word-wrap: break-word !important;
-  }
+}
+
+button {
+    margin-right: 1vw;
+    background: #43536d;
+    color: white;
+    font-size: 15px;
+    height: auto;
+    width: 200px;
+}

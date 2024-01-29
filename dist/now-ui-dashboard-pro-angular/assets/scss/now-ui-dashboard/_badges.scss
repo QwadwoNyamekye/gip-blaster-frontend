@@ -32,6 +32,9 @@
 .badge-info {
   @include badge-color($info-color);
 }
+.badge-ghipss {
+  @include badge-color($boa-color);
+}
 .badge-success {
   @include badge-color($success2-color);
 }
