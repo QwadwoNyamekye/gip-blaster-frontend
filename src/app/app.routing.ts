@@ -23,7 +23,7 @@ export const AppRoutes: Routes = [
       },
       {
         path: "",
-        loadChildren: "./pages/recieving_dashboard/dashboard.module#RecievingDashboardModule",
+        loadChildren: "./pages/receiving_dashboard/dashboard.module#ReceivingDashboardModule",
         //canActivate : [AuthGuard]
 
       },

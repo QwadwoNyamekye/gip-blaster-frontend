@@ -31,13 +31,13 @@ export interface ChildrenItems {
 export const AdminROUTES:RouteInfo[]=[
    {
     path: "/dashboard",
-    title: "Sending Dashboard",
+    title: "Receiving Dashboard",
     type: "link",
     icontype: "design_app"
   },
   {
-   path: "/recieving_dashboard",
-   title: "Recieving Dashboard",
+   path: "/receiving_dashboard",
+   title: "Sending Dashboard",
    type: "link",
    icontype: "design_app"
  },

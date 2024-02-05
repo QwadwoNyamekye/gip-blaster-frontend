@@ -36,4 +36,4 @@ import {MatCardModule} from '@angular/material/card';
   exports: [DashboardComponent],
   providers :[AuthGuard]
 })
-export class RecievingDashboardModule {}
+export class ReceivingDashboardModule {}

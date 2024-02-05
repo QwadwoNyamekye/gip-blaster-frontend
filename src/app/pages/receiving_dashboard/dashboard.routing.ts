@@ -13,7 +13,7 @@ export const DashboardRoutes: Routes = [
         //canActivate: [AuthGuard]
       },
       {
-        path: "recieving_dashboard",
+        path: "receiving_dashboard",
         component: DashboardComponent,
         //canActivate: [AuthGuard]
       }

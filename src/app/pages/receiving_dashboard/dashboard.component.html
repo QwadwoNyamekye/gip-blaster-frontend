@@ -10,8 +10,10 @@
     <div class="card col-md-10 offset-md-1">
       <div class="card-body">
         <div class="dataTables_wrapper">
-          <button class="alter btn btn-round btn-secondary btn-lg active" value="nec" (click)="onButtonGroupClick($event, true)">NEC</button>
-          <button class="alter btn btn-round btn-secondary btn-lg" value="ftc" (click)="onButtonGroupClick($event, false)">FTC</button>
+          <button class="alter btn btn-round btn-secondary btn-lg active" value="nec"
+            (click)="onButtonGroupClick($event, true)">NEC</button>
+          <button class="alter btn btn-round btn-secondary btn-lg" value="ftc"
+            (click)="onButtonGroupClick($event, false)">FTC</button>
           <h4 style="text-align: center;">{{cardTitle}}</h4>
 
           <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
@@ -25,14 +27,13 @@
               <h5>WARNING: {{warningCount}}</h5>
             </button>
             <button class="tabs badge-danger" (click)="filterTable('offline')" id="offline">
-              <h5 >OFFLINE: {{offlineCount}}</h5>
+              <h5>OFFLINE: {{offlineCount}}</h5>
             </button>
           </div>
           <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
             [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
             <ngx-datatable-column [width]="70" name="ID" prop="bankCode"></ngx-datatable-column>
-            <ngx-datatable-column [width]="250" name="Financial Institution"
-              prop="bankName"></ngx-datatable-column>
+            <ngx-datatable-column [width]="250" name="Financial Institution" prop="bankName"></ngx-datatable-column>
             <ngx-datatable-column name="Status" prop="status">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
                 let-onCheckboxChangeFn="onCheckboxChangeFn">
@@ -54,9 +55,11 @@
             <!-- <ngx-datatable-column [width]="80" name="Last Action Code" prop="actionCode"></ngx-datatable-column> -->
             <ngx-datatable-column name="Last Entry" prop="lastEntryDuration">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
-              let-onCheckboxChangeFn="onCheckboxChangeFn">
-              <span>{{ formatDate(value.lastEntryDuration) }}</span>
-            </ng-template>
+                let-onCheckboxChangeFn="onCheckboxChangeFn">
+                <b>{{ formatDateHours(value.lastEntryDuration) }}</b> H
+                <b>{{ formatDateMinutes(value.lastEntryDuration) }}</b> M
+                <b>{{ formatDateSeconds(value.lastEntryDuration) }}</b> S AGO
+              </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
         </div>

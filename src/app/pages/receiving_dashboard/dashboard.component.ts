@@ -39,8 +39,8 @@ export class DashboardComponent implements OnInit {
     this.user = sessionStorage.getItem("currentUser");
     this.tempNECStatus = JSON.parse(localStorage.getItem("tempNECStatus"));
     this.tempFTCStatus = JSON.parse(localStorage.getItem("tempFTCStatus"));
-    // this.recievedNECData = this.service.getRecievingStatus("nec");
-    // this.recievedFTCData = this.service.getRecievingStatus("ftc");
+    // this.recievedNECData = this.service.getReceivingStatus("nec");
+    // this.recievedFTCData = this.service.getReceivingStatus("ftc");
   }
 
   ngOnInit() {
@@ -78,7 +78,6 @@ export class DashboardComponent implements OnInit {
       //NEC SUBSCRIPTION//
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
-        alert(JSON.stringify(message));
         let keys = {
           OFFLINE: -1,
           WARNING: 0,
@@ -241,16 +240,20 @@ export class DashboardComponent implements OnInit {
       });
     }
   }
+  padZero(i) {
+    return (i < 10) ? "0" + i : i;
+  }
+  formatDateHours(seconds){
+    return this.padZero(new Date(seconds * 1000).getHours())
+  }
 
-  formatDate(seconds){
-      function checkTime(i) {
-          return (i < 10) ? "0" + i : i;
-      }
-      var today = new Date(seconds * 1000),
-          h = checkTime(today.getHours()),
-          m = checkTime(today.getMinutes()),
-          s = checkTime(today.getSeconds()),
-      result = h + " H " + m + " M " + s + " S AGO";
-    return result
+  formatDateMinutes(seconds){
+    return this.padZero(new Date(seconds * 1000).getMinutes())
+
+  }
+
+  formatDateSeconds(seconds){
+    return this.padZero(new Date(seconds * 1000).getSeconds())
+
   }
 }
