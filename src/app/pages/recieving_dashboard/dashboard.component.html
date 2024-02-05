@@ -30,9 +30,9 @@
           </div>
           <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
             [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
-            <ngx-datatable-column [width]="70" name="ID" prop="destInstitution"></ngx-datatable-column>
+            <ngx-datatable-column [width]="70" name="ID" prop="bankCode"></ngx-datatable-column>
             <ngx-datatable-column [width]="250" name="Financial Institution"
-              prop="destInstitutionName"></ngx-datatable-column>
+              prop="bankName"></ngx-datatable-column>
             <ngx-datatable-column name="Status" prop="status">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
                 let-onCheckboxChangeFn="onCheckboxChangeFn">
@@ -41,7 +41,7 @@
                 <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
               </ng-template>
             </ngx-datatable-column>
-            <ngx-datatable-column name="Last Action Code" prop="actionCode">
+            <ngx-datatable-column name="Last Entry Time" prop="lastEntryTime">
               <!-- <ng-template let-column="column" ngx-datatable-header-template>
                 <div class="header-wrap">
                   Last Action Code
@@ -52,25 +52,11 @@
             </ng-template> -->
             </ngx-datatable-column>
             <!-- <ngx-datatable-column [width]="80" name="Last Action Code" prop="actionCode"></ngx-datatable-column> -->
-            <ngx-datatable-column name="Last Time Checked" prop="checkedAt">
-              <ng-template let-column="column" ngx-datatable-header-template>
-                <div class="header-wrap">
-                  Last Time Checked
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [width]="80" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-              [resizeable]="false">
-              <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                let-selectFn="selectFn">
-                Logs
-              </ng-template>
+            <ngx-datatable-column name="Last Entry Checked" prop="lastEntryDuration">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
-                let-onCheckboxChangeFn="onCheckboxChangeFn">
-                <a (click)="openEdit(editclassic, 'lg', '', value)"
-                  class="btn btn-round btn-info btn-icon btn-sm like"><i aria-label="View more"
-                    class="fas fa-solid fa-info"></i></a>
-              </ng-template>
+              let-onCheckboxChangeFn="onCheckboxChangeFn">
+              <span>{{ value | date:'H:mm:ss':'UTC'}}</span>
+            </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
         </div>
