@@ -24,10 +24,10 @@ export class DashboardComponent implements OnInit {
   public msg = [];
   editRecord: any;
   closeResult: string;
-  onlineCount: number;
-  offlineCount: number;
-  warningCount: number;
-  allCount: number;
+  onlineCount: number = 0;
+  offlineCount: number = 0;
+  warningCount: number = 0;
+  allCount: number = 0;
   cardTitle: string;
   recievedNECData: any;
   recievedFTCData: any;
