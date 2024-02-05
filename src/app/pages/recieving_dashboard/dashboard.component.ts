@@ -61,7 +61,6 @@ export class DashboardComponent implements OnInit {
     }
     //  this.getFIStatus();
     this.initializeNECWebSocketConnection();
-    //this.initializeFTCWebSocketConnection();
   }
 
   ngOnDestroy() {
@@ -79,6 +78,7 @@ export class DashboardComponent implements OnInit {
       //NEC SUBSCRIPTION//
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
+        alert(JSON.stringify(message));
         let keys = {
           OFFLINE: -1,
           WARNING: 0,
@@ -150,47 +150,6 @@ export class DashboardComponent implements OnInit {
 
   }
 
-  initializeFTCWebSocketConnection() {
-    const serverUrl = environment.receivingUrl + "/last_txn";
-    const ws = new SockJS(serverUrl);
-    this.stompClient = Stomp.over(ws);
-    const that = this;
-    // tslint:disable-next-line:only-arrow-functions
-    this.stompClient.connect({}, function (frame) {
-      that.stompClient.subscribe("/realtime/ftc", (message) => {
-        let txn = JSON.parse(message.body);
-        let keys = {
-          OFFLINE: -1,
-          WARNING: 0,
-          ONLINE: 1,
-        };
-        txn = txn.sort((a, b) => {
-          if (keys[a.status] < keys[b.status]) {
-            return -1;
-          } else if (keys[a.status] > keys[b.status]) {
-            return 0;
-          } else if (keys[a.status] == keys[b.status]) {
-            return 1;
-          }
-        });
-        that.temp = txn;
-        that.tempFTCStatus = that.temp;
-        that.onlineCount = that.tempFTCStatus.filter(
-          (row) => row.status == "ONLINE"
-        ).length;
-        that.offlineCount = that.tempFTCStatus.filter(
-          (row) => row.status == "OFFLINE"
-        ).length;
-        that.warningCount = that.tempFTCStatus.filter(
-          (row) => row.status == "WARNING"
-        ).length;
-        localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
-        if (message.body) {
-          that.service.spinnerLoad = false;
-        }
-      });
-    });
-  }
 
   getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -281,5 +240,17 @@ export class DashboardComponent implements OnInit {
         return false;
       });
     }
+  }
+
+  formatDate(seconds){
+      function checkTime(i) {
+          return (i < 10) ? "0" + i : i;
+      }
+      var today = new Date(seconds * 1000),
+          h = checkTime(today.getHours()),
+          m = checkTime(today.getMinutes()),
+          s = checkTime(today.getSeconds()),
+      result = h + " H " + m + " M " + s + " S AGO";
+    return result
   }
 }

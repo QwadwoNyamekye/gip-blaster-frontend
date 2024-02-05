@@ -1,9 +1,9 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<ngx-spinner *ngIf="service.spinnerLoad">
+<!-- <ngx-spinner *ngIf="service.spinnerLoad">
   <p style="color: white">
     FI Status Loading ...
   </p>
-</ngx-spinner>
+</ngx-spinner> -->
 <div class="panel-header panel-header-sm"></div>
 <div class="main-content">
   <div class="row">
@@ -52,10 +52,10 @@
             </ng-template> -->
             </ngx-datatable-column>
             <!-- <ngx-datatable-column [width]="80" name="Last Action Code" prop="actionCode"></ngx-datatable-column> -->
-            <ngx-datatable-column name="Last Entry Checked" prop="lastEntryDuration">
+            <ngx-datatable-column name="Last Entry" prop="lastEntryDuration">
               <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
               let-onCheckboxChangeFn="onCheckboxChangeFn">
-              <span>{{ value.lastEntryDuration | date:'HH:mm:ss':'UTC'}}</span>
+              <span>{{ formatDate(value.lastEntryDuration) }}</span>
             </ng-template>
             </ngx-datatable-column>
           </ngx-datatable>
