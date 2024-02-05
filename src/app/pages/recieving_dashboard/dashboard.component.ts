@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+
     console.log("test here");
     if (!this.tempNECStatus) {
       this.cardTitle = "NEC SERVER STATUS"
@@ -73,7 +73,7 @@ export class DashboardComponent implements OnInit {
     this.stompClient = Stomp.over(ws);
     const that = this;
 
-    
+
     this.stompClient.connect({}, function (frame) {
       //NEC SUBSCRIPTION//
       that.stompClient.subscribe("/realtime/nec", (message) => {
@@ -175,7 +175,7 @@ export class DashboardComponent implements OnInit {
 
   onButtonGroupClick($event, type: boolean) {
     let clickedElement = $event.target || $event.srcElement;
-    
+
     if (clickedElement.nodeName === "BUTTON") {
       let isCertainButtonAlreadyActive =
         clickedElement.parentElement.querySelector(".active");
@@ -189,67 +189,72 @@ export class DashboardComponent implements OnInit {
         console.log(this.temp)
         this.temp = this.temp ? this.temp : []
         this.cardTitle = "NEC SERVER STATUS";
-      } else  {
+      } else {
         this.temp = this.tempFTCStatus;
         this.cardTitle = "FTC SERVER STATUS";
       }
 
       this.allCount = this.temp.length;
       this.onlineCount = this.temp.filter(
-          (row) => row.status == "ONLINE"
-        ).length;
-        this.offlineCount = this.temp.filter(
-          (row) => row.status == "OFFLINE"
-        ).length;
-        this.warningCount = this.temp.filter(
-          (row) => row.status == "WARNING"
-        ).length;
+        (row) => row.status == "ONLINE"
+      ).length;
+      this.offlineCount = this.temp.filter(
+        (row) => row.status == "OFFLINE"
+      ).length;
+      this.warningCount = this.temp.filter(
+        (row) => row.status == "WARNING"
+      ).length;
     }
   }
 
   filterTable(status) {
     let val = status.toLowerCase();
     this.status = status;
-   
+
     if (this.cardTitle == "NEC SERVER STATUS") {
       if (val == "all") {
         this.temp = this.tempNECStatus;
         return true;
       }
-      this.temp = this.tempNECStatus.filter(function (d) {
-        for (var key in d) {
-          d[key] = d[key] ? d[key] : "";
-          if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
-            return true;
+
+      if (this.temp) {
+        this.temp = this.tempNECStatus.filter(function (d) {
+          for (var key in d) {
+            d[key] = d[key] ? d[key] : "";
+            if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
+              return true;
+            }
           }
-        }
-        return false;
-      });
+          return false;
+        });
+      }
     } else {
       if (val == "all") {
         this.temp = this.tempFTCStatus;
         return true;
       }
-      this.temp = this.tempFTCStatus.filter(function (d) {
-        for (var key in d) {
-          d[key] = d[key] ? d[key] : "";
-          if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
-            return true;
+      if (this.temp) {
+        this.temp = this.tempFTCStatus.filter(function (d) {
+          for (var key in d) {
+            d[key] = d[key] ? d[key] : "";
+            if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
+              return true;
+            }
           }
-        }
-        return false;
-      });
+          return false;
+        });
+      }
     }
   }
 
-  formatDate(seconds){
-      function checkTime(i) {
-          return (i < 10) ? "0" + i : i;
-      }
-      var today = new Date(seconds * 1000),
-          h = checkTime(today.getHours()),
-          m = checkTime(today.getMinutes()),
-          s = checkTime(today.getSeconds()),
+  formatDate(seconds) {
+    function checkTime(i) {
+      return (i < 10) ? "0" + i : i;
+    }
+    var today = new Date(seconds * 1000),
+      h = checkTime(today.getHours()),
+      m = checkTime(today.getMinutes()),
+      s = checkTime(today.getSeconds()),
       result = h + " H " + m + " M " + s + " S AGO";
     return result
   }
