@@ -126,21 +126,21 @@ export class DashboardComponent implements OnInit {
             return 1;
           }
         });
-        that.temp = txn;
-        that.tempFTCStatus = that.temp;
-        that.onlineCount = that.tempFTCStatus.filter(
-          (row) => row.status == "ONLINE"
-        ).length;
-        that.offlineCount = that.tempFTCStatus.filter(
-          (row) => row.status == "OFFLINE"
-        ).length;
-        that.warningCount = that.tempFTCStatus.filter(
-          (row) => row.status == "WARNING"
-        ).length;
-        localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
-        if (message.body) {
-          that.service.spinnerLoad = false;
-        }
+        //that.temp = txn;
+        that.tempFTCStatus = txn;
+        // that.onlineCount = that.tempFTCStatus.filter(
+        //   (row) => row.status == "ONLINE"
+        // ).length;
+        // that.offlineCount = that.tempFTCStatus.filter(
+        //   (row) => row.status == "OFFLINE"
+        // ).length;
+        // that.warningCount = that.tempFTCStatus.filter(
+        //   (row) => row.status == "WARNING"
+        // ).length;
+        // localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
+        // if (message.body) {
+        //   that.service.spinnerLoad = false;
+        // }
       });
     });
   }
