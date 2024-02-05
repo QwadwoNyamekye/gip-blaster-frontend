@@ -24,17 +24,16 @@ export class DashboardComponent implements OnInit {
   public msg = [];
   editRecord: any;
   closeResult: string;
-  onlineNECCount: number;
-  offlineNECCount: number;
-  warningNECCount: number;
-  onlineFTCCount: number;
-  offlineFTCCount: number;
-  warningFTCCount: number;
+  onlineCount: number;
+  offlineCount: number;
+  warningCount: number;
+  allCount: number;
   cardTitle: string;
   recievedNECData: any;
   recievedFTCData: any;
   tempNECStatus: any;
   tempFTCStatus: any;
+  status: any;
 
   constructor(private modalService: NgbModal, private service: Service) {
     this.user = sessionStorage.getItem("currentUser");
@@ -51,16 +50,17 @@ export class DashboardComponent implements OnInit {
       this.service.spinnerLoad = true;
       this.service.spinner.show()
     }
-    else{
+    else {
       this.temp = this.tempNECStatus
       this.cardTitle = "NEC SERVER STATUS"
-      this.onlineNECCount = this.tempNECStatus.filter((row) => row.status == 'ONLINE').length
-      this.offlineNECCount = this.tempNECStatus.filter((row) => row.status == 'OFFLINE').length
-      this.warningNECCount = this.tempNECStatus.filter((row) => row.status == 'WARNING').length
+      this.allCount = this.tempNECStatus.length
+      this.onlineCount = this.tempNECStatus.filter((row) => row.status == 'ONLINE').length
+      this.offlineCount = this.tempNECStatus.filter((row) => row.status == 'OFFLINE').length
+      this.warningCount = this.tempNECStatus.filter((row) => row.status == 'WARNING').length
     }
     //  this.getFIStatus();
     this.initializeNECWebSocketConnection();
-    this.initializeFTCWebSocketConnection();
+    //this.initializeFTCWebSocketConnection();
   }
 
   ngOnDestroy() {
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
   }
 
   initializeNECWebSocketConnection() {
-    const serverUrl = environment.adminUrl + "/blaster";
+    const serverUrl = environment.receivingUrl + "/last_txn";
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
@@ -92,13 +92,14 @@ export class DashboardComponent implements OnInit {
         });
         that.temp = txn;
         that.tempNECStatus = that.temp;
-        that.onlineNECCount = that.tempNECStatus.filter(
+        that.allCount = that.tempNECStatus.length;
+        that.onlineCount = this.tempFiStatus.filter(
           (row) => row.status == "ONLINE"
         ).length;
-        that.offlineNECCount = that.tempNECStatus.filter(
+        that.offlineCount = this.tempFiStatus.filter(
           (row) => row.status == "OFFLINE"
         ).length;
-        that.warningNECCount = that.tempNECStatus.filter(
+        that.warningCount = this.tempFiStatus.filter(
           (row) => row.status == "WARNING"
         ).length;
         localStorage.setItem("tempNECStatus", JSON.stringify(that.temp));
@@ -107,15 +108,9 @@ export class DashboardComponent implements OnInit {
         }
       });
     });
-  }
-  initializeFTCWebSocketConnection() {
-    const serverUrl = environment.adminUrl + "/blaster";
-    const ws = new SockJS(serverUrl);
-    this.stompClient = Stomp.over(ws);
-    const that = this;
-    // tslint:disable-next-line:only-arrow-functions
+
     this.stompClient.connect({}, function (frame) {
-      that.stompClient.subscribe("/realtime/nec", (message) => {
+      that.stompClient.subscribe("/realtime/ftc", (message) => {
         let txn = JSON.parse(message.body);
         let keys = {
           OFFLINE: -1,
@@ -133,13 +128,54 @@ export class DashboardComponent implements OnInit {
         });
         that.temp = txn;
         that.tempFTCStatus = that.temp;
-        that.onlineFTCCount = that.tempFTCStatus.filter(
+        that.onlineCount = that.tempFTCStatus.filter(
           (row) => row.status == "ONLINE"
         ).length;
-        that.offlineFTCCount = that.tempFTCStatus.filter(
+        that.offlineCount = that.tempFTCStatus.filter(
           (row) => row.status == "OFFLINE"
         ).length;
-        that.warningFTCCount = that.tempFTCStatus.filter(
+        that.warningCount = that.tempFTCStatus.filter(
+          (row) => row.status == "WARNING"
+        ).length;
+        localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
+        if (message.body) {
+          that.service.spinnerLoad = false;
+        }
+      });
+    });
+  }
+  initializeFTCWebSocketConnection() {
+    const serverUrl = environment.receivingUrl + "/last_txn";
+    const ws = new SockJS(serverUrl);
+    this.stompClient = Stomp.over(ws);
+    const that = this;
+    // tslint:disable-next-line:only-arrow-functions
+    this.stompClient.connect({}, function (frame) {
+      that.stompClient.subscribe("/realtime/ftc", (message) => {
+        let txn = JSON.parse(message.body);
+        let keys = {
+          OFFLINE: -1,
+          WARNING: 0,
+          ONLINE: 1,
+        };
+        txn = txn.sort((a, b) => {
+          if (keys[a.status] < keys[b.status]) {
+            return -1;
+          } else if (keys[a.status] > keys[b.status]) {
+            return 0;
+          } else if (keys[a.status] == keys[b.status]) {
+            return 1;
+          }
+        });
+        that.temp = txn;
+        that.tempFTCStatus = that.temp;
+        that.onlineCount = that.tempFTCStatus.filter(
+          (row) => row.status == "ONLINE"
+        ).length;
+        that.offlineCount = that.tempFTCStatus.filter(
+          (row) => row.status == "OFFLINE"
+        ).length;
+        that.warningCount = that.tempFTCStatus.filter(
           (row) => row.status == "WARNING"
         ).length;
         localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
@@ -190,6 +226,40 @@ export class DashboardComponent implements OnInit {
         this.temp = this.tempFTCStatus;
         this.cardTitle = "FTC SERVER STATUS";
       }
+    }
+  }
+
+  filterTable(status) {
+    let val = status.toLowerCase();
+    this.status = status;
+    if (this.cardTitle = "NEC SERVER STATUS") {
+      if (val == "all") {
+        this.temp = this.tempNECStatus;
+        return true;
+      }
+      this.temp = this.tempNECStatus.filter(function (d) {
+        for (var key in d) {
+          d[key] = d[key] ? d[key] : "";
+          if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
+            return true;
+          }
+        }
+        return false;
+      });
+    } else {
+      if (val == "all") {
+        this.temp = this.tempFTCStatus;
+        return true;
+      }
+      this.temp = this.tempFTCStatus.filter(function (d) {
+        for (var key in d) {
+          d[key] = d[key] ? d[key] : "";
+          if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
+            return true;
+          }
+        }
+        return false;
+      });
     }
   }
 }

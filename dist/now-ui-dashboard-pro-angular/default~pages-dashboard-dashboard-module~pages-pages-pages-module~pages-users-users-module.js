@@ -389,7 +389,7 @@ var host = '172.27.10.230';
 var environment = {
     //$P{auth_status}.equals("2") ? "Approved" : "Declined" By :
     production: true,
-    adminUrl: 'http://' + host + ':8003'
+    sendingUrl: 'http://' + host + ':8003'
 };
 
 

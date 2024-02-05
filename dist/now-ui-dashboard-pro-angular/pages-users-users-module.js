@@ -3597,7 +3597,7 @@ var Service = /** @class */ (function () {
         this.router = router;
         this.spinnerLoad = false;
         this.spinnerMsg = "Please Wait.";
-        this.root_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_7__["environment"].adminUrl;
+        this.root_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_7__["environment"].sendingUrl;
         this.requestTimeout = 60000;
         this.user = sessionStorage.getItem('currentUser');
     }

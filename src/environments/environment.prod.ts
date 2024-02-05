@@ -10,6 +10,7 @@ export const environment = {
  
 //$P{auth_status}.equals("2") ? "Approved" : "Declined" By :
   production: true,
-  adminUrl:'http://'+host+':8003'
+  sendingUrl:'http://'+host+':8003',
+  receivingUrl:'http://'+host+':8004',
 
 };

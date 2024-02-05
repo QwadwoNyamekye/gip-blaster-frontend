@@ -22,7 +22,7 @@ export class Service {
    constructor(private spinner:NgxSpinnerService,private http: HttpClient,private toastr: ToastrService,private router: Router) { 
     this.user=sessionStorage.getItem('currentUser')
   }
-  root_url=environment.adminUrl
+  root_url=environment.sendingUrl
    requestTimeout=45000
   //requestTimeout=5000
 

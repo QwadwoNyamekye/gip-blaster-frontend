@@ -7010,7 +7010,7 @@ var DashboardComponent = /** @class */ (function () {
         console.log("destroyed");
     };
     DashboardComponent.prototype.initializeWebSocketConnection = function () {
-        var serverUrl = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_5__["environment"].adminUrl + "/blaster";
+        var serverUrl = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_5__["environment"].sendingUrl + "/blaster";
         var ws = new sockjs_client__WEBPACK_IMPORTED_MODULE_4__(serverUrl);
         this.stompClient = stompjs__WEBPACK_IMPORTED_MODULE_3__["over"](ws);
         var that = this;
@@ -7216,14 +7216,14 @@ var Service = /** @class */ (function () {
         this.http = http;
         this.toastr = toastr;
         this.router = router;
-        this.admin_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_6__["environment"].adminUrl;
+        this.admin_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_6__["environment"].sendingUrl;
         this.rows = [];
         this.rows2 = [];
         this.temp = [];
         this.temp2 = [];
         this.spinnerLoad = true;
         this.spinnerMsg = "Please Wait.";
-        this.root_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_6__["environment"].adminUrl;
+        this.root_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_6__["environment"].sendingUrl;
     }
     /////GET UPLOADS//////////
     Service.prototype.getFIStatus = function () {

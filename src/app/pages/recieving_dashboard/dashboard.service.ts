@@ -25,7 +25,7 @@ export class Service {
   ) {
   }
 
-  admin_url = environment.adminUrl;
+  admin_url = environment.sendingUrl;
 
   public tableData: any;
   data: any;
@@ -36,7 +36,7 @@ export class Service {
   public temp2: any = [];
   public spinnerLoad = true;
   public spinnerMsg = "Please Wait.";
-  root_url = environment.adminUrl;
+  root_url = environment.sendingUrl;
 
   /////GET UPLOADS//////////
 

@@ -24,7 +24,7 @@ export class LoginService {
     private toastr: ToastrService,
     private router: Router
   ) {}
-  root_url = environment.adminUrl;
+  root_url = environment.sendingUrl;
 
   /////USER CREATION//////////
   login(userData: any) {

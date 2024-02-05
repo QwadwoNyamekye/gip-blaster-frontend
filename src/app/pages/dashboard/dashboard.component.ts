@@ -71,7 +71,7 @@ export class DashboardComponent implements OnInit {
   }
 
   initializeWebSocketConnection() {
-    const serverUrl = environment.adminUrl + "/blaster";
+    const serverUrl = environment.sendingUrl + "/blaster";
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
