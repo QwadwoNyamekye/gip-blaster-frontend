@@ -44,11 +44,12 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    
     console.log("test here");
     if (!this.tempNECStatus) {
       this.cardTitle = "NEC SERVER STATUS"
-      this.service.spinnerLoad = true;
-      this.service.spinner.show()
+      // this.service.spinnerLoad = true;
+      // this.service.spinner.show()
     }
     else {
       this.temp = this.tempNECStatus
@@ -93,13 +94,13 @@ export class DashboardComponent implements OnInit {
         that.temp = txn;
         that.tempNECStatus = that.temp;
         that.allCount = that.tempNECStatus.length;
-        that.onlineCount = this.tempFiStatus.filter(
+        that.onlineCount = that.tempNECStatus.filter(
           (row) => row.status == "ONLINE"
         ).length;
-        that.offlineCount = this.tempFiStatus.filter(
+        that.offlineCount = that.tempNECStatus.filter(
           (row) => row.status == "OFFLINE"
         ).length;
-        that.warningCount = this.tempFiStatus.filter(
+        that.warningCount = that.tempNECStatus.filter(
           (row) => row.status == "WARNING"
         ).length;
         localStorage.setItem("tempNECStatus", JSON.stringify(that.temp));
@@ -143,6 +144,7 @@ export class DashboardComponent implements OnInit {
         // }
       });
     });
+
   }
   initializeFTCWebSocketConnection() {
     const serverUrl = environment.receivingUrl + "/last_txn";
@@ -210,7 +212,7 @@ export class DashboardComponent implements OnInit {
 
   onButtonGroupClick($event, type: boolean) {
     let clickedElement = $event.target || $event.srcElement;
-    console.log($event.target);
+    
     if (clickedElement.nodeName === "BUTTON") {
       let isCertainButtonAlreadyActive =
         clickedElement.parentElement.querySelector(".active");
@@ -222,17 +224,29 @@ export class DashboardComponent implements OnInit {
       if (type) {
         this.temp = this.tempNECStatus;
         this.cardTitle = "NEC SERVER STATUS";
-      } else if (!type) {
+      } else  {
         this.temp = this.tempFTCStatus;
         this.cardTitle = "FTC SERVER STATUS";
       }
+
+      this.allCount = this.temp.length;
+      this.onlineCount = this.temp.filter(
+          (row) => row.status == "ONLINE"
+        ).length;
+        this.offlineCount = this.temp.filter(
+          (row) => row.status == "OFFLINE"
+        ).length;
+        this.warningCount = this.temp.filter(
+          (row) => row.status == "WARNING"
+        ).length;
     }
   }
 
   filterTable(status) {
     let val = status.toLowerCase();
     this.status = status;
-    if (this.cardTitle = "NEC SERVER STATUS") {
+   
+    if (this.cardTitle == "NEC SERVER STATUS") {
       if (val == "all") {
         this.temp = this.tempNECStatus;
         return true;
