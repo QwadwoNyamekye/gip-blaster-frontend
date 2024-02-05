@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseUrl:'http://localhost:',
-  adminUrl:'http://localhost:8111/admin/api/v1/',
+  sendingUrl:'http://localhost:8111/admin/api/v1/',
 
 };
 

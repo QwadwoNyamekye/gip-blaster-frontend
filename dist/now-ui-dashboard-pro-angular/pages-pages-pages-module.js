@@ -258,7 +258,7 @@ var LoginService = /** @class */ (function () {
         this.toastr = toastr;
         this.router = router;
         this.spinnerLoad = false;
-        this.root_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_5__["environment"].adminUrl;
+        this.root_url = src_environments_environment_prod__WEBPACK_IMPORTED_MODULE_5__["environment"].sendingUrl;
     }
     /////USER CREATION//////////
     LoginService.prototype.login = function (userData) {
