@@ -48,8 +48,8 @@ export class DashboardComponent implements OnInit {
     console.log("test here");
     if (!this.tempNECStatus) {
       this.cardTitle = "NEC SERVER STATUS"
-      // this.service.spinnerLoad = true;
-      // this.service.spinner.show()
+      this.service.spinnerLoad = true;
+      this.service.spinner.show()
     }
     else {
       this.temp = this.tempNECStatus
@@ -73,8 +73,10 @@ export class DashboardComponent implements OnInit {
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
-    // tslint:disable-next-line:only-arrow-functions
+
+    
     this.stompClient.connect({}, function (frame) {
+      //NEC SUBSCRIPTION//
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
         let keys = {
@@ -108,9 +110,9 @@ export class DashboardComponent implements OnInit {
           that.service.spinnerLoad = false;
         }
       });
-    });
 
-    this.stompClient.connect({}, function (frame) {
+
+      //FTC SUBSCRIPTION//
       that.stompClient.subscribe("/realtime/ftc", (message) => {
         let txn = JSON.parse(message.body);
         let keys = {
@@ -142,10 +144,12 @@ export class DashboardComponent implements OnInit {
         // if (message.body) {
         //   that.service.spinnerLoad = false;
         // }
-      });
+      })
     });
 
+
   }
+
   initializeFTCWebSocketConnection() {
     const serverUrl = environment.receivingUrl + "/last_txn";
     const ws = new SockJS(serverUrl);
