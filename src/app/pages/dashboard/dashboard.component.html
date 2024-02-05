@@ -12,17 +12,17 @@
         <div class="dataTables_wrapper">
           <h4 style="text-align: center;">SERVICE STATUS (NEC)</h4>
           <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
-            <button style="flex: 1 1 auto;" class="badge-ghipss" (click)="filterTable('all')" id="all">
-              <h5 style="color:white">ALL: {{allCount}}</h5>
+            <button class="badge-ghipss" (click)="filterTable('all')" id="all">
+              <h5>ALL: {{allCount}}</h5>
             </button>
-            <button style="flex: 1 1 auto;" class="badge-success" (click)="filterTable('online')" id="online">
-              <h5 style="color:white">ONLINE: {{onlineCount}}</h5>
+            <button class="badge-success" (click)="filterTable('online')" id="online">
+              <h5>ONLINE: {{onlineCount}}</h5>
             </button>
-            <button style="flex: 1 1 auto;" class="badge-warning" (click)="filterTable('warning')" id="warning">
-              <h5 style="color:white">WARNING: {{warningCount}}</h5>
+            <button class="badge-warning" (click)="filterTable('warning')" id="warning">
+              <h5>WARNING: {{warningCount}}</h5>
             </button>
-            <button style="flex: 1 1 auto;" class="badge-danger" (click)="filterTable('offline')" id="offline">
-              <h5 style="color:white">OFFLINE: {{offlineCount}}</h5>
+            <button class="badge-danger" (click)="filterTable('offline')" id="offline">
+              <h5 >OFFLINE: {{offlineCount}}</h5>
             </button>
           </div>
           <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"

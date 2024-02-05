@@ -10,63 +10,24 @@
     <div class="card col-md-10 offset-md-1">
       <div class="card-body">
         <div class="dataTables_wrapper">
-          <button class="btn btn-round btn-secondary btn-lg active" value="nec" (click)="onButtonGroupClick($event, true)">NEC</button>
-          <button class="btn btn-round btn-secondary btn-lg" value="ftc" (click)="onButtonGroupClick($event, false)">FTC</button>
+          <button class="alter btn btn-round btn-secondary btn-lg active" value="nec" (click)="onButtonGroupClick($event, true)">NEC</button>
+          <button class="alter btn btn-round btn-secondary btn-lg" value="ftc" (click)="onButtonGroupClick($event, false)">FTC</button>
           <h4 style="text-align: center;">{{cardTitle}}</h4>
-          <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
-            <mat-card style="flex: 1 1 auto;" class="badge badge-success">
-              <h4>ONLINE: {{onlineCount}}</h4>
-            </mat-card>
-            <mat-card style="flex: 1 1 auto;" class="badge badge-warning">
-              <h4>WARNING: {{warningCount}}</h4>
-            </mat-card>
-            <mat-card style="flex: 1 1 auto;" class="badge badge-danger">
-              <h4>OFFLINE: {{offlineCount}}</h4>
-            </mat-card>
-          </div>
-          <!-- <div class="row">
-            <div class="card col-md-6">
-              <h5 class="card-header"style="text-align: center;" >NEC STATUS</h5>
-              <div class="row">
-                <span class="col col-md-4">
-                  <mat-card class="badge badge-success">
-                    <h4>ONLINE: {{onlineCount}}</h4>
-                  </mat-card>
-                </span>
-                <span class="col col-md-4">
-                  <mat-card class="badge badge-warning">
-                    <h4>WARNING: {{warningCount}}</h4>
-                  </mat-card>
-                </span>
-                <span class="col col-md-4">
-                  <mat-card class="badge badge-danger">
-                    <h4>OFFLINE: {{offlineCount}}</h4>
-                  </mat-card>
-                </span>
-              </div>
-            </div>
 
-            <div class="card col-md-6">
-              <h5 class="card-header" style="text-align: center;">FTC STATUS</h5>
-              <div class="row">
-                <span class="col col-md-4">
-                  <mat-card class="badge badge-success">
-                    <h4>ONLINE: {{onlineCount}}</h4>
-                  </mat-card>
-                </span>
-                <span class="col col-md-4">
-                  <mat-card class="badge badge-warning">
-                    <h4>WARNING: {{warningCount}}</h4>
-                  </mat-card>
-                </span>
-                <span class="col col-md-4">
-                  <mat-card class="badge badge-danger">
-                    <h4>OFFLINE: {{offlineCount}}</h4>
-                  </mat-card>
-                </span>
-              </div>
-            </div>
-          </div> -->
+          <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
+            <button class="tabs badge-ghipss" (click)="filterTable('all')" id="all">
+              <h5>ALL: {{allCount}}</h5>
+            </button>
+            <button class="tabs badge-success" (click)="filterTable('online')" id="online">
+              <h5>ONLINE: {{onlineCount}}</h5>
+            </button>
+            <button class="tabs badge-warning" (click)="filterTable('warning')" id="warning">
+              <h5>WARNING: {{warningCount}}</h5>
+            </button>
+            <button class="tabs badge-danger" (click)="filterTable('offline')" id="offline">
+              <h5 >OFFLINE: {{offlineCount}}</h5>
+            </button>
+          </div>
           <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
             [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
             <ngx-datatable-column [width]="70" name="ID" prop="destInstitution"></ngx-datatable-column>
@@ -81,14 +42,14 @@
               </ng-template>
             </ngx-datatable-column>
             <ngx-datatable-column name="Last Action Code" prop="actionCode">
-              <ng-template let-column="column" ngx-datatable-header-template>
+              <!-- <ng-template let-column="column" ngx-datatable-header-template>
                 <div class="header-wrap">
                   Last Action Code
                 </div>
               </ng-template>
               <ng-template ngx-datatable-cell-template let-value="row">
                 <span style="text-align: center;" class="cell-wrap">{{value.actionCode}}</span>
-              </ng-template>
+            </ng-template> -->
             </ngx-datatable-column>
             <!-- <ngx-datatable-column [width]="80" name="Last Action Code" prop="actionCode"></ngx-datatable-column> -->
             <ngx-datatable-column name="Last Time Checked" prop="checkedAt">

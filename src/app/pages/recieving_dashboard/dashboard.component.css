@@ -1,4 +1,4 @@
-a {
+/* a {
     cursor: pointer;
     text-decoration: none;
 }
@@ -15,12 +15,66 @@ a {
     white-space: normal !important;
     word-wrap: break-word !important;
 }
+*/
+.alter {
+    margin-right: 1vw;
+    background: #919294;
+    color: white;
+    font-size: 15px;
+    height: auto;
+    width: 200px;
+}
 
-button {
+.btn:not(:disabled):not(.disabled).active {
     margin-right: 1vw;
     background: #43536d;
     color: white;
     font-size: 15px;
     height: auto;
     width: 200px;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
+.header-wrap {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+}
+
+
+.tabs {
+    font-size: 12px;
+    height: 75px;
+    width: 150px;
+    cursor: pointer;
+    overflow: hidden;
+    margin: 2px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 1 auto;
+}
+
+.tabs h5 {
+    color: white;
+    margin-bottom: 0px;
+}
+
+.tabs:focus {
+    /* border-color: black; */
+    /* border-bottom: 3px solid black; */
+    /* box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5); */
+    /* background-color: #2ca8ff; */
+    /* color: black; */
+    outline: 0;
+    padding: 0;
+    font-size: large;
+    text-align: center;
 }
