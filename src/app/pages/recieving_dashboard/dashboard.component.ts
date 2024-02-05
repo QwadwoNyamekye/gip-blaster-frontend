@@ -78,7 +78,7 @@ export class DashboardComponent implements OnInit {
       //NEC SUBSCRIPTION//
       that.stompClient.subscribe("/realtime/nec", (message) => {
         let txn = JSON.parse(message.body);
-        alert(JSON.stringify(message));
+        
         let keys = {
           OFFLINE: -1,
           WARNING: 0,
