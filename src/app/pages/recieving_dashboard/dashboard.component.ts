@@ -223,6 +223,8 @@ export class DashboardComponent implements OnInit {
       clickedElement.className += " active";
       if (type) {
         this.temp = this.tempNECStatus;
+        console.log(this.temp)
+        this.temp = this.temp ? this.temp : []
         this.cardTitle = "NEC SERVER STATUS";
       } else  {
         this.temp = this.tempFTCStatus;
