@@ -7,8 +7,10 @@ import {
 } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import * as Chartist from "chartist";
+import { ToastrService } from "ngx-toastr";
 import { Service } from "./dashboard.service";
-import * as Stomp from "stompjs";
+// import * as Stomp from "stompjs";
+import { CompatClient, Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
 import { environment } from "src/environments/environment.prod";
 
@@ -26,7 +28,7 @@ export class DashboardComponent implements OnInit {
   public selectedItems: any[] = [];
   dropdownSettings = {};
   rows = [];
-  public stompClient;
+  public stompClient: CompatClient;
   public msg = [];
   editRecord: any;
   closeResult: string;
@@ -36,10 +38,33 @@ export class DashboardComponent implements OnInit {
   warningCount: number;
   allCount: number;
   status: string;
+  errorToastr: any;
 
-  constructor(private modalService: NgbModal, private service: Service) {
+  constructor(
+    private modalService: NgbModal,
+    private service: Service,
+    private toastrService: ToastrService
+  ) {
     this.user = sessionStorage.getItem("currentUser");
     this.tempFiStatus = JSON.parse(localStorage.getItem("tempFiStatus"));
+    // this.initializeWebSocketConnection();
+    window.addEventListener("offline", () => {
+      if (this.errorToastr) {
+        console.log("Became offline");
+        this.errorToastr = this.toastrService.error(
+          "Connection Lost",
+          "Connection",
+          {
+            tapToDismiss: false,
+            disableTimeOut: true,
+            positionClass: "toast-bottom-left",
+          }
+        );
+        setTimeout(() => {
+          this.initializeWebSocketConnection(this.errorToastr);
+        }, 5000);
+      }
+    });
   }
 
   ngOnInit() {
@@ -62,7 +87,8 @@ export class DashboardComponent implements OnInit {
       this.allCount = this.tempFiStatus.length;
     }
     //  this.getFIStatus();
-    this.initializeWebSocketConnection();
+    var errorToastr: any;
+    this.initializeWebSocketConnection(errorToastr);
     this.filterTable("offline");
   }
 
@@ -70,50 +96,121 @@ export class DashboardComponent implements OnInit {
     console.log("destroyed");
   }
 
-  initializeWebSocketConnection() {
+  initializeWebSocketConnection(errorToastr) {
     const serverUrl = environment.sendingUrl + "/blaster";
     const ws = new SockJS(serverUrl);
-    this.stompClient = Stomp.over(ws);
+    this.stompClient = Stomp.over(() => {
+      return ws;
+    });
+
     const that = this;
     // tslint:disable-next-line:only-arrow-functions
+    console.log(this.stompClient);
+    this.stompClient.connect(
+      {},
+      function (frame) {
+        if (errorToastr) {
+          that.toastrService.clear();
+          var value = that.toastrService.success(
+            "Connection Success",
+            "Connection",
+            {
+              timeOut: 10000,
+              tapToDismiss: false,
+              positionClass: "toast-bottom-left",
+            }
+          );
 
-    this.stompClient.connect({}, function (frame) {
-      that.stompClient.subscribe("/realtime/nec", (message) => {
-        let txn = JSON.parse(message.body);
-        let keys = {
-          OFFLINE: -1,
-          WARNING: 0,
-          ONLINE: 1,
-        };
-        txn = txn.sort((a, b) => {
-          if (keys[a.status] < keys[b.status]) {
-            return -1;
-          } else if (keys[a.status] > keys[b.status]) {
-            return 0;
-          } else if (keys[a.status] == keys[b.status]) {
-            return 1;
-          }
-        });
-        that.temp = txn;
-        that.tempFiStatus = that.temp;
-        that.onlineCount = that.tempFiStatus.filter(
-          (row) => row.status == "ONLINE"
-        ).length;
-        that.offlineCount = that.tempFiStatus.filter(
-          (row) => row.status == "OFFLINE"
-        ).length;
-        that.warningCount = that.tempFiStatus.filter(
-          (row) => row.status == "WARNING"
-        ).length;
-        that.allCount = that.tempFiStatus.length;
-        localStorage.setItem("tempFiStatus", JSON.stringify(that.temp));
-        if (message.body) {
-          that.service.spinnerLoad = false;
+          var time = 5;
+          var intervalId = setInterval(function () {
+            value.toastRef.componentInstance.message =
+              "Reloading in  : " + time;
+            if (time == 0) {
+              window.location.reload();
+              window.clearInterval(intervalId);
+            }
+            time--;
+          }, 1000);
         }
-        console.log("Filtering status");
-        that.filterTable(that.status);
-      });
-    });
+
+        that.stompClient.subscribe("/realtime/nec", (message) => {
+          console.log(message);
+          let txn = JSON.parse(message.body);
+          let keys = {
+            OFFLINE: -1,
+            WARNING: 0,
+            ONLINE: 1,
+          };
+          txn = txn.sort((a, b) => {
+            if (keys[a.status] < keys[b.status]) {
+              return -1;
+            } else if (keys[a.status] > keys[b.status]) {
+              return 0;
+            } else if (keys[a.status] == keys[b.status]) {
+              return 1;
+            }
+          });
+          that.temp = txn;
+          that.tempFiStatus = that.temp;
+          that.onlineCount = that.tempFiStatus.filter(
+            (row) => row.status == "ONLINE"
+          ).length;
+          that.offlineCount = that.tempFiStatus.filter(
+            (row) => row.status == "OFFLINE"
+          ).length;
+          that.warningCount = that.tempFiStatus.filter(
+            (row) => row.status == "WARNING"
+          ).length;
+          that.allCount = that.tempFiStatus.length;
+          localStorage.setItem("tempFiStatus", JSON.stringify(that.temp));
+          if (message.body) {
+            that.service.spinnerLoad = false;
+          }
+          console.log("Filtering status");
+          that.filterTable(that.status);
+        });
+      },
+      function (error) {
+        console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        console.log(error);
+        // Check if the message indicates a disconnect
+        if (!errorToastr) {
+          errorToastr = that.toastrService.error(
+            "Connection Lost",
+            "Connection",
+            {
+              positionClass: "toast-bottom-left",
+              tapToDismiss: false,
+              disableTimeOut: true,
+            }
+          );
+        }
+        setTimeout(() => {
+          console.log("Server disconnected!");
+          that.initializeWebSocketConnection(errorToastr);
+        }, 5000);
+      },
+      function (message) {
+        console.log("))))))))))))))))))))))))");
+        console.log(message);
+        console.log(errorToastr);
+        if (!errorToastr) {
+          errorToastr = that.toastrService.error(
+            "Connection Lost",
+            "Connection",
+            {
+              positionClass: "toast-bottom-left",
+              tapToDismiss: false,
+              disableTimeOut: true,
+            }
+          );
+        }
+        setTimeout(() => {
+          console.log("Server disconnected!");
+          that.initializeWebSocketConnection(errorToastr);
+        }, 5000);
+      }
+    );
   }
 
   getDismissReason(reason: any): string {

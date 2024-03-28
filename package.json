@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "export NODE_OPTIONS=--openssl-legacy-provider && ng serve -o --port=4202",
-    "build": "export NODE_OPTIONS=--openssl-legacy-provider && ng build",
-    "start-windows": "ng serve",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider && ng build --output-path=C:\\Users\\DOPPONG-NKRUMAH\\Downloads\\frontend-gip-blaster\\frontend-gip-blaster\\frontend-service\\src\\main\\resources\\static",
+    "start-windows": "set NODE_OPTIONS=--openssl-legacy-provider && ng serve",
     "build-windows": "$env:NODE_OPTIONS=\"--openssl-legacy-provider\" && ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -28,7 +28,7 @@
     "@angular/router": "9.0.4",
     "@ng-bootstrap/ng-bootstrap": "6.0.0",
     "@ngui/map": "0.30.3",
-    "@stomp/stompjs": "^7.0.0",
+    "@stomp/stompjs": "^6.0.0",
     "@swimlane/ngx-datatable": "15.0.0",
     "@types/file-saver": "^2.0.1",
     "@types/googlemaps": "3.30.16",
@@ -50,7 +50,7 @@
     "ng2-charts": "1.6.0",
     "ngx-chips": "2.1.0",
     "ngx-spinner": "^10.0.1",
-    "ngx-toastr": "12.0.0",
+    "ngx-toastr": "^12.0.0",
     "nouislider": "12.1.0",
     "pdfmake": "^0.1.70",
     "perfect-scrollbar": "1.4.0",
@@ -86,5 +86,8 @@
     "ts-node": "7.0.1",
     "tslint": "5.12.1",
     "typescript": "3.7.5"
+  },
+  "volta": {
+    "node": "18.20.0"
   }
 }

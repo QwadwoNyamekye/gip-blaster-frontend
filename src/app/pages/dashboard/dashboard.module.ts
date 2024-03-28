@@ -11,10 +11,16 @@ import { DashboardComponent } from "./dashboard.component";
 import { NgxDatatableModule } from "@swimlane/ngx-datatable";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from "ngx-spinner";
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   imports: [
+    ToastrModule.forRoot({
+      preventDuplicates: true,
+      maxOpened: 1,
+      newestOnTop: true
+    }), // ToastrModule added
     CommonModule,
     NgbModule,
     RouterModule.forChild(DashboardRoutes),
@@ -26,7 +32,7 @@ import {MatCardModule} from '@angular/material/card';
     ComponentsModule,
     ChartsModule,
     NgxDatatableModule,
-    FormsModule, 
+    FormsModule,
     ReactiveFormsModule,
     AngularMultiSelectModule,
     NgxSpinnerModule,
@@ -34,6 +40,6 @@ import {MatCardModule} from '@angular/material/card';
   ],
   declarations: [DashboardComponent],
   exports: [DashboardComponent],
-  providers :[AuthGuard]
+  providers: [AuthGuard]
 })
-export class DashboardModule {}
+export class DashboardModule { }

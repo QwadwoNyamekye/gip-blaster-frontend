@@ -2,8 +2,9 @@ import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
 import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
 import * as Chartist from "chartist";
 import { Service } from "./dashboard.service";
-import * as Stomp from "stompjs";
+import { CompatClient, Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
+import { ToastrService } from "ngx-toastr";
 import { environment } from "src/environments/environment.prod";
 
 @Component({
@@ -35,120 +36,203 @@ export class DashboardComponent implements OnInit {
   tempFTCStatus: any;
   status: any;
 
-  constructor(private modalService: NgbModal, private service: Service) {
+  constructor(
+    private modalService: NgbModal,
+    private service: Service,
+    private toastrService: ToastrService
+  ) {
     this.user = sessionStorage.getItem("currentUser");
     this.tempNECStatus = JSON.parse(localStorage.getItem("tempNECStatus"));
     this.tempFTCStatus = JSON.parse(localStorage.getItem("tempFTCStatus"));
     // this.recievedNECData = this.service.getReceivingStatus("nec");
     // this.recievedFTCData = this.service.getReceivingStatus("ftc");
+    window.addEventListener("offline", () => {
+      var errorToastr: any;
+      console.log("Became offline");
+      errorToastr = this.toastrService.error("Connection Lost", "Connection", {
+        tapToDismiss: false,
+        disableTimeOut: true,
+        positionClass: "toast-bottom-left",
+      });
+      setTimeout(() => {
+        this.initializeNECWebSocketConnection(errorToastr);
+      }, 5000);
+    });
   }
 
   ngOnInit() {
-    
     console.log("test here");
     if (!this.tempNECStatus) {
-      this.cardTitle = "NEC SERVER STATUS"
+      this.cardTitle = "NEC SERVER STATUS";
       this.service.spinnerLoad = true;
-      this.service.spinner.show()
-    }
-    else {
-      this.temp = this.tempNECStatus
-      this.cardTitle = "NEC SERVER STATUS"
-      this.allCount = this.tempNECStatus.length
-      this.onlineCount = this.tempNECStatus.filter((row) => row.status == 'ONLINE').length
-      this.offlineCount = this.tempNECStatus.filter((row) => row.status == 'OFFLINE').length
-      this.warningCount = this.tempNECStatus.filter((row) => row.status == 'WARNING').length
+      this.service.spinner.show();
+    } else {
+      this.temp = this.tempNECStatus;
+      this.cardTitle = "NEC SERVER STATUS";
+      this.allCount = this.tempNECStatus.length;
+      this.onlineCount = this.tempNECStatus.filter(
+        (row) => row.status == "ONLINE"
+      ).length;
+      this.offlineCount = this.tempNECStatus.filter(
+        (row) => row.status == "OFFLINE"
+      ).length;
+      this.warningCount = this.tempNECStatus.filter(
+        (row) => row.status == "WARNING"
+      ).length;
     }
     //  this.getFIStatus();
-    this.initializeNECWebSocketConnection();
+    var errorToastr: any;
+    this.initializeNECWebSocketConnection(errorToastr);
   }
 
   ngOnDestroy() {
     console.log("destroyed");
   }
 
-  initializeNECWebSocketConnection() {
+  initializeNECWebSocketConnection(errorToastr) {
     const serverUrl = environment.receivingUrl + "/last_txn";
     const ws = new SockJS(serverUrl);
     this.stompClient = Stomp.over(ws);
     const that = this;
 
-    
-    this.stompClient.connect({}, function (frame) {
-      //NEC SUBSCRIPTION//
-      that.stompClient.subscribe("/realtime/nec", (message) => {
-        let txn = JSON.parse(message.body);
-        let keys = {
-          OFFLINE: -1,
-          WARNING: 0,
-          ONLINE: 1,
-        };
-        txn = txn.sort((a, b) => {
-          if (keys[a.status] < keys[b.status]) {
-            return -1;
-          } else if (keys[a.status] > keys[b.status]) {
-            return 0;
-          } else if (keys[a.status] == keys[b.status]) {
-            return 1;
-          }
-        });
-        that.temp = txn;
-        that.tempNECStatus = that.temp;
-        that.allCount = that.tempNECStatus.length;
-        that.onlineCount = that.tempNECStatus.filter(
-          (row) => row.status == "ONLINE"
-        ).length;
-        that.offlineCount = that.tempNECStatus.filter(
-          (row) => row.status == "OFFLINE"
-        ).length;
-        that.warningCount = that.tempNECStatus.filter(
-          (row) => row.status == "WARNING"
-        ).length;
-        localStorage.setItem("tempNECStatus", JSON.stringify(that.temp));
-        if (message.body) {
-          that.service.spinnerLoad = false;
+    this.stompClient.connect(
+      {},
+      function (frame) {
+        if (errorToastr) {
+          that.toastrService.clear();
+          var value = that.toastrService.success(
+            "Connection Success",
+            "Connection",
+            {
+              timeOut: 10000,
+              tapToDismiss: false,
+              positionClass: "toast-bottom-left",
+            }
+          );
+
+          var time = 5;
+          var intervalId = setInterval(function () {
+            value.toastRef.componentInstance.message =
+              "Reloading in  : " + time;
+            if (time == 0) {
+              window.location.reload();
+              window.clearInterval(intervalId);
+            }
+            time--;
+          }, 1000);
         }
-      });
 
-
-      //FTC SUBSCRIPTION//
-      that.stompClient.subscribe("/realtime/ftc", (message) => {
-        let txn = JSON.parse(message.body);
-        let keys = {
-          OFFLINE: -1,
-          WARNING: 0,
-          ONLINE: 1,
-        };
-        txn = txn.sort((a, b) => {
-          if (keys[a.status] < keys[b.status]) {
-            return -1;
-          } else if (keys[a.status] > keys[b.status]) {
-            return 0;
-          } else if (keys[a.status] == keys[b.status]) {
-            return 1;
+        //NEC SUBSCRIPTION//
+        that.stompClient.subscribe("/realtime/nec", (message) => {
+          let txn = JSON.parse(message.body);
+          let keys = {
+            OFFLINE: -1,
+            WARNING: 0,
+            ONLINE: 1,
+          };
+          txn = txn.sort((a, b) => {
+            if (keys[a.status] < keys[b.status]) {
+              return -1;
+            } else if (keys[a.status] > keys[b.status]) {
+              return 0;
+            } else if (keys[a.status] == keys[b.status]) {
+              return 1;
+            }
+          });
+          that.temp = txn;
+          that.tempNECStatus = that.temp;
+          that.allCount = that.tempNECStatus.length;
+          that.onlineCount = that.tempNECStatus.filter(
+            (row) => row.status == "ONLINE"
+          ).length;
+          that.offlineCount = that.tempNECStatus.filter(
+            (row) => row.status == "OFFLINE"
+          ).length;
+          that.warningCount = that.tempNECStatus.filter(
+            (row) => row.status == "WARNING"
+          ).length;
+          localStorage.setItem("tempNECStatus", JSON.stringify(that.temp));
+          if (message.body) {
+            that.service.spinnerLoad = false;
           }
         });
-        //that.temp = txn;
-        that.tempFTCStatus = txn;
-        // that.onlineCount = that.tempFTCStatus.filter(
-        //   (row) => row.status == "ONLINE"
-        // ).length;
-        // that.offlineCount = that.tempFTCStatus.filter(
-        //   (row) => row.status == "OFFLINE"
-        // ).length;
-        // that.warningCount = that.tempFTCStatus.filter(
-        //   (row) => row.status == "WARNING"
-        // ).length;
-        // localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
-        // if (message.body) {
-        //   that.service.spinnerLoad = false;
-        // }
-      })
-    });
 
-
+        //FTC SUBSCRIPTION//
+        that.stompClient.subscribe("/realtime/ftc", (message) => {
+          let txn = JSON.parse(message.body);
+          let keys = {
+            OFFLINE: -1,
+            WARNING: 0,
+            ONLINE: 1,
+          };
+          txn = txn.sort((a, b) => {
+            if (keys[a.status] < keys[b.status]) {
+              return -1;
+            } else if (keys[a.status] > keys[b.status]) {
+              return 0;
+            } else if (keys[a.status] == keys[b.status]) {
+              return 1;
+            }
+          });
+          //that.temp = txn;
+          that.tempFTCStatus = txn;
+          // that.onlineCount = that.tempFTCStatus.filter(
+          //   (row) => row.status == "ONLINE"
+          // ).length;
+          // that.offlineCount = that.tempFTCStatus.filter(
+          //   (row) => row.status == "OFFLINE"
+          // ).length;
+          // that.warningCount = that.tempFTCStatus.filter(
+          //   (row) => row.status == "WARNING"
+          // ).length;
+          // localStorage.setItem("tempFTCStatus", JSON.stringify(that.temp));
+          // if (message.body) {
+          //   that.service.spinnerLoad = false;
+          // }
+        });
+      },
+      function (error) {
+        console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWW");
+        console.log(error);
+        // Check if the message indicates a disconnect
+        if (!errorToastr) {
+          errorToastr = that.toastrService.error(
+            "Connection Lost",
+            "Connection",
+            {
+              positionClass: "toast-bottom-left",
+              tapToDismiss: false,
+              disableTimeOut: true,
+            }
+          );
+        }
+        setTimeout(() => {
+          console.log("Server disconnected!");
+          that.initializeNECWebSocketConnection(errorToastr);
+        }, 5000);
+      },
+      function (message) {
+        console.log("))))))))))))))))))))))))");
+        console.log(message);
+        console.log(errorToastr);
+        if (!errorToastr) {
+          errorToastr = that.toastrService.error(
+            "Connection Lost",
+            "Connection",
+            {
+              positionClass: "toast-bottom-left",
+              tapToDismiss: false,
+              disableTimeOut: true,
+            }
+          );
+        }
+        setTimeout(() => {
+          console.log("Server disconnected!");
+          that.initializeNECWebSocketConnection(errorToastr);
+        }, 5000);
+      }
+    );
   }
-
 
   getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
@@ -174,7 +258,7 @@ export class DashboardComponent implements OnInit {
 
   onButtonGroupClick($event, type: boolean) {
     let clickedElement = $event.target || $event.srcElement;
-    
+
     if (clickedElement.nodeName === "BUTTON") {
       let isCertainButtonAlreadyActive =
         clickedElement.parentElement.querySelector(".active");
@@ -185,31 +269,31 @@ export class DashboardComponent implements OnInit {
       clickedElement.className += " active";
       if (type) {
         this.temp = this.tempNECStatus;
-        console.log(this.temp)
-        this.temp = this.temp ? this.temp : []
+        console.log(this.temp);
+        this.temp = this.temp ? this.temp : [];
         this.cardTitle = "NEC SERVER STATUS";
-      } else  {
+      } else {
         this.temp = this.tempFTCStatus;
         this.cardTitle = "FTC SERVER STATUS";
       }
 
-      this.allCount = this.temp.length;
-      this.onlineCount = this.temp.filter(
-          (row) => row.status == "ONLINE"
-        ).length;
-        this.offlineCount = this.temp.filter(
-          (row) => row.status == "OFFLINE"
-        ).length;
-        this.warningCount = this.temp.filter(
-          (row) => row.status == "WARNING"
-        ).length;
+      this.allCount = this.temp?.length;
+      this.onlineCount = this.temp?.filter(
+        (row) => row.status == "ONLINE"
+      ).length;
+      this.offlineCount = this.temp?.filter(
+        (row) => row.status == "OFFLINE"
+      ).length;
+      this.warningCount = this.temp?.filter(
+        (row) => row.status == "WARNING"
+      ).length;
     }
   }
 
   filterTable(status) {
     let val = status.toLowerCase();
     this.status = status;
-   
+
     if (this.cardTitle == "NEC SERVER STATUS") {
       if (val == "all") {
         this.temp = this.tempNECStatus;
@@ -241,19 +325,17 @@ export class DashboardComponent implements OnInit {
     }
   }
   padZero(i) {
-    return (i < 10) ? "0" + i : i;
+    return i < 10 ? "0" + i : i;
   }
-  formatDateHours(seconds){
-    return this.padZero(new Date(seconds * 1000).getHours())
-  }
-
-  formatDateMinutes(seconds){
-    return this.padZero(new Date(seconds * 1000).getMinutes())
-
+  formatDateHours(seconds) {
+    return this.padZero(new Date(seconds * 1000).getHours());
   }
 
-  formatDateSeconds(seconds){
-    return this.padZero(new Date(seconds * 1000).getSeconds())
+  formatDateMinutes(seconds) {
+    return this.padZero(new Date(seconds * 1000).getMinutes());
+  }
 
+  formatDateSeconds(seconds) {
+    return this.padZero(new Date(seconds * 1000).getSeconds());
   }
 }
