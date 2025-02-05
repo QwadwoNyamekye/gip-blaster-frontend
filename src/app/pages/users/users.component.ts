@@ -25,10 +25,10 @@ import { HelperService } from "../helper.service";
 export class UsersComponent implements OnInit, AfterViewInit {
   @ViewChild("productDropdown") pDrop: ElementRef;
   closeResult: string;
-  private registerForm: FormGroup;
-  private register = false;
-  private editForm: FormGroup;
-  private edit = false;
+  public registerForm: FormGroup;
+  public register = false;
+  public editForm: FormGroup;
+  public edit = false;
   dropdownList: any;
   public selectedItems: any[] = [];
   public productList: any[] = [];
@@ -51,11 +51,11 @@ export class UsersComponent implements OnInit, AfterViewInit {
   user: any;
   //1:Uploader,2:Authorizer,3:Super Authorizer,4:Viewer,5:Administrator
   constructor(
-    private helper: HelperService,
-    private router: Router,
-    private modalService: NgbModal,
-    private formBuilder: FormBuilder,
-    private service: Service
+    public helper: HelperService,
+    public router: Router,
+    public modalService: NgbModal,
+    public formBuilder: FormBuilder,
+    public service: Service
   ) {
     this.user=sessionStorage.getItem('currentUser')
     
@@ -74,10 +74,9 @@ export class UsersComponent implements OnInit, AfterViewInit {
                      element.id = element.bankCode
                     }
                   )
-               console.log(this.dropdownList)
               },
-              error=>{console.log(error)},
-              ()=>{console.log('terminated')}
+              error=>{},
+              ()=>{}
             );
 
     // this.dropdownList = [
@@ -181,14 +180,10 @@ export class UsersComponent implements OnInit, AfterViewInit {
 
   onItemSelect(item: any) {}
   OnItemDeSelect(item: any) {
-    console.log(item);
-    console.log(this.selectedItems);
   }
   onSelectAll(items: any) {
-    console.log(items);
   }
   onDeSelectAll(items: any) {
-    console.log(this.selectedItems);
     //console.log(this.selectedItems[0].itemName)
     this.selectedItems = [];
 
@@ -196,7 +191,6 @@ export class UsersComponent implements OnInit, AfterViewInit {
   }
   onItemSelect1(item: any) {
     //alert('type selected')
-    console.log(item);
   }
   OnItemDeSelect1(item: any) {
     console.log(item);

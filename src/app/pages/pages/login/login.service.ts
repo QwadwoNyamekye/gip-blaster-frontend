@@ -37,7 +37,6 @@ export class LoginService {
       .post(url, userData).pipe(
         timeout(45000),
         catchError((error) => {
-          console.log(error)
           if (error.name === 'TimeoutError') {
             console.error('Request timed out:', error);
             this.spinnerLoad=false

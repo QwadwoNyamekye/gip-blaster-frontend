@@ -8,36 +8,36 @@ import { MustMatch } from "./password-validator.component";
   styleUrls: ["./validation-forms.component.css"]
 })
 export class ValidationFormsComponent implements OnInit {
-  private registerForm: FormGroup;
-  private register = false;
+  public registerForm: FormGroup;
+  public register = false;
 
-  private loginForm: FormGroup;
-  private login = false;
+  public loginForm: FormGroup;
+  public login = false;
 
-  private typeForm: FormGroup;
-  private type = false;
+  public typeForm: FormGroup;
+  public type = false;
 
-  private rangeForm: FormGroup;
-  private range = false;
+  public rangeForm: FormGroup;
+  public range = false;
 
-  private focusTouched;
-  private focusTouched1;
-  private focusTouched2;
-  private focusTouched3;
-  private focusTouched4;
-  private focusTouched5;
-  private focusTouched6;
-  private focusTouched7;
-  private focusTouched8;
-  private focusTouched9;
-  private focusTouched10;
-  private focusTouched11;
-  private focusTouched12;
-  private focusTouched13;
-  private focusTouched14;
-  private focusTouched15;
-  private focusTouched16;
-    constructor(private formBuilder: FormBuilder) { }
+  public focusTouched;
+  public focusTouched1;
+  public focusTouched2;
+  public focusTouched3;
+  public focusTouched4;
+  public focusTouched5;
+  public focusTouched6;
+  public focusTouched7;
+  public focusTouched8;
+  public focusTouched9;
+  public focusTouched10;
+  public focusTouched11;
+  public focusTouched12;
+  public focusTouched13;
+  public focusTouched14;
+  public focusTouched15;
+  public focusTouched16;
+    constructor(public formBuilder: FormBuilder) { }
 
     ngOnInit() {
         this.registerForm = this.formBuilder.group({

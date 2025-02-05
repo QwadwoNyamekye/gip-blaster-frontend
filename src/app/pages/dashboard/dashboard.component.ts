@@ -1,269 +1,442 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  AfterViewInit,
-  ElementRef,
-} from "@angular/core";
-import { NgbModal, ModalDismissReasons } from "@ng-bootstrap/ng-bootstrap";
-import * as Chartist from "chartist";
-import { ToastrService } from "ngx-toastr";
-import { Service } from "./dashboard.service";
+import {Component, OnInit, SecurityContext} from '@angular/core';
+import {ModalDismissReasons, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ToastrService} from 'ngx-toastr';
+import {Service} from './dashboard.service';
 // import * as Stomp from "stompjs";
-import { CompatClient, Stomp } from "@stomp/stompjs";
-import * as SockJS from "sockjs-client";
-import { environment } from "src/environments/environment.prod";
+import {CompatClient, Stomp} from '@stomp/stompjs';
+import * as SockJS from 'sockjs-client';
+import {AppService} from 'src/app/app.service';
+import {environment} from 'src/environments/environment.prod';
+import {document} from '@swimlane/ngx-datatable/src/utils/facade/browser';
+import {ajax} from 'rxjs/ajax';
+import {DomSanitizer} from '@angular/platform-browser';
+import {HttpClient, HttpResponse} from '@angular/common/http';
+import {ResponseContentType} from '@angular/http';
+import {map, tap, timeout} from 'rxjs/operators';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as printJS from 'print-js';
+
+import {RouterModule, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
-  selector: "app-dashboard",
-  templateUrl: "./dashboard.component.html",
-  styleUrls: ["./dashboard.component.css"],
+    selector: 'app-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit {
-  user: any;
-  rows2: any;
-  dashInterval;
-  dropdownList: any;
-  temp = [];
-  public selectedItems: any[] = [];
-  dropdownSettings = {};
-  rows = [];
-  public stompClient: CompatClient;
-  public msg = [];
-  editRecord: any;
-  closeResult: string;
-  tempFiStatus: any;
-  onlineCount: number;
-  offlineCount: number;
-  warningCount: number;
-  allCount: number;
-  status: string;
-  errorToastr: any;
+    user: any;
+    rows2: any;
+    dashInterval;
+    dropdownList: any;
+    temp = [];
+    public selectedItems: any[] = [];
+    dropdownSettings = {};
+    rows = [];
+    public stompClient: CompatClient;
+    public msg = [];
+    editRecord: any;
+    closeResult: string;
+    tempFiStatus: any;
+    onlineCount: number;
+    offlineCount: number;
+    warningCount: number;
+    allCount: number;
+    status: string;
+    current = 0;
+    current_image: any = '';
+    from: number = 0;
+    to: number = 0;
+    bankCode = 0;
+    url = environment.qrUrl;
+    max: number;
+    data: any = [
+        {
+            image: '/assets/img/prada.jpg',
+            terminalId: '00001',
+            'name': 'Test 1'
+        },
+        {
+            image: '/assets/img/angular2-logo-white.png',
+            terminalId: '00002',
+            'name': 'Test 2'
+        },
+        {
+            image: '/assets/img/mike.jpg',
+            terminalId: '00003',
+            'name': 'Test 3'
+        }
+    ];
 
-  constructor(
-    private modalService: NgbModal,
-    private service: Service,
-    private toastrService: ToastrService
-  ) {
-    this.user = sessionStorage.getItem("currentUser");
-    this.tempFiStatus = JSON.parse(localStorage.getItem("tempFiStatus"));
-    // this.initializeWebSocketConnection();
-    window.addEventListener("offline", () => {
-      if (this.errorToastr) {
-        console.log("Became offline");
-        this.errorToastr = this.toastrService.error(
-          "Connection Lost",
-          "Connection",
-          {
-            tapToDismiss: false,
-            disableTimeOut: true,
-            positionClass: "toast-bottom-left",
-          }
+    allItems: HTMLElement[];
+    merchant_id: string;
+    merchant_name: string;
+    terminal_id: string;
+    authObject: any;
+
+    constructor(
+        private modalService: NgbModal,
+        public service: Service,
+        private appService: AppService,
+        private toastrService: ToastrService, protected sanitizer: DomSanitizer, private http: HttpClient, private toastr: ToastrService,
+        private router: Router,
+        private dataroute: ActivatedRoute
+    ) {
+        // this.initializeWebSocketConnection();
+    }
+
+    ngOnInit() {
+        console.log("************************");
+        // let token = this.dataroute.snapshot.paramMap.get('token');
+
+        let op = sessionStorage.getItem('authObject')
+        console.log(op);
+        if (!op){
+            console.log(window.location);
+            let token_array = window.location.href.split('/');
+            let token = token_array[token_array.length - 1];
+
+            console.log(token);
+
+            this.authenticate_token(token)
+        }
+
+        this.authObject = JSON.parse(op);
+        this.bankCode = this.authObject.bankCode;
+
+
+        // this.authenticate_token(token)
+    }
+
+    authenticate_token(token) {
+        const url = `${this.url}/api/v1/ghqr/img/validate_encrypted_token/${token}`; // Replace with your file URL
+
+        this.http.get(url).subscribe(response => {
+                this.authObject = response;
+                console.log('------------------------------');
+                console.log(response);
+
+                if (this.authObject.errorCode == '0') {
+                    this.bankCode = Number(this.authObject.bankCode);
+                    sessionStorage.setItem('authObject', JSON.stringify(this.authObject));
+                    sessionStorage.setItem('token', token);
+                } else {
+                    console.log('++++++++++++++++++++++');
+                    console.log({'token': token});
+                    // sessionStorage.clear();
+                    // window.location.href = 'http://172.27.21.31:3000/';
+                }
+            }
         );
-        setTimeout(() => {
-          this.initializeWebSocketConnection(this.errorToastr);
-        }, 5000);
-      }
-    });
-  }
-
-  ngOnInit() {
-    console.log("test here");
-    document.getElementById("offline").focus();
-    if (!this.tempFiStatus) {
-      this.service.spinnerLoad = true;
-      this.service.spinner.show();
-    } else {
-      this.temp = this.tempFiStatus;
-      this.onlineCount = this.tempFiStatus.filter(
-        (row) => row.status == "ONLINE"
-      ).length;
-      this.offlineCount = this.tempFiStatus.filter(
-        (row) => row.status == "OFFLINE"
-      ).length;
-      this.warningCount = this.tempFiStatus.filter(
-        (row) => row.status == "WARNING"
-      ).length;
-      this.allCount = this.tempFiStatus.length;
     }
-    //  this.getFIStatus();
-    var errorToastr: any;
-    this.initializeWebSocketConnection(errorToastr);
-    this.filterTable("offline");
-  }
 
-  ngOnDestroy() {
-    console.log("destroyed");
-  }
 
-  initializeWebSocketConnection(errorToastr) {
-    const serverUrl = environment.sendingUrl + "/blaster";
-    const ws = new SockJS(serverUrl);
-    this.stompClient = Stomp.over(() => {
-      return ws;
-    });
+    viewSheet(item: any) {
 
-    const that = this;
-    // tslint:disable-next-line:only-arrow-functions
-    console.log(this.stompClient);
-    this.stompClient.connect(
-      {},
-      function (frame) {
-        if (errorToastr) {
-          that.toastrService.clear();
-          var value = that.toastrService.success(
-            "Connection Success",
-            "Connection",
-            {
-              timeOut: 10000,
-              tapToDismiss: false,
-              positionClass: "toast-bottom-left",
-            }
-          );
 
-          var time = 5;
-          var intervalId = setInterval(function () {
-            value.toastRef.componentInstance.message =
-              "Reloading in  : " + time;
-            if (time == 0) {
-              window.location.reload();
-              window.clearInterval(intervalId);
-            }
-            time--;
-          }, 1000);
-        }
+        this.current_image = this.data[this.current + item].image;
+        this.current += item;
 
-        that.stompClient.subscribe("/realtime/nec", (message) => {
-          console.log(message);
-          let txn = JSON.parse(message.body);
-          let keys = {
-            OFFLINE: -1,
-            WARNING: 0,
-            ONLINE: 1,
-          };
-          txn = txn.sort((a, b) => {
-            if (keys[a.status] < keys[b.status]) {
-              return -1;
-            } else if (keys[a.status] > keys[b.status]) {
-              return 0;
-            } else if (keys[a.status] == keys[b.status]) {
-              return 1;
-            }
-          });
-          that.temp = txn;
-          that.tempFiStatus = that.temp;
-          that.onlineCount = that.tempFiStatus.filter(
-            (row) => row.status == "ONLINE"
-          ).length;
-          that.offlineCount = that.tempFiStatus.filter(
-            (row) => row.status == "OFFLINE"
-          ).length;
-          that.warningCount = that.tempFiStatus.filter(
-            (row) => row.status == "WARNING"
-          ).length;
-          that.allCount = that.tempFiStatus.length;
-          localStorage.setItem("tempFiStatus", JSON.stringify(that.temp));
-          if (message.body) {
-            that.service.spinnerLoad = false;
-          }
-          console.log("Filtering status");
-          that.filterTable(that.status);
+        this.submitSingle(this.data[this.current]);
+
+
+    }
+
+
+    submitSingle(terminalId) {
+        // this.from = document.getElementById('from').value;
+        // this.to = document.getElementById('to').value;
+        // this.bankCode = document.getElementById('bankCode').value;
+
+        const url = `${this.url}/api/v1/ghqr/img/generate_qr_image_with_terminal_id/${this.bankCode}/${terminalId}`; // Replace with your file URL
+
+        this.http.get(url, {
+            observe: 'response',  // this allows you to get the full response including headers
+            responseType: 'blob'  // set the response type to blob
+        }).subscribe(response => {
+
+            // Access the Blob from the response
+            const fileBlob: Blob = response.body;
+
+            // Access the headers from the response
+            const headers = response.headers;
+
+
+            this.merchant_id = headers.get('merchant-id');
+            this.merchant_name = headers.get('merchant-name');
+            this.terminal_id = headers.get('terminal-id');
+
+
+            // You can now download the Blob, or handle it as needed
+
+            const current_image = URL.createObjectURL(fileBlob);
+            this.current_image = this.sanitizer.bypassSecurityTrustUrl(current_image);
+        }, error => {
+            console.error('Error fetching the file:', error);
         });
-      },
-      function (error) {
-        console.log("WWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-        console.log(error);
-        // Check if the message indicates a disconnect
-        if (!errorToastr) {
-          errorToastr = that.toastrService.error(
-            "Connection Lost",
-            "Connection",
-            {
-              positionClass: "toast-bottom-left",
-              tapToDismiss: false,
-              disableTimeOut: true,
+    }
+
+    submit() {
+        this.from = document.getElementById('from').value;
+        this.to = document.getElementById('to').value;
+        this.bankCode = document.getElementById('bankCode').value;
+
+        if (!document.getElementById('from').value || document.getElementById('from').value == '' || !document.getElementById('to').value || !document.getElementById('bankCode').value || document.getElementById('bankCode').value == '') {
+            this.toastr.warning('All details are required'
+                ,
+                '',
+                {
+                    timeOut: 5000,
+                    enableHtml: true,
+                    closeButton: true,
+                    toastClass: 'alert alert-danger alert-with-icon',
+
+                });
+            // Handle timeout error, for example, you can return a custom error message
+            return [];
+        }
+
+
+        if ((this.to - this.from) > 100) {
+            this.toastr.warning('Maximum range is 100 per request'
+                ,
+                '',
+                {
+                    timeOut: 5000,
+                    enableHtml: true,
+                    closeButton: true,
+                    toastClass: 'alert alert-danger alert-with-icon',
+
+                });
+            // Handle timeout error, for example, you can return a custom error message
+            return [];
+        }
+
+        if (this.to < this.from) {
+            this.toastr.warning('From Terminal ID cannot be greater than To Terminal ID'
+                ,
+                '',
+                {
+                    timeOut: 5000,
+                    enableHtml: true,
+                    closeButton: true,
+                    toastClass: 'alert alert-danger alert-with-icon',
+
+                });
+            // Handle timeout error, for example, you can return a custom error message
+            return [];
+        }
+
+        const url = `${this.url}/api/v1/ghqr/img/get_terminal_id_range/${this.from}/${this.to}/${this.bankCode}`; // Replace with your file URL
+
+        this.http.get(url).subscribe(response => {
+
+            // Access the Blob from the response
+            this.data = response;
+
+            if (this.data.length > 0) {
+                this.submitSingle(this.data[this.current]);
+            } else {
+                this.toastr.warning('No Terminal IDs found'
+                    ,
+                    '',
+                    {
+                        timeOut: 5000,
+                        enableHtml: true,
+                        closeButton: true,
+                        toastClass: 'alert alert-danger alert-with-icon',
+
+                    });
+                // Handle timeout error, for example, you can return a custom error message
+                return [];
             }
-          );
-        }
-        setTimeout(() => {
-          console.log("Server disconnected!");
-          that.initializeWebSocketConnection(errorToastr);
-        }, 5000);
-      },
-      function (message) {
-        console.log("))))))))))))))))))))))))");
-        console.log(message);
-        console.log(errorToastr);
-        if (!errorToastr) {
-          errorToastr = that.toastrService.error(
-            "Connection Lost",
-            "Connection",
+        }, error => {
+            console.error('Error fetching the file:', error);
+        });
+
+
+    }
+
+    // submit() {
+    //     this.from = document.getElementById('from').value;
+    //     this.to = document.getElementById('to').value;
+    //     this.bankCode = document.getElementById('bankCode').value;
+    //
+    //
+    //     this.http.get(`${this.url}/api/v1/ghqr/img/generate_qr_image_with_terminal_id/${this.bankCode}/${this.from}`, {
+    //         responseType: 'blob',
+    //         observe: 'response'
+    //     }).pipe(
+    //         result => {
+    //             result.subscribe(result => {
+    //
+    //
+    //                 // const pdf = new Blob([response], {type: 'image/png'});
+    //                 const current_image = URL.createObjectURL(result);
+    //                 this.current_image = this.sanitizer.bypassSecurityTrustUrl(current_image);
+    //                 // const blobUrl = URL.createObjectURL(pdf);
+    //                 // const iframe = document.createElement('iframe');
+    //                 // iframe.style.display = 'none';
+    //                 // iframe.src = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl));
+    //                 // document.body.appendChild(iframe);
+    //                 // iframe.contentWindow.print();
+    //             });
+    //         }
+    //     );
+    //
+    //
+    //     // this.http.get(`${this.url}/api/v1/ghqr/img/generate_qr_image_with_terminal_id/${this.bankCode}/${this.from}`, {
+    //     //     responseType: 'blob',
+    //     //     observe: 'response'
+    //     // }).pipe(
+    //     //     tap((result:any) => {
+    //     //         const current_image = URL.createObjectURL(result);
+    //     //         this.current_image = this.sanitizer.bypassSecurityTrustUrl(current_image);
+    //     //     }));
+    //
+    //
+    // }
+
+    printPdf() {
+
+
+        this.toastr.info('Download initiated'
+            ,
+            '',
             {
-              positionClass: "toast-bottom-left",
-              tapToDismiss: false,
-              disableTimeOut: true,
-            }
-          );
-        }
-        setTimeout(() => {
-          console.log("Server disconnected!");
-          that.initializeWebSocketConnection(errorToastr);
-        }, 5000);
-      }
-    );
-  }
+                timeOut: 5000,
+                enableHtml: true,
+                closeButton: true,
+                toastClass: 'alert alert-info alert-with-icon',
 
-  getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return "by pressing ESC";
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return "by clicking on a backdrop";
-    } else {
-      return `with: ${reason}`;
+            });
+        const url = environment.qrUrl;
+        this.http.get(`${url}/api/v1/ghqr/img/print_single_qr_image/${this.bankCode}/${this.data[this.current]}`, {responseType: 'blob'}).subscribe(
+            (response) => { // download file
+                const pdf = new Blob([response], {type: 'application/pdf'});
+                const blobUrl = URL.createObjectURL(pdf);
+
+                //------------------------TOASTR-----------------------------------------//
+
+
+                //
+                //
+                // pdfMake.createPdf(docDefinition).open();
+
+
+                // const iframe = document.createElement('iframe');
+                // iframe.style.display = 'none';
+                // iframe.src = window.URL.createObjectURL(new Blob([response], { type: 'application/pdf' }));
+                // document.body.appendChild(iframe);
+                // iframe.load = () => {
+                //     setTimeout(() => {
+                //         iframe.focus();
+                //         iframe.contentWindow.print();
+                //
+                //     });
+                // };
+
+                // Open a new window and load the PDF into it
+
+
+                const printWindow = window.open(blobUrl);
+
+                // printWindow.onload = () => {
+                //     printWindow.print();
+                // };
+
+                // const printWindow = window.open('', '_blank');
+                // if (printWindow) {
+                //     printWindow.document.write(`
+                //         <html lang="en">
+                //           <head>
+                //             <meta charset="UTF-8" />
+                //             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                //             <title>Print PDF</title>
+                //           </head>
+                //           <body>
+                //             <!-- Embed the PDF securely -->
+                //             <iframe src="${blobUrl}" width="100%" height="100%" type="application/pdf"></iframe>
+                //           </body>
+                //         </html>
+                //
+                //               `);
+                //     printWindow.document.close();
+                //     printWindow.addEventListener('load', () => {
+                //         setTimeout(function () {
+                //             printWindow.print();
+                //             printWindow.close();
+                //         }, 1000);
+                //     });
+
+                //}
+                // let iframe = document.createElement('iframe');
+                // //iframe.style.display = 'hidden';
+                // iframe.src = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, this.sanitizer.bypassSecurityTrustResourceUrl(blobUrl));
+                // document.body.appendChild(iframe);
+
+                // iframe.contentWindow.print();
+
+
+            });
+
     }
-  }
 
-  openEdit(content, type, modalDimension, value) {
-    this.editRecord = value;
-    this.modalService.open(content, { size: "lg", centered: true }).result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
-      },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      }
-    );
-  }
+    printAll() {
 
-  filterTable(status) {
-    let val = status.toLowerCase();
-    this.status = status;
-    if (val == "all") {
-      this.temp = this.tempFiStatus;
-      return true;
+        this.toastr.info('Download initiated'
+            ,
+            '',
+            {
+                timeOut: 5000,
+                enableHtml: true,
+                closeButton: true,
+                toastClass: 'alert alert-info alert-with-icon',
+
+            });
+        const url = environment.qrUrl;
+        this.http.get(`${url}/api/v1/ghqr/img/print_multiple_qr_images/${this.bankCode}/${this.data.join(',')}`, {responseType: 'blob'}).subscribe(
+            (response) => { // download file
+                const pdf = new Blob([response], {type: 'application/pdf'});
+                const blobUrl = URL.createObjectURL(pdf);
+
+                const printWindow = window.open(blobUrl);
+
+                // printWindow.onload = () => {
+                //     printWindow.print();
+                // };
+
+                // if (printWindow) {
+                //     printWindow.document.write(`
+                //         <html lang="en">
+                //           <head>
+                //             <meta charset="UTF-8" />
+                //             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+                //             <title>Print PDF</title>
+                //           </head>
+                //           <body>
+                //             <!-- Embed the PDF securely -->
+                //             <iframe [src]="blogUrl" width="100%" height="100%" type="application/pdf"></iframe>
+                //           </body>
+                //         </html>
+                //
+                //               `);
+                //     printWindow.document.close();
+                //     printWindow.addEventListener('load', () => {
+                //         setTimeout(function () {
+                //             printWindow.print();
+                //             printWindow.close();
+                //         }, 1000);
+                //     });
+                // }
+            });
     }
-    this.temp = this.tempFiStatus.filter(function (d) {
-      for (var key in d) {
-        d[key] = d[key] ? d[key] : "";
-        if (d[key].toString().toLowerCase().indexOf(val) !== -1) {
-          return true;
-        }
-      }
-      return false;
-    });
-  }
 
-  onButtonGroupClick($event, type: boolean) {
-    let clickedElement = $event.target || $event.srcElement;
-    console.log($event.target);
-    if (clickedElement.nodeName === "BUTTON") {
-      let isCertainButtonAlreadyActive =
-        clickedElement.parentElement.querySelector(".active");
-      // if a Button already has Class: .active
-      if (isCertainButtonAlreadyActive) {
-        isCertainButtonAlreadyActive.classList.remove("active");
-      }
-      clickedElement.className += " active";
+    setMax() {
+        this.max = Number(document.getElementById('from').value) + 100;
     }
-  }
 }

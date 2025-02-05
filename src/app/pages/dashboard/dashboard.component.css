@@ -10,35 +10,88 @@ a {
 }
 
 
-button {
-    font-size: 12px;
-    height: 75px;
-    width: 150px;
-    cursor: pointer;
-    overflow: hidden;
-    margin: 2px;
-    border-radius: 5px;
-    border: none;
-    margin-bottom: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex: 1 1 auto;
-}
+/*button {*/
+/*    font-size: 12px;*/
+/*    height: 75px;*/
+/*    width: 150px;*/
+/*    cursor: pointer;*/
+/*    overflow: hidden;*/
+/*    margin: 2px;*/
+/*    border-radius: 5px;*/
+/*    border: none;*/
+/*    margin-bottom: 0;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex: 1 1 auto;*/
+/*}*/
 
 button h5{
     color: white;
     margin-bottom: 0px;
 }
 
-button:focus { 
-    /* border-color: black; */
-    /* border-bottom: 3px solid black; */
-    /* box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5); */
-    /* background-color: #2ca8ff; */
-    /* color: black; */
-    outline: 0;
-    padding: 0;
-    font-size: large;
+/*button:focus { */
+/*    !* border-color: black; *!*/
+/*    !* border-bottom: 3px solid black; *!*/
+/*    !* box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5); *!*/
+/*    !* background-color: #2ca8ff; *!*/
+/*    !* color: black; *!*/
+/*    outline: 0;*/
+/*    padding: 0;*/
+/*    font-size: large;*/
+/*    text-align: center;*/
+/*  }*/
+
+.align-down{
+    padding-top: 12px;
+}
+
+.cap { line-height: 0.1em }
+
+#caphead{line-height: 1em;
+margin-bottom: 0px}
+
+
+/*---------------TOOLTIP-------------------*/
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
     text-align: center;
-  }
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+/*----------TOOLTIP--------------------*/

@@ -8,14 +8,24 @@ export const DashboardRoutes: Routes = [
     path: "",
     children: [
       {
-        path: "",
+        path: "ghqr-generation",
         component: DashboardComponent,
-        //canActivate: [AuthGuard]
+        canActivate: [AuthGuard],
       },
+      // {
+      //   path: "",
+      //   component: DashboardComponent,
+      //   canActivate: [AuthGuard],
+      // },
+      // {
+      //   path: "dashboard",
+      //   component: DashboardComponent,
+      //   //canActivate: [AuthGuard]
+      // },
       {
-        path: "dashboard",
+        path: "ghqr-generation/:token",
         component: DashboardComponent,
-        //canActivate: [AuthGuard]
+        pathMatch: "full",
       }
     ]
   }

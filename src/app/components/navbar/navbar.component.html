@@ -1,75 +1,75 @@
 <nav
-  class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute"
+        class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute"
 >
-<!-- <h2>GIP</h2> -->
-  <div class="container-fluid">
-    <div class="navbar-wrapper">
-      <div class="navbar-toggle">
-        <button type="button" class="navbar-toggler" (click)="sidebarToggle()">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </button>
-      </div>
-    </div>
-    <h3 style="text-align: center;">PARTNER SERVICE STATUS MONITOR (GIP)</h3>
-    <!-- <button class="navbar-toggler" type="button" (click)="collapse()"
-      [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-      <span class="navbar-toggler-bar navbar-kebab"></span>
-      <span class="navbar-toggler-bar navbar-kebab"></span>
-      <span class="navbar-toggler-bar navbar-kebab"></span>
-    </button> -->
-    <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="!isCollapsed">
-   <!--    <form>
-        <div class="input-group no-border">
-          <input
-            type="text"
-            value=""
-            class="form-control"
-            placeholder="Search..."
-          />
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <i class="now-ui-icons ui-1_zoom-bold"></i>
+    <!-- <h2>GIP</h2> -->
+    <div class="container-fluid">
+        <div class="navbar-wrapper">
+            <img src="assets/img/ghqr-logo-alt.9869b78e%20(1).png" style="width: 100px; height: auto;">
+            <div *ngIf="userName != ''">
+                <p style="margin-top: 5px; color: white;font-size: larger">({{ userName }})</p>
             </div>
-          </div>
         </div>
-      </form>-->
-      <ul *ngIf="!user" class="navbar-nav">
-        <li  class="nav-item"><a  (click)="goToLogin()" class="nav-link">LOGIN</a></li>
-      </ul>
-      <ul *ngIf="user" class="navbar-nav">
-      
-       <li class="nav-item">
-          
-        </li> 
-        <li class="nav-item dropdown" ngbDropdown>
-          <a
-            class="nav-link dropdown-toggle"
-            id="dropdownBasic1"
-            ngbDropdownToggle
-          >
-          <span>{{user}}</span> 
-            <i class="now-ui-icons users_single-02"></i>
-            <p><span class="d-lg-none d-md-block">Some Actions</span></p>
-          </a>
-          <div
-            class="dropdown-menu dropdown-menu-right"
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-          >
-            <!-- <span  class="dropdown-item curs">Name : {{user.fullname}}</span>-->
-           <!-- <span  class="dropdown-item curs">{{user}}</span>  -->
-            <span class="dropdown-item curs" (click)="logout()">Logout</span>
-          </div>
-        </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link" href="#pablo">
-            <i class="now-ui-icons users_single-02"></i>
-            <p><span class="d-lg-none d-md-block">Account</span></p>
-          </a>
-        </li> -->
-      </ul>
+
+        <!-- <button class="navbar-toggler" type="button" (click)="collapse()"
+          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+          <span class="navbar-toggler-bar navbar-kebab"></span>
+        </button> -->
+        <!--    <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [ngbCollapse]="!isCollapsed">-->
+        <!--   &lt;!&ndash;    <form>-->
+        <!--        <div class="input-group no-border">-->
+        <!--          <input-->
+        <!--            type="text"-->
+        <!--            value=""-->
+        <!--            class="form-control"-->
+        <!--            placeholder="Search..."-->
+        <!--          />-->
+        <!--          <div class="input-group-append">-->
+        <!--            <div class="input-group-text">-->
+        <!--              <i class="now-ui-icons ui-1_zoom-bold"></i>-->
+        <!--            </div>-->
+        <!--          </div>-->
+        <!--        </div>-->
+        <!--      </form>&ndash;&gt;-->
+        <!--&lt;!&ndash;      <ul *ngIf="!user" class="navbar-nav">&ndash;&gt;-->
+        <!--&lt;!&ndash;        <li  class="nav-item"><a  (click)="goToLogin()" class="nav-link">LOGIN</a></li>&ndash;&gt;-->
+        <!--&lt;!&ndash;      </ul>&ndash;&gt;-->
+        <!--      <ul *ngIf="user" class="navbar-nav">-->
+        <!--      -->
+        <!--       <li class="nav-item">-->
+        <!--          -->
+        <!--        </li> -->
+        <!--        <li class="nav-item dropdown" ngbDropdown>-->
+        <!--          <a-->
+        <!--            class="nav-link dropdown-toggle"-->
+        <!--            id="dropdownBasic1"-->
+        <!--            ngbDropdownToggle-->
+        <!--          >-->
+        <!--          <span>{{user}}</span> -->
+        <!--            <i class="now-ui-icons users_single-02"></i>-->
+        <!--            <p><span class="d-lg-none d-md-block">Some Actions</span></p>-->
+        <!--          </a>-->
+        <!--          <div-->
+        <!--            class="dropdown-menu dropdown-menu-right"-->
+        <!--            ngbDropdownMenu-->
+        <!--            aria-labelledby="dropdownBasic1"-->
+        <!--          >-->
+        <!--            &lt;!&ndash; <span  class="dropdown-item curs">Name : {{user.fullname}}</span>&ndash;&gt;-->
+        <!--           &lt;!&ndash; <span  class="dropdown-item curs">{{user}}</span>  &ndash;&gt;-->
+        <!--                    <button (click)="logout()">Leave</button>-->
+                        <span class="nav-item">
+                        <a href="#" class="nav-link"><i class="fa fa-power-off"></i> Logout </a>
+                        </span>
+        <!--          </div>-->
+        <!--        </li>-->
+        <!--        &lt;!&ndash; <li class="nav-item">-->
+        <!--          <a class="nav-link" href="#pablo">-->
+        <!--            <i class="now-ui-icons users_single-02"></i>-->
+        <!--            <p><span class="d-lg-none d-md-block">Account</span></p>-->
+        <!--          </a>-->
+        <!--        </li> &ndash;&gt;-->
+        <!--      </ul>-->
+        <!--    </div>-->
     </div>
-  </div>
 </nav>

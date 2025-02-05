@@ -1,112 +1,131 @@
 <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-<ngx-spinner *ngIf="service.spinnerLoad">
-  <p style="color: white">
-    FI Status Loading ...
-  </p>
-</ngx-spinner>
+<!--<ngx-spinner *ngIf="service.spinnerLoad">-->
+<!--    <p style="color: white">-->
+<!--        FI Status Loading ...-->
+<!--    </p>-->
+<!--</ngx-spinner>-->
 <div class="panel-header panel-header-sm"></div>
 <div class="main-content">
-  <div class="row">
-    <div class="card col-md-10 offset-md-1">
-      <div class="card-body">
-        <div class="dataTables_wrapper">
-            <h4 style="text-align: center;">NEC SERVER STATUS - <b>INWARD</b></h4>
-          <div style="padding-left: 10rem; padding-right: 10rem; display: flex;">
-            <button class="badge-ghipss" (click)="filterTable('all')" id="all">
-              <h5>ALL: {{allCount}}</h5>
-            </button>
-            <button class="badge-success" (click)="filterTable('online')" id="online">
-              <h5>ONLINE: {{onlineCount}}</h5>
-            </button>
-            <button class="badge-warning" (click)="filterTable('warning')" id="warning">
-              <h5>WARNING: {{warningCount}}</h5>
-            </button>
-            <button class="badge-danger" (click)="filterTable('offline')" id="offline">
-              <h5 >OFFLINE: {{offlineCount}}</h5>
-            </button>
-          </div>
-          <ngx-datatable class="bootstrap selection-cell" [headerHeight]="50" [footerHeight]="50" [rowHeight]="50"
-            [columnMode]="'force'" [scrollbarH]="true" [limit]="entries != -1 ? entries : undefined" [rows]="temp">
-            <ngx-datatable-column [width]="70" name="ID" prop="destInstitution"></ngx-datatable-column>
-            <ngx-datatable-column [width]="250" name="Financial Institution"
-              prop="destInstitutionName"></ngx-datatable-column>
-            <ngx-datatable-column name="Status" prop="status">
-              <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
-                let-onCheckboxChangeFn="onCheckboxChangeFn">
-                <span class="badge badge-warning" *ngIf="value.status=='WARNING'">Warning</span>
-                <span class="badge badge-success" *ngIf="value.status=='ONLINE'">Online</span>
-                <span class="badge badge-danger" *ngIf="value.status=='OFFLINE'">Offline</span>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column name="Last Action Code" prop="actionCode">
-              <!-- <ng-template let-column="column" ngx-datatable-header-template>
-                <div class="header-wrap">
-                  Last Action Code
-                </div>
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-value="row">
-                <span style="text-align: center;" class="cell-wrap">{{value.actionCode}}</span>
-            </ng-template> -->
-            </ngx-datatable-column>
-            <!-- <ngx-datatable-column [width]="80" name="Last Action Code" prop="actionCode"></ngx-datatable-column> -->
-            <ngx-datatable-column name="Last Time Checked" prop="checkedAt">
-              <ng-template let-column="column" ngx-datatable-header-template>
-                <div class="header-wrap">
-                  Last Time Checked
-                </div>
-              </ng-template>
-            </ngx-datatable-column>
-            <ngx-datatable-column [width]="80" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-              [resizeable]="false">
-              <ng-template ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected"
-                let-selectFn="selectFn">
-                Logs
-              </ng-template>
-              <ng-template ngx-datatable-cell-template let-value="row" let-isSelected="isSelected"
-                let-onCheckboxChangeFn="onCheckboxChangeFn">
-                <a (click)="openEdit(editclassic, 'lg', '', value)"
-                  class="btn btn-round btn-info btn-icon btn-sm like"><i aria-label="View more"
-                    class="fas fa-solid fa-info"></i></a>
-              </ng-template>
-            </ngx-datatable-column>
-          </ngx-datatable>
-        </div>
-      </div>
-      <!-- end content-->
-    </div>
-  </div>
-</div>
-<!--Edit Moodal start-->
-<ng-template #editclassic let-c="close" let-d="dismiss">
-  <div class="modal-header justify-content-center">
-    <button type="button" class="close" (click)="d('Cross click')">
-      <i class="now-ui-icons ui-1_simple-remove"></i>
-    </button>
-    <h4 class="title title-up">LOGS</h4>
-  </div>
-  <div class="modal-body">
     <div class="row">
-      <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <form>
-          <div class="row">
-            <div class="col-md-12 input-group">
-              <div class="input-group-prepend">
-                <h5>Request Payload</h5>
-              </div>
-              <span>{{ editRecord.requestPayload }}</span>
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">GHQR DECAL GENERATOR</h4>
             </div>
-            <div class="col-md-12 input-group">
-              <div class="input-group-prepend">
-                <h5>Response Payload</h5>
-              </div>
-              <span>{{ editRecord.responsePayload }}</span>
+            <div class="card-body">
+                <div class="row">
+                    <!--                    <div class="col-md-1"></div>-->
+                    <div class="col-md-12">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-3 offset-md-1 form-group has-label">
+                                    <label> Bank Code </label>
+                                    <input type="text" id="bankCode" class="form-control" value="{{this.bankCode}}"
+                                           disabled/>
+                                </div>
+                                <div class="col-md-3 form-group has-label">
+                                    <label> From Terminal ID *</label>
+                                    <input type="number" id="from" class="form-control" (change)="setMax()"
+                                    />
+                                </div>
+                                <div class="col-md-3 form-group has-label">
+                                    <label> To Terminal ID * </label>
+                                    <input type="number" id="to" class="form-control" [max]="max" [min]="this.from"
+                                           [value]="this.max"
+                                    />
+                                    <span style="color: red; font-size: smaller">*Max of 100 terminals per request</span>
+                                </div>
+                                <div class="col-md-2 align-down">
+                                    <button
+                                            type="button"
+                                            class="btn btn-success"
+                                            (click)="submit()"
+                                    >
+                                        Submit
+                                    </button>
+                                    <!-- (click)="confirmClearTable()"  (click)="onRegister()" [disabled]="registerForm.status != 'VALID'"-->
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-          </div>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
-  <div class="modal-footer"></div>
-</ng-template>
-<!--EditEND OF modal -->
+    <div class="row">
+        <div class="card col-md-10 offset-md-1" *ngIf="current_image !== ''">
+            <div class="card-body">
+                <!--                <div class="row offset-md-3">-->
+
+                <div class="carousel-inner" role="listbox">
+                    <div class="  carousel-item active " style="text-align: center; min-height: 500px">
+                        <figure>
+                            <figcaption><h3 id="caphead">{{ merchant_name }}</h3></figcaption>
+                            <img style="text-align: center" [src]=current_image alt="Decal Image" height="400"
+                                 width="400"
+                                 id="img1">
+                            <figcaption>
+                                <h3 class="cap">ID : {{ merchant_id }}</h3>
+                                <h3 class="cap">Terminal ID : {{ terminal_id }}</h3>
+                                <span class="cap">{{ current + 1 }} of {{ data.length }}</span>
+                            </figcaption>
+                        </figure>
+                    </div>
+                    <!--                            <div class="carousel-item" id="img2">-->
+                    <!--                                <img class="d-block" src="/assets/img/angular2-logo-white.png" alt="Second slide">-->
+                    <!--                            </div>-->
+                    <!--                            <div class="carousel-item" id="img3">-->
+                    <!--                                <img class="d-block" src="/assets/img/mike.jpg" alt="Third slide">-->
+                    <!--                            </div>-->
+                </div>
+
+
+                <!--                </div>-->
+                <div class="row">
+                    <span class="col-md-2 offset-md-1" title="Previous Decal">
+<!--                        <button [disabled]="0==current || current==-1"-->
+                        <!--                                class="btn btn-fill btn-primary btn-boa btn-round"-->
+                        <!--                                (click)="viewSheet(-1)">Prev</button>-->
+                        <button [disabled]="0==current || current==-1"
+                                class="btn btn-fill btn-primary btn-boa btn-round btn-lg"
+                                (click)="viewSheet(-1)"><i class="fa fa-arrow-left"></i>
+                        Prev</button>
+                    </span>
+                    <span class="col-md-2 offset-md-1" style="padding-left: 8vh" title="Print Current">
+                        <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round btn-lg"
+                                (click)="printPdf()">
+                                <i class="fa fa-solid fa-print"></i>&nbsp;&nbsp;
+                           Print&nbsp;&nbsp;
+                </button>
+
+                        <!--                        <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round"-->
+                        <!--                                (click)="printPdf()">Print Current</button>-->
+                    </span>
+                    <span class="col-md-2" title="Print All">
+<!--                        <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round"-->
+                        <!--                                (click)="printAll()">&nbsp;&nbsp;&nbsp;&nbsp;Print All&nbsp;&nbsp;&nbsp;&nbsp;</button>-->
+
+                         <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round btn-lg"
+                                 (click)="printAll()">
+                             &nbsp;<i class="fa fa-solid fa-print"></i>
+                            Print All
+                         </button>
+                    </span>
+                    <span class="col-md-2 offset-md-2" title="Next Decal">
+<!--                        <button [disabled]="data.length===current+1" class="btn btn-fill btn-primary btn-boa btn-round"-->
+                        <!--                                (click)="viewSheet(1)">Next</button>-->
+                        <button [disabled]="data.length===current+1"
+                                class="btn btn-fill btn-primary btn-boa btn-round btn-lg"
+                                (click)="viewSheet(1)">Next <i class="fa fa-arrow-right"></i>
+                        </button>
+                    </span>
+                </div>
+            </div>
+            <!-- end content-->
+        </div>
+    </div>
+</div>
+
+
+<div id="main">
+
+</div>

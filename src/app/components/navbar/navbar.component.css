@@ -1,4 +1,10 @@
-.curs {    
+.curs {
     cursor: pointer;
+}
 
+.nav-item {
+    &:hover,
+    &:focus {
+        background-color: #4c6583;
+    }
 }

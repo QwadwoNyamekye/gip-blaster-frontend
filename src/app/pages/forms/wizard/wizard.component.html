@@ -10,7 +10,7 @@
             This information will let us know more about you.
           </h3>
         </div>
-        <aw-wizard [navigationMode]='semi-strict' style="position: 'relative'">
+        <aw-wizard style="position: 'relative'">
           <aw-wizard-step (stepEnter)="validateFirst(0)" [canExit]="!step1Form.invalid">
             <div class="card-body">
               <ng-template awWizardStepTitle>

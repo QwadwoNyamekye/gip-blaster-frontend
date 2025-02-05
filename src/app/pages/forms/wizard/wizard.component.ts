@@ -7,36 +7,36 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ["./wizard.component.css"]
 })
 export class WizardComponent implements OnInit, OnDestroy, AfterViewInit {
-  private focus;
-  private focusTouched;
-  private focus1;
-  private focus1Touched;
-  private focus2;
-  private focus2Touched;
+  public focus;
+  public focusTouched;
+  public focus1;
+  public focus1Touched;
+  public focus2;
+  public focus2Touched;
 
-  private choice1 = false;
-  private choice2 = false;
-  private choice3 = false;
+  public choice1 = false;
+  public choice2 = false;
+  public choice3 = false;
 
-  private cardWizard: any;
+  public cardWizard: any;
 
-  private dropdownList1 = [];
-  private selectedItems1 = [];
-  private dropdownSettings1 = {};
+  public dropdownList1 = [];
+  public selectedItems1 = [];
+  public dropdownSettings1 = {};
 
-  private width: any = 100 / 3 + "%";
-  private movingTabStyle = {width: "0px", transform: "translate3d(0px, 0px, 0px)"};
-  private movingTabHTML = `<i class="now-ui-icons users_circle-08"></i> About`;
-  private currentIndex = 0;
-  private isValid = false;
-  private enters = 0;
+  public width: any = 100 / 3 + "%";
+  public movingTabStyle = {width: "0px", transform: "translate3d(0px, 0px, 0px)"};
+  public movingTabHTML = `<i class="now-ui-icons users_circle-08"></i> About`;
+  public currentIndex = 0;
+  public isValid = false;
+  public enters = 0;
 
-  private step1Form: FormGroup;
+  public step1Form: FormGroup;
 
   @ViewChild("myWizard") myWizard: any;
   @ViewChild("input") input: any;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(public formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.step1Form = this.formBuilder.group({

@@ -16,22 +16,21 @@ import { formatDate }from "@angular/common"
   styleUrls: ["./login.component.css"]
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private focus;
-  private focus2;
-  private loginForm: FormGroup;
-  private login = false;
+  public focus;
+  public focus2;
+  public loginForm: FormGroup;
+  public login = false;
   
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder,private service:LoginService,private router: Router) {
+  constructor(public modalService: NgbModal, public formBuilder: FormBuilder,public service:LoginService,public router: Router) {
     sessionStorage.setItem('currentUser','')
-    localStorage.setItem('tempFiStatus',null)
-    localStorage.setItem('tempNECStatus',null)
-    localStorage.setItem('tempFTCStatus',null)
+    // localStorage.setItem('tempFiStatus',null)
+    // localStorage.setItem('tempNECStatus',null)
+    // localStorage.setItem('tempFTCStatus',null)
   }
 
   ngOnInit() {
 
     var $page = document.getElementsByClassName("full-page")[0];
-    //console.log(document.getElementsByClassName("full-page"))
     var image_src;
     var image_container = document.createElement("div");
     image_container.classList.add("full-page-background");
