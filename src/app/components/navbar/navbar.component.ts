@@ -8,7 +8,7 @@ import {
 } from '@angular/common';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment.prod';
+import {environment} from '../../../environments/environment';
 import {filter, map} from 'rxjs/operators';
 
 @Component({
@@ -24,6 +24,7 @@ export class NavbarComponent implements OnInit {
     private mobile_menu_visible: any = 0;
     private toggleButton: any;
     url = environment.qrUrl;
+    redirectUrl = environment.redirectUrl;
     user: any;
     authObject: any;
     bankCode = 0;
@@ -43,6 +44,7 @@ export class NavbarComponent implements OnInit {
     }
 
     ngOnInit() {
+        console.log(environment.production);
         this.titleService.setTitle('GhQR DECAL');
 
         // let token = this.dataroute.snapshot.paramMap.get('token');
@@ -50,17 +52,16 @@ export class NavbarComponent implements OnInit {
         let token_array = window.location.href.split('/');
         let token = token_array[token_array.length - 1];
         //
-        // console.log(token);
-        // console.log(window.location.host);
 
         this.authenticate_token(token);
 
     }
 
     authenticate_token(token) {
-        const url = `${this.url}/api/v1/ghqr/img/validate_encrypted_token/${token}`; // Replace with your file URL
+        console.log('url', this.url);
+        const url_ = `${this.url}/api/v1/ghqr/img/validate_encrypted_token/${token}`; // Replace with your file URL
 
-        this.http.get(url).subscribe(response => {
+        this.http.get(url_).subscribe(response => {
                 this.authObject = response;
                 console.log('------------------------------');
                 console.log(response);
@@ -71,11 +72,8 @@ export class NavbarComponent implements OnInit {
                     sessionStorage.setItem('authObject', JSON.stringify(this.authObject));
                     sessionStorage.setItem('token', token);
                 } else {
-                    console.log('++++++++++++++++++++++');
-                    console.log({'token':token});
-                    // sessionStorage.clear();
-                    // window.location.href = 'http://172.27.21.31:3000/';
-                }
+                    sessionStorage.clear();
+                    window.location.href = `${this.redirectUrl}`                }
             }
         );
     }
@@ -207,7 +205,7 @@ export class NavbarComponent implements OnInit {
     logout() {
         sessionStorage.clear();
         // window.top.close()  Scripts may close only the windows that were opened by them
-        window.location.href = 'http://172.27.21.31:3000/';
+        window.location.href = `${this.redirectUrl}`;
     }
 
     goToLogin() {

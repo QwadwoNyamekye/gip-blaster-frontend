@@ -6,7 +6,7 @@ import {Service} from './dashboard.service';
 import {CompatClient, Stomp} from '@stomp/stompjs';
 import * as SockJS from 'sockjs-client';
 import {AppService} from 'src/app/app.service';
-import {environment} from 'src/environments/environment.prod';
+import {environment} from 'src/environments/environment';
 import {document} from '@swimlane/ngx-datatable/src/utils/facade/browser';
 import {ajax} from 'rxjs/ajax';
 import {DomSanitizer} from '@angular/platform-browser';
@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
     to: number = 0;
     bankCode = 0;
     url = environment.qrUrl;
+    redirectUrl = environment.redirectUrl
     max: number;
     data: any = [
         {
@@ -90,19 +91,19 @@ export class DashboardComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("************************");
+        console.log('************************');
         // let token = this.dataroute.snapshot.paramMap.get('token');
 
-        let op = sessionStorage.getItem('authObject')
+        let op = sessionStorage.getItem('authObject');
         console.log(op);
-        if (!op){
+        if (!op) {
             console.log(window.location);
             let token_array = window.location.href.split('/');
             let token = token_array[token_array.length - 1];
 
             console.log(token);
 
-            this.authenticate_token(token)
+            this.authenticate_token(token);
         }
 
         this.authObject = JSON.parse(op);
@@ -127,8 +128,8 @@ export class DashboardComponent implements OnInit {
                 } else {
                     console.log('++++++++++++++++++++++');
                     console.log({'token': token});
-                    // sessionStorage.clear();
-                    // window.location.href = 'http://172.27.21.31:3000/';
+                    sessionStorage.clear();
+                    window.location.href = `${this.redirectUrl}`;
                 }
             }
         );
@@ -201,20 +202,20 @@ export class DashboardComponent implements OnInit {
         }
 
 
-        if ((this.to - this.from) > 100) {
-            this.toastr.warning('Maximum range is 100 per request'
-                ,
-                '',
-                {
-                    timeOut: 5000,
-                    enableHtml: true,
-                    closeButton: true,
-                    toastClass: 'alert alert-danger alert-with-icon',
-
-                });
-            // Handle timeout error, for example, you can return a custom error message
-            return [];
-        }
+        // if ((this.to - this.from) > 100) {
+        //     this.toastr.warning('Maximum range is 100 per request'
+        //         ,
+        //         '',
+        //         {
+        //             timeOut: 5000,
+        //             enableHtml: true,
+        //             closeButton: true,
+        //             toastClass: 'alert alert-danger alert-with-icon',
+        //
+        //         });
+        //     // Handle timeout error, for example, you can return a custom error message
+        //     return [];
+        // }
 
         if (this.to < this.from) {
             this.toastr.warning('From Terminal ID cannot be greater than To Terminal ID'
@@ -315,7 +316,7 @@ export class DashboardComponent implements OnInit {
 
             });
         const url = environment.qrUrl;
-        this.http.get(`${url}/api/v1/ghqr/img/print_single_qr_image/${this.bankCode}/${this.data[this.current]}`, {responseType: 'blob'}).subscribe(
+        this.http.get(`${this.url}/api/v1/ghqr/img/print_single_qr_image/${this.bankCode}/${this.data[this.current]}`, {responseType: 'blob'}).subscribe(
             (response) => { // download file
                 const pdf = new Blob([response], {type: 'application/pdf'});
                 const blobUrl = URL.createObjectURL(pdf);
@@ -399,7 +400,7 @@ export class DashboardComponent implements OnInit {
 
             });
         const url = environment.qrUrl;
-        this.http.get(`${url}/api/v1/ghqr/img/print_multiple_qr_images/${this.bankCode}/${this.data.join(',')}`, {responseType: 'blob'}).subscribe(
+        this.http.get(`${this.url}/api/v1/ghqr/img/print_multiple_qr_images/${this.bankCode}/${this.data.join(',')}`, {responseType: 'blob'}).subscribe(
             (response) => { // download file
                 const pdf = new Blob([response], {type: 'application/pdf'});
                 const blobUrl = URL.createObjectURL(pdf);

@@ -2,11 +2,14 @@
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+
+const host = '172.27.10.230';
 export const environment = {
   production: false,
-  baseUrl:'http://localhost:',
-  sendingUrl:'http://localhost:8111/admin/api/v1/',
-
+  sendingUrl: 'http://' + host + ':8003',
+  receivingUrl: 'http://' + host + ':8004',
+  qrUrl: 'http://172.27.21.31:8889',
+  redirectUrl: 'http://172.27.21.31:3000/',
 };
 
 /*

@@ -42,7 +42,7 @@
             ]
           },
           "configurations": {
-            "production": {
+            "mtp": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -57,7 +57,44 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true
+              "buildOptimizer": true,
+              "outputPath": ".\\dist\\mtp\\static"
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src\\environments\\environment.ts",
+                  "with": "src\\environments\\environment.local.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "outputPath": ".\\dist\\local\\static"
+            },
+            "linux": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.linux.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "outputPath": ".\\dist\\linux\\static"
             }
           }
         },
@@ -69,6 +106,9 @@
           "configurations": {
             "production": {
               "browserTarget": "now-ui-dashboard-pro-angular:build:production"
+            },
+            "local": {
+              "browserTarget": "now-ui-dashboard-pro-angular:build:local"
             }
           }
         },

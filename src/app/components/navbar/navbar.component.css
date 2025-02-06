@@ -1,4 +1,4 @@
-.curs {
+.navbar a:not(.btn):not(.dropdown-item) {
     cursor: pointer;
 }
 

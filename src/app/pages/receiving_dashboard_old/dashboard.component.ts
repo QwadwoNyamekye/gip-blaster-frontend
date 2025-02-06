@@ -5,7 +5,7 @@ import { Service } from "./dashboard.service";
 import { CompatClient, Stomp } from "@stomp/stompjs";
 import * as SockJS from "sockjs-client";
 import { ToastrService } from "ngx-toastr";
-import { environment } from "src/environments/environment.prod";
+import { environment } from "src/environments/environment";
 import { AppService } from "src/app/app.service";
 
 @Component({

@@ -29,6 +29,9 @@
                                 </div>
                                 <div class="col-md-3 form-group has-label">
                                     <label> To Terminal ID * </label>
+<!--                                    <input type="number" id="to" class="form-control" [max]="max" [min]="this.from"-->
+<!--                                           [value]="this.max"-->
+<!--                                    />-->
                                     <input type="number" id="to" class="form-control" [max]="max" [min]="this.from"
                                            [value]="this.max"
                                     />
@@ -81,7 +84,7 @@
 
                 <!--                </div>-->
                 <div class="row">
-                    <span class="col-md-2 offset-md-1" title="Previous Decal">
+                    <span class="col-md-2 offset-md-1 col-3" title="Previous Decal">
 <!--                        <button [disabled]="0==current || current==-1"-->
                         <!--                                class="btn btn-fill btn-primary btn-boa btn-round"-->
                         <!--                                (click)="viewSheet(-1)">Prev</button>-->
@@ -90,17 +93,15 @@
                                 (click)="viewSheet(-1)"><i class="fa fa-arrow-left"></i>
                         Prev</button>
                     </span>
-                    <span class="col-md-2 offset-md-1" style="padding-left: 8vh" title="Print Current">
+                    <span class="col-md-2 offset-md-1  col-3" title="Print Current">
                         <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round btn-lg"
                                 (click)="printPdf()">
                                 <i class="fa fa-solid fa-print"></i>&nbsp;&nbsp;
                            Print&nbsp;&nbsp;
                 </button>
 
-                        <!--                        <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round"-->
-                        <!--                                (click)="printPdf()">Print Current</button>-->
                     </span>
-                    <span class="col-md-2" title="Print All">
+                    <span class="col-md-2 offset-md-1  col-3" title="Print All">
 <!--                        <button [disabled]="data.length===0" class="btn btn-fill btn-primary btn-round"-->
                         <!--                                (click)="printAll()">&nbsp;&nbsp;&nbsp;&nbsp;Print All&nbsp;&nbsp;&nbsp;&nbsp;</button>-->
 
@@ -110,7 +111,7 @@
                             Print All
                          </button>
                     </span>
-                    <span class="col-md-2 offset-md-2" title="Next Decal">
+                    <span class="col-md-2 offset-md-1 col-3" title="Next Decal">
 <!--                        <button [disabled]="data.length===current+1" class="btn btn-fill btn-primary btn-boa btn-round"-->
                         <!--                                (click)="viewSheet(1)">Next</button>-->
                         <button [disabled]="data.length===current+1"
