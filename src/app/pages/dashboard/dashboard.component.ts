@@ -202,20 +202,20 @@ export class DashboardComponent implements OnInit {
         }
 
 
-        // if ((this.to - this.from) > 100) {
-        //     this.toastr.warning('Maximum range is 100 per request'
-        //         ,
-        //         '',
-        //         {
-        //             timeOut: 5000,
-        //             enableHtml: true,
-        //             closeButton: true,
-        //             toastClass: 'alert alert-danger alert-with-icon',
-        //
-        //         });
-        //     // Handle timeout error, for example, you can return a custom error message
-        //     return [];
-        // }
+        if ((this.to - this.from) > 100) {
+            this.toastr.warning('Maximum range is 100 per request'
+                ,
+                '',
+                {
+                    timeOut: 5000,
+                    enableHtml: true,
+                    closeButton: true,
+                    toastClass: 'alert alert-danger alert-with-icon',
+
+                });
+            // Handle timeout error, for example, you can return a custom error message
+            return [];
+        }
 
         if (this.to < this.from) {
             this.toastr.warning('From Terminal ID cannot be greater than To Terminal ID'
